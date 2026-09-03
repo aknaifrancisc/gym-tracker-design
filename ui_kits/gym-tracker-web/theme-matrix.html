@@ -1,0 +1,189 @@
+<!-- @dsCard group="Foundations" viewport="1400x1150" subtitle="Both accent schemes × light and dark, on one dashboard slice" name="Scheme + theme matrix" -->
+<!-- @startingPoint section="Foundations" subtitle="Reference implementation — copy this slice to start a screen" viewport="1400x1150" -->
+<!DOCTYPE html>
+<html data-scheme="brand" data-theme="light">
+<head>
+<meta charset="utf-8">
+<title>Scheme + theme matrix</title>
+<link rel="stylesheet" href="../../styles.css">
+<style>
+  body { padding: 24px; background: var(--neutral-150); min-width: 1352px; }
+  @keyframes pulseDot { 0%,100%{transform:scale(1);opacity:1} 50%{transform:scale(1.9);opacity:.25} }
+  .panel { border-radius: var(--radius-xl); padding: 16px; background: var(--bg); box-shadow: var(--shadow-lg); }
+  .card { position: relative; overflow: hidden; isolation: isolate; background: var(--surface);
+          border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 15px 17px; }
+  .glow { position: absolute; width: 250px; height: 215px; pointer-events: none; z-index: -1; }
+  .t { font-size: var(--text-lg); font-weight: var(--weight-semibold); color: var(--text-1); flex: 1; }
+  .pill { font-size: var(--text-xs); font-weight: 500; padding: 4px 9px; border-radius: var(--radius-sm);
+          background: var(--primary-subtle); color: var(--primary-subtle-fg); }
+  .meta { font-size: var(--text-sm); color: var(--text-2); }
+  .lbl { font-size: var(--text-xs); color: var(--text-3); }
+  .hero { font: var(--weight-semibold) var(--text-stat-lg)/1 var(--font-mono);
+          font-variant-numeric: tabular-nums; letter-spacing: var(--track-tighter); color: var(--text-1); }
+  .stat { font: var(--weight-semibold) var(--text-stat)/1.1 var(--font-mono);
+          font-variant-numeric: tabular-nums; letter-spacing: var(--track-tight); }
+  .row { display: flex; align-items: center; gap: 10px; }
+  .grid3 { display: grid; grid-template-columns: minmax(0,1.25fr) minmax(0,1fr) minmax(0,1fr); gap: 12px; }
+  .tiles { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 8px; }
+  .tile { border-radius: 13px; padding: 10px 11px; }
+  .cta { display: inline-flex; align-items: center; gap: 7px; background: var(--primary); color: var(--primary-fg);
+         border-radius: var(--radius-md); padding: 9px 15px; font-size: var(--text-md); font-weight: 600; cursor: pointer; }
+  .head { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+  .swatchRow { display: flex; gap: 6px; margin-top: 12px; }
+  .swatch { flex: 1; height: 30px; border-radius: 7px; border: 1px solid var(--border); }
+</style>
+</head>
+<body>
+<div style="display:flex;align-items:baseline;gap:14px;margin-bottom:16px">
+  <h1 style="margin:0;font-size:var(--text-2xl);font-weight:600;letter-spacing:var(--track-tight);color:var(--ink)">Scheme + theme matrix</h1>
+  <p class="meta" style="margin:0;max-width:640px;color:#6e6b64">Identical markup in all four panels — only <code>data-scheme</code> and <code>data-theme</code> on the wrapper change. Numerals are Space Grotesk tabular, one accent per scheme, amber as the only secondary, green reserved for success.</p>
+</div>
+
+<div id="matrix" style="display:grid;grid-template-columns:repeat(2,minmax(640px,1fr));gap:18px"></div>
+
+<script>
+const combos = [
+  { scheme: 'brand', theme: 'light', label: '_brand · light' },
+  { scheme: 'brand', theme: 'dark',  label: '_brand · dark' },
+  { scheme: 'green', theme: 'light', label: '_green · light' },
+  { scheme: 'green', theme: 'dark',  label: '_green · dark' }
+];
+const intake = [2180,2410,1980,2240,2050,2600,2480,2120,1940,2300,2180,2050,2420,2260,1990,2140];
+const burn   = [ 380, 520, 260, 610, 340, 180, 430, 560, 300, 470, 620, 250, 390, 540, 280, 460];
+const maxE = Math.max(...intake.map((v,i)=>v+burn[i])) * 1.04;
+const groups = [
+  ['Chest',94,'ok'],['Back',92,'ok'],['Legs',96,'ok'],['Shoulders',78,'warn'],
+  ['Biceps',93,'ok'],['Triceps',88,'ok'],['Core',62,'bad'],['Calves',90,'ok']
+];
+const tone = k => k === 'ok' ? 'var(--success)' : k === 'warn' ? 'var(--warning)' : 'var(--danger)';
+const tint = k => k === 'ok' ? 'var(--success-subtle)' : k === 'warn' ? 'var(--warning-subtle)' : 'var(--danger-subtle)';
+const sessions = [
+  ['PU','Push · chest & triceps','Aug 19','6.2 t','58 m','Completed','ok'],
+  ['LG','Legs · squat focus','Aug 17','9.8 t','71 m','Completed','ok'],
+  ['PL','Pull · back & biceps','Aug 16','5.4 t','52 m','Partial','warn']
+];
+
+const slice = label => `
+  <div class="panel">
+    <div class="head">
+      <div style="flex:1">
+        <div class="lbl">${label}</div>
+        <div style="font-size:var(--text-xl);font-weight:600;letter-spacing:var(--track-tight);color:var(--text-1)">Training at a glance</div>
+      </div>
+      <div class="row" style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);padding:7px 12px;font-size:var(--text-md);color:var(--text-2);gap:8px">
+        <i style="width:8px;height:8px;border-radius:50%;background:var(--primary);animation:pulseDot 2.4s infinite"></i>Week 34
+      </div>
+      <div class="cta">+ Log workout</div>
+    </div>
+
+    <div class="grid3">
+      <div class="card">
+        <div class="glow" style="top:-85px;right:-60px;background:var(--glow-tr)"></div>
+        <div class="row" style="gap:6px;font-size:var(--text-sm);color:var(--primary);font-weight:500">
+          <i style="width:6px;height:6px;border-radius:50%;background:var(--primary)"></i>Training now
+        </div>
+        <div class="row" style="align-items:baseline;gap:8px;margin-top:8px">
+          <span class="hero">42.60</span>
+          <span style="font-family:var(--font-mono);font-size:15px;font-weight:500;color:var(--warning)">tonnes</span>
+        </div>
+        <p class="meta" style="margin:8px 0 0">Lifted this month · 91% of your best block</p>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px;padding-top:12px;border-top:1px solid var(--border)">
+          ${[['18','sessions','Completed'],['58','min','Avg length'],['4.2','/ week','Frequency']].map(([v,u,l]) => `
+            <div>
+              <div class="row" style="align-items:baseline;gap:5px">
+                <span class="stat" style="color:var(--text-1)">${v}</span>
+                <span style="font-family:var(--font-mono);font-size:var(--text-xs);color:var(--text-3)">${u}</span>
+              </div>
+              <div class="lbl" style="color:var(--text-2);margin-top:2px">${l}</div>
+            </div>`).join('')}
+        </div>
+      </div>
+
+      <div class="card" style="display:flex;flex-direction:column">
+        <div class="glow" style="bottom:-95px;left:-70px;background:var(--glow-accent-any)"></div>
+        <div class="row"><span class="t">Energy balance</span><span class="pill">Live</span></div>
+        <div style="display:flex;align-items:flex-end;gap:3px;height:96px;margin-top:12px">
+          ${intake.map((v,i) => `
+            <div style="flex:1;display:flex;flex-direction:column;justify-content:flex-end;gap:2px;height:100%">
+              <i style="display:block;border-radius:3px;background:var(--primary);height:${(burn[i]/maxE*100).toFixed(1)}%"></i>
+              <i style="display:block;border-radius:3px;background:var(--amber-200);height:${(v/maxE*100).toFixed(1)}%"></i>
+            </div>`).join('')}
+        </div>
+        <div class="row" style="justify-content:center;gap:16px;margin-top:10px;padding-top:9px;border-top:1px solid var(--border)">
+          <span class="row" style="gap:6px;font-size:var(--text-xs);color:var(--text-2)"><i style="width:8px;height:8px;border-radius:2px;background:var(--amber-200)"></i>Intake</span>
+          <span class="row" style="gap:6px;font-size:var(--text-xs);color:var(--text-2)"><i style="width:8px;height:8px;border-radius:2px;background:var(--primary)"></i>Burned</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="glow" style="top:-85px;right:-55px;background:var(--glow-tr)"></div>
+        <div class="row"><span class="t">Recovery</span><span class="pill" style="background:var(--warning-subtle);color:var(--warning-fg)">Fresh</span></div>
+        <div class="row" style="gap:12px;margin-top:8px">
+          <div style="position:relative;flex-shrink:0">
+            <svg width="96" height="96" viewBox="0 0 104 104">
+              <circle cx="52" cy="52" r="42" fill="none" stroke="var(--surface-sunken)" stroke-width="11"></circle>
+              <circle cx="52" cy="52" r="42" fill="none" stroke="var(--primary)" stroke-width="11" stroke-linecap="round"
+                stroke-dasharray="264" stroke-dashoffset="31.7" transform="rotate(-90 52 52)"></circle>
+            </svg>
+            <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center">
+              <span class="stat" style="font-size:22px;color:var(--text-1)">88%</span>
+              <span class="lbl">ready</span>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px;flex:1;min-width:0">
+            ${[['7.4','h','Sleep','var(--success)'],['54','bpm','Resting HR','var(--warning)']].map(([v,u,l,c]) => `
+              <div style="background:var(--surface-sunken);border-radius:11px;padding:8px 10px">
+                <div class="row" style="align-items:baseline;gap:5px">
+                  <span class="stat" style="font-size:16px;color:${c}">${v}</span>
+                  <span style="font-family:var(--font-mono);font-size:10.5px;color:var(--text-3)">${u}</span>
+                </div>
+                <div class="lbl" style="color:var(--text-2)">${l}</div>
+              </div>`).join('')}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:12px;margin-top:12px">
+      <div class="card">
+        <div class="glow" style="top:-85px;left:-60px;background:var(--glow-tl)"></div>
+        <div class="row"><span class="t">Muscle groups</span><span class="lbl">12 sessions · 6 groups</span></div>
+        <div class="tiles" style="margin-top:12px">
+          ${groups.map(([n,p,k]) => `
+            <div class="tile" style="background:${tint(k)};position:relative">
+              <i style="position:absolute;top:10px;right:10px;width:6px;height:6px;border-radius:50%;background:${tone(k)}"></i>
+              <div class="lbl" style="color:var(--text-2)">${n}</div>
+              <div class="stat" style="color:${tone(k)};margin-top:3px">${p}%</div>
+            </div>`).join('')}
+        </div>
+      </div>
+
+      <div class="card" style="padding-bottom:6px">
+        <div class="glow" style="bottom:-95px;right:-60px;background:var(--glow-accent-any)"></div>
+        <div class="row"><span class="t">Recent sessions</span><span class="lbl">View all</span></div>
+        <div style="display:grid;grid-template-columns:1.7fr .75fr .6fr .85fr;gap:10px;padding:11px 0 7px;border-bottom:1px solid var(--border)">
+          ${['Session','Date','Volume','Status'].map(h => `<span class="lbl">${h}</span>`).join('')}
+        </div>
+        ${sessions.map(([a,n,d,v,t2,s,k]) => `
+          <div style="display:grid;grid-template-columns:1.7fr .75fr .6fr .85fr;gap:10px;align-items:center;padding:9px 0;border-bottom:1px solid var(--border)">
+            <div class="row" style="gap:9px;min-width:0">
+              <span style="width:28px;height:28px;border-radius:9px;background:${tint(k)};color:${tone(k)};display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:11px;font-weight:600;flex-shrink:0">${a}</span>
+              <span style="font-size:var(--text-md);font-weight:500;color:var(--text-1);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${n}</span>
+            </div>
+            <span class="meta">${d}</span>
+            <span style="font-family:var(--font-mono);font-variant-numeric:tabular-nums;font-size:var(--text-md);color:var(--text-1)">${v}</span>
+            <span style="justify-self:start;font-size:var(--text-xs);padding:4px 9px;border-radius:var(--radius-sm);background:${tint(k)};color:${tone(k)}">${s}</span>
+          </div>`).join('')}
+      </div>
+    </div>
+
+    <div class="swatchRow">
+      ${['var(--primary)','var(--primary-subtle)','var(--success)','var(--warning)','var(--danger)','var(--surface)','var(--bg)','var(--border-strong)'].map(c => `<div class="swatch" style="background:${c}"></div>`).join('')}
+    </div>
+  </div>`;
+
+document.getElementById('matrix').innerHTML = combos.map(c =>
+  `<div data-scheme="${c.scheme}" data-theme="${c.theme}">${slice(c.label)}</div>`).join('');
+</script>
+</body>
+</html>

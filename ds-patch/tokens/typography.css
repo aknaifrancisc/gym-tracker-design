@@ -1,0 +1,61 @@
+:root{
+  /* Families — Outfit for display/UI headings (closest match to the logo
+     wordmark), Manrope for body/UI text, JetBrains Mono for tabular data. */
+  --font-display:"Outfit","Outfit Fallback",system-ui,sans-serif;
+  --font-sans:"Manrope","Manrope Fallback",system-ui,sans-serif;
+  --font-mono:"JetBrains Mono",ui-monospace,SFMono-Regular,monospace;
+
+  /* Weights */
+  --fw-regular:400; /* @kind font */
+  --fw-medium:500; /* @kind font */
+  --fw-semibold:600; /* @kind font */
+  --fw-bold:700; /* @kind font */
+  --fw-black:800; /* @kind font */
+
+  /* Type scale (px, 1.25-ish, tuned for dense tracking UI) */
+  --fs-10:10px;
+  --fs-11:11px;
+  --fs-12:12px;
+  --fs-13:13px;
+  --fs-14:14px;
+  --fs-16:16px;
+  --fs-18:18px;
+  --fs-20:20px;
+  --fs-24:24px;
+  --fs-30:30px;
+  --fs-38:38px;
+  --fs-48:48px;
+  --fs-60:60px;
+  --fs-76:76px;
+
+  /* Line heights */
+  --lh-tight:1.05; /* @kind font */
+  --lh-snug:1.2; /* @kind font */
+  --lh-normal:1.45; /* @kind font */
+  --lh-relaxed:1.6; /* @kind font */
+
+  /* Tracking */
+  --ls-tighter:-0.03em; /* @kind font */
+  --ls-tight:-0.015em; /* @kind font */
+  --ls-normal:0em; /* @kind font */
+  --ls-wide:0.04em; /* @kind font */
+  --ls-caps:0.12em; /* @kind font */ /* the logo's "TRACKER" spacing — used for eyebrows */
+
+  /* Roles */
+  --text-display-1:var(--fw-bold) var(--fs-76)/var(--lh-tight) var(--font-display);
+  --text-display-2:var(--fw-bold) var(--fs-60)/var(--lh-tight) var(--font-display);
+  --text-h1:var(--fw-bold) var(--fs-48)/var(--lh-snug) var(--font-display);
+  --text-h2:var(--fw-semibold) var(--fs-30)/var(--lh-snug) var(--font-display);
+  --text-h3:var(--fw-semibold) var(--fs-24)/var(--lh-snug) var(--font-display);
+  --text-h4:var(--fw-semibold) var(--fs-18)/var(--lh-snug) var(--font-display);
+  --text-body-lg:var(--fw-regular) var(--fs-18)/var(--lh-relaxed) var(--font-sans);
+  --text-body-md:var(--fw-regular) var(--fs-16)/var(--lh-normal) var(--font-sans);
+  --text-body-sm:var(--fw-regular) var(--fs-14)/var(--lh-normal) var(--font-sans);
+  --text-label:var(--fw-semibold) var(--fs-13)/1.3 var(--font-sans);
+  --text-caption:var(--fw-medium) var(--fs-12)/1.35 var(--font-sans);
+  --text-eyebrow:var(--fw-bold) var(--fs-11)/1.2 var(--font-sans);
+  --text-metric-xl:var(--fw-bold) var(--fs-48)/1 var(--font-display);
+  --text-metric-lg:var(--fw-bold) var(--fs-30)/1 var(--font-display);
+  --text-metric-sm:var(--fw-semibold) var(--fs-20)/1 var(--font-display);
+  --text-data:var(--fw-medium) var(--fs-13)/1.3 var(--font-mono);
+}

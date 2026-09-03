@@ -1,0 +1,122 @@
+<!-- @dsCard group="Gym Tracker Web" viewport="1440x900" subtitle="Redesigned Steps & Cardio — daily steps, weekly/monthly volume, list view" name="Steps & cardio" -->
+<!-- @startingPoint section="Screens" subtitle="Redesigned Steps & Cardio page" viewport="1440x900" -->
+<!DOCTYPE html><html><head>
+<link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<script src="../../ds-loader.js"></script>
+<style>body{margin:0;background:var(--bg)}</style>
+</head><body><div id="root"></div>
+<script type="text/babel-app">
+let Button, IconButton, Card, Badge, Tabs, Avatar, SideNav, StatCard, ProgressRing, TrendChart, Table;
+
+const ic = (n, s=16) => <i data-lucide={n} style={{width:s,height:s}}></i>;
+const chip = (n, grad) => <span style={{width:36,height:36,borderRadius:9,background:'var(--grad-'+grad+')',color:'#fff',display:'inline-flex',alignItems:'center',justifyContent:'center',flexShrink:0}}>{ic(n,18)}</span>;
+
+function Bars({data, labels, color='var(--grad-teal)', height=140, unit='steps', goal}){
+  const max = Math.max(...data, goal||0, 1);
+  return <div>
+    <div style={{position:'relative',height}}>
+      {goal && <div style={{position:'absolute',left:0,right:0,bottom:(goal/max)*height,borderTop:'1.5px dashed var(--border-strong)'}}>
+        <span style={{position:'absolute',right:0,top:-16,fontSize:10,fontFamily:'var(--font-mono)',color:'var(--text-3)'}}>goal {goal.toLocaleString()}</span></div>}
+      <div style={{display:'flex',alignItems:'flex-end',gap:8,height:'100%'}}>
+        {data.map((v,i)=><div key={i} title={v.toLocaleString()+' '+unit} style={{flex:1,borderRadius:'6px 6px 3px 3px',height:Math.max(4,(v/max)*height),background:v>=(goal||Infinity)?'var(--grad-green)':color,opacity:v?1:0.25}}/>)}
+      </div>
+    </div>
+    {labels && <div style={{display:'flex',gap:8,marginTop:8}}>{labels.map((l,i)=><span key={i} style={{flex:1,textAlign:'center',fontSize:10,color:'var(--text-3)',fontFamily:'var(--font-mono)'}}>{l}</span>)}</div>}
+  </div>;
+}
+
+const rows = [
+  {d:'Aug 4, 2026', s:'8,500', pct:'85 %', tone:'primary'},
+  {d:'Aug 3, 2026', s:'11,240', pct:'112 %', tone:'success'},
+  {d:'Aug 2, 2026', s:'9,800', pct:'98 %', tone:'primary'},
+  {d:'Aug 1, 2026', s:'6,701', pct:'67 %', tone:'warning'},
+  {d:'Jul 31, 2026', s:'12,329', pct:'123 %', tone:'success'},
+  {d:'Jul 30, 2026', s:'10,450', pct:'104 %', tone:'success'},
+];
+
+function App(){
+  const [nav,setNav]=React.useState('steps');
+  const [tab,setTab]=React.useState('Steps');
+  const [range,setRange]=React.useState('Week');
+  React.useEffect(()=>{lucide.createIcons()});
+  return <div style={{display:'flex',minHeight:'100vh',fontFamily:'var(--font-sans)'}}>
+    <SideNav activeId={nav} onSelect={setNav} style={{position:'sticky',top:0,height:'100vh'}}
+      header={<a href="all-screens.html" style={{display:'block',padding:'4px 12px 16px'}}><img src="../../assets/Logo.svg" alt="Gym Tracker" style={{height:34,display:'block'}}/></a>}
+      items={[
+        {id:'dash',href:'dashboard.html',label:'Dashboard',icon:ic('layout-dashboard')},
+        {id:'personal',href:'index.html',label:'Personal info',icon:ic('heart-pulse')},
+        {id:'weight',href:'weight-loss.html',label:'Weight loss',icon:ic('scale')},
+        {id:'steps',href:'steps.html',label:'Steps',icon:ic('footprints')},
+        {id:'workouts',label:'Workouts',icon:ic('dumbbell'),open:false,children:[{id:'logs',href:'workout-logs.html',label:'Logs'},{id:'exercises',href:'exercises.html',label:'Exercises'}]},
+        {id:'macros',href:'macros-dashboard.html',label:'Macros tracker',icon:ic('utensils'),children:[{id:'meals',href:'daily-meals.html',label:'Daily meals'},{id:'recipes',href:'recipes.html',label:'Recipes'},{id:'ingredients',href:'ingredients.html',label:'Ingredients'}]}]}
+      footer={<div style={{display:'flex',alignItems:'center',gap:10,padding:'10px 12px',borderTop:'1px solid var(--border)'}}>
+        <Avatar name="John D" size={32}/>
+        <div style={{flex:1,minWidth:0}}><div style={{fontSize:13,fontWeight:500,color:'var(--text-1)'}}>John Doe</div><div style={{fontSize:11,color:'var(--text-3)',overflow:'hidden',textOverflow:'ellipsis'}}>john.doe@gymgoer.com</div></div>
+        <span style={{color:'var(--text-3)'}}>{ic('chevrons-up-down',14)}</span>
+      </div>}/>
+    <main style={{flex:1,minWidth:0,padding:'28px 32px',maxWidth:'var(--content-max)',margin:'0 auto',boxSizing:'border-box',width:'100%'}}>
+      <header style={{display:'flex',alignItems:'center',gap:16,marginBottom:20}}>
+        <div style={{flex:1}}>
+          <h1 style={{margin:0,fontSize:'var(--text-2xl)',fontWeight:700,color:'var(--text-1)',letterSpacing:'-0.01em'}}>Activity & cardio</h1>
+          <p style={{margin:'4px 0 0',fontSize:14,color:'var(--text-2)'}}>Track your steps, cardio sessions, and heart rate zones.</p>
+        </div>
+        <Button variant="secondary" icon={ic('smartphone')}>Sync from phone</Button>
+        <Button icon={ic('plus')}>Add steps</Button>
+      </header>
+
+      <div style={{marginBottom:20}}>
+        <Tabs tabs={['Steps','Cardio sessions','Heart rate zones']} active={tab} onChange={setTab}/>
+      </div>
+
+      <div style={{display:'grid',gridTemplateColumns:'repeat(4, minmax(0, 1fr))',gap:16,marginBottom:16}}>
+        <StatCard gradient="teal" label="Steps today" value="8,500" unit="/ 10,000" delta="85 %" deltaTone="primary"/>
+        <StatCard gradient="blue" label="30-day total" value="312,480" unit="steps" delta="↑ 6 % vs Jun"/>
+        <StatCard gradient="violet" label="Lifetime daily avg" value="11,024" unit="steps"/>
+        <StatCard gradient="green" label="Goal days this month" value="19" unit="/ 31" delta="on pace"/>
+      </div>
+
+      <div style={{display:'grid',gridTemplateColumns:'minmax(0,1.5fr) minmax(0,1fr)',gap:16,marginBottom:16}}>
+        <Card title="Daily steps" icon={chip('footprints','teal')} action={<Tabs tabs={['Week','Month']} active={range} onChange={setRange}/>}>
+          <Bars data={[7200,10450,12329,6701,9800,11240,8500]} labels={['Wed','Thu','Fri','Sat','Sun','Mon','Tue']} goal={10000}/>
+          <div style={{display:'flex',gap:16,marginTop:14,paddingTop:14,borderTop:'1px solid var(--border)'}}>
+            {[['This week','66,220'],['Daily avg','9,460'],['Goal hit','3 of 7 days']].map(([l,v])=>
+              <div key={l} style={{flex:1}}><div style={{fontSize:12,color:'var(--text-3)'}}>{l}</div><div style={{fontFamily:'var(--font-mono)',fontFeatureSettings:'var(--tnum)',fontSize:15,fontWeight:600,color:'var(--text-1)',marginTop:2}}>{v}</div></div>)}
+          </div>
+        </Card>
+        <Card title="Steps log" icon={chip('list','blue')} action={<Button variant="ghost" size="sm">Select date</Button>}>
+          <Table compact
+            columns={[{key:'d',label:'Date'},{key:'s',label:'Steps',align:'right',numeric:true},{key:'p',label:'Goal',align:'right'}]}
+            rows={rows.map(r=>({d:r.d,s:r.s,p:<Badge tone={r.tone}>{r.pct}</Badge>}))}/>
+          <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginTop:10,fontSize:12,color:'var(--text-3)'}}>
+            <span>1 of 12</span>
+            <span style={{display:'flex',gap:6}}><Button variant="secondary" size="sm">Prev</Button><Button variant="secondary" size="sm">Next</Button></span>
+          </div>
+        </Card>
+      </div>
+
+      <div style={{display:'grid',gridTemplateColumns:'repeat(3, minmax(0, 1fr))',gap:16,paddingBottom:40}}>
+        <Card title="Steps per week" icon={chip('calendar-range','blue')}>
+          <Bars data={[52300,61800,58400,66220]} labels={['W29','W30','W31','W32']} color="var(--grad-blue)" height={110} unit="steps"/>
+        </Card>
+        <Card title="Steps per month" icon={chip('calendar','violet')}>
+          <Bars data={[248900,271400,296100,312480]} labels={['May','Jun','Jul','Aug']} color="var(--grad-violet)" height={110} unit="steps"/>
+        </Card>
+        <Card title="Beat last month" icon={chip('medal','amber')}>
+          <div style={{display:'flex',alignItems:'center',gap:18}}>
+            <ProgressRing value={312480} max={296100} size={104} color="var(--warning)" label="106%" sublabel="of July"/>
+            <div style={{flex:1,fontSize:13,color:'var(--text-2)'}}>
+              <div style={{fontFamily:'var(--font-mono)',fontSize:15,fontWeight:600,color:'var(--text-1)'}}>+16,380 steps</div>
+              ahead of July’s pace with 27 days to go.
+            </div>
+          </div>
+        </Card>
+      </div>
+    </main>
+  </div>;
+}
+window.__dsReady.then(ns=>{({ Button, IconButton, Card, Badge, Tabs, Avatar, SideNav, StatCard, ProgressRing, TrendChart, Table }=ns);ReactDOM.createRoot(document.getElementById('root')).render(<App/>)});
+</script></body></html>

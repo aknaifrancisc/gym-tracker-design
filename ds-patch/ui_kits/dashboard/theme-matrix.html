@@ -1,0 +1,139 @@
+<!-- @dsCard group="Dashboard" viewport="1400x1180" name="Scheme + theme matrix" subtitle="One dashboard slice in _brand/_green × light/dark — the reference implementation" -->
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Scheme + theme matrix</title>
+<link rel="stylesheet" href="../../styles.css">
+<style>
+  body{margin:0;padding:24px;background:var(--ink-100);min-width:1352px}
+  .shell{background:var(--surface-page);border-radius:var(--radius-card-lg);padding:16px}
+  .head{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+  .eyebrow{font:var(--text-eyebrow);letter-spacing:var(--ls-caps);text-transform:uppercase;color:var(--text-muted)}
+  .h{font:var(--text-h4);color:var(--text-heading);letter-spacing:var(--ls-tight)}
+  .btn{background:var(--primary);color:var(--primary-fg);border-radius:var(--radius-pill);padding:9px 16px;font:var(--text-label);box-shadow:var(--shadow-brand)}
+  .chip{display:inline-flex;align-items:center;gap:8px;background:var(--surface-card);border:var(--border-width) solid var(--border-subtle);border-radius:var(--radius-pill);padding:7px 13px;font:var(--text-caption);color:var(--text-body)}
+  .g3{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr) minmax(0,1.05fr);gap:12px}
+  .g2{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:12px;margin-top:12px}
+  .card{padding:var(--pad-card)}
+  .title{font:var(--text-label);color:var(--text-heading);flex:1}
+  .met{font:var(--text-metric-xl);color:var(--text-heading);font-variant-numeric:tabular-nums;letter-spacing:var(--ls-tighter)}
+  .met-lg{font:var(--text-metric-lg);color:var(--text-heading);font-variant-numeric:tabular-nums;letter-spacing:var(--ls-tighter)}
+  .met-sm{font:var(--text-metric-sm);font-variant-numeric:tabular-nums;letter-spacing:var(--ls-tighter)}
+  .unit{font:var(--text-caption);color:var(--text-muted)}
+  .cap{font:var(--text-caption);color:var(--text-muted)}
+  .data{font:var(--text-data);color:var(--text-muted)}
+  .row{display:flex;align-items:center;gap:10px}
+  .tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:12px}
+  .tile{border-radius:var(--radius-md);padding:10px 11px}
+  .tile__head{display:flex;align-items:center;gap:6px;min-width:0}
+  .tile__name{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .tile__dot{width:6px;height:6px;border-radius:var(--radius-pill);flex:none}
+  .bdg{border-radius:var(--radius-pill);padding:4px 10px;font:var(--text-eyebrow);letter-spacing:var(--ls-caps);text-transform:uppercase}
+</style></head><body>
+<div style="display:flex;align-items:baseline;gap:14px;margin-bottom:16px">
+  <span style="font:var(--text-h3);color:var(--ink-900);letter-spacing:var(--ls-tight)">Scheme + theme matrix</span>
+  <span class="cap" style="max-width:640px;color:var(--ink-600)">Identical markup in all four panels — only <code>data-scheme</code> and <code>theme-dark</code> change on the wrapper. Metrics stay Outfit tabular, blue or green carries action, amber is the only secondary, status colours never move.</span>
+</div>
+<div id="m" style="display:grid;grid-template-columns:repeat(2,minmax(640px,1fr));gap:18px"></div>
+<script>
+const combos = [
+  { s:'brand', d:false, label:'_brand · light' },
+  { s:'brand', d:true,  label:'_brand · dark' },
+  { s:'green', d:false, label:'_green · light' },
+  { s:'green', d:true,  label:'_green · dark' }
+];
+const intake = [2180,2410,1980,2240,2050,2600,2480,2120,1940,2300,2180,2050,2420,2260,1990,2140];
+const burn   = [ 380, 520, 260, 610, 340, 180, 430, 560, 300, 470, 620, 250, 390, 540, 280, 460];
+const maxE = Math.max(...intake.map((v,i)=>v+burn[i])) * 1.04;
+const groups = [['Chest',94,'s'],['Back',92,'s'],['Legs',96,'s'],['Shoulders',78,'w'],['Biceps',93,'s'],['Triceps',88,'s'],['Core',62,'d'],['Calves',90,'s']];
+const tone = k => k==='s' ? 'var(--text-success)' : k==='w' ? 'var(--text-warning)' : 'var(--text-danger)';
+const tint = k => k==='s' ? 'var(--surface-success-subtle)' : k==='w' ? 'var(--surface-warning-subtle)' : 'var(--surface-danger-subtle)';
+const sessions = [['PU','Push · chest & triceps','Aug 19','6.2 t','Logged','s'],['LG','Legs · squat focus','Aug 17','9.8 t','Logged','s'],['PL','Pull · back & biceps','Aug 16','5.4 t','Partial','w']];
+
+const slice = label => `
+<div class="shell">
+  <div class="head">
+    <div style="flex:1">
+      <div class="eyebrow">${label}</div>
+      <div class="h">This week in the gym</div>
+    </div>
+    <span class="chip"><i style="width:8px;height:8px;border-radius:var(--radius-pill);background:var(--primary)"></i>Week 34</span>
+    <span class="btn">Start workout</span>
+  </div>
+
+  <div class="g3">
+    <div class="gt-card gt-card--glow-tr card"><span class="gt-glow"></span>
+      <div class="row" style="gap:6px"><i style="width:6px;height:6px;border-radius:var(--radius-pill);background:var(--primary)"></i><span class="cap" style="color:var(--text-brand);font-weight:700">Training load</span></div>
+      <div class="row" style="align-items:baseline;gap:8px;margin-top:8px"><span class="met">42.6</span><span class="unit">tonnes</span></div>
+      <p class="cap" style="margin:8px 0 0">Up 8.4% on last month · 91% of your best block</p>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px;padding-top:12px;border-top:var(--border-width) solid var(--border-subtle)">
+        ${[['18','sessions'],['58','min avg'],['4.2','per week']].map(([v,l])=>`<div><div class="met-sm" style="color:var(--text-heading)">${v}</div><div class="cap">${l}</div></div>`).join('')}
+      </div>
+    </div>
+
+    <div class="gt-card gt-card--glow-bl-accent card"><span class="gt-glow"></span>
+      <div class="row"><span class="title">Energy balance</span><span class="bdg" style="background:var(--surface-brand-subtle);color:var(--text-brand)">Live</span></div>
+      <div style="display:flex;align-items:flex-end;gap:3px;height:92px;margin-top:14px">
+        ${intake.map((v,i)=>`<div style="flex:1;display:flex;flex-direction:column;justify-content:flex-end;gap:2px;height:100%">
+          <i style="display:block;border-radius:3px;background:var(--primary);height:${(burn[i]/maxE*100).toFixed(1)}%"></i>
+          <i style="display:block;border-radius:3px;background:var(--amber-500);height:${(v/maxE*100).toFixed(1)}%"></i></div>`).join('')}
+      </div>
+      <div class="row" style="justify-content:center;gap:16px;margin-top:10px;padding-top:9px;border-top:var(--border-width) solid var(--border-subtle)">
+        <span class="cap"><i style="display:inline-block;width:8px;height:8px;border-radius:2px;background:var(--amber-500);margin-right:6px"></i>Intake</span>
+        <span class="cap"><i style="display:inline-block;width:8px;height:8px;border-radius:2px;background:var(--primary);margin-right:6px"></i>Burned</span>
+      </div>
+    </div>
+
+    <div class="gt-card gt-card--glow-tr card"><span class="gt-glow"></span>
+      <div class="row"><span class="title">Recovery</span><span class="bdg" style="background:var(--surface-warning-subtle);color:var(--text-warning)">Fresh</span></div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:10px;margin-top:10px">
+        <div style="position:relative;flex:none">
+          <svg width="96" height="96" viewBox="0 0 104 104">
+            <circle cx="52" cy="52" r="42" fill="none" stroke="var(--surface-sunken)" stroke-width="11"></circle>
+            <circle cx="52" cy="52" r="42" fill="none" stroke="var(--primary)" stroke-width="11" stroke-linecap="round" stroke-dasharray="264" stroke-dashoffset="31.7" transform="rotate(-90 52 52)"></circle>
+          </svg>
+          <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center">
+            <span class="met-sm" style="color:var(--text-heading)">88%</span><span class="cap">ready</span>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;width:100%">
+          ${[['7.4','h','Sleep','var(--text-success)'],['54','bpm','Rest HR','var(--text-warning)']].map(([v,u,l,c])=>`
+            <div style="background:var(--surface-sunken);border-radius:var(--radius-md);padding:8px 10px;min-width:0">
+              <div class="row" style="align-items:baseline;gap:5px"><span class="met-sm" style="color:${c};font-size:var(--fs-18)">${v}</span><span class="unit">${u}</span></div>
+              <div class="cap" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${l}</div>
+            </div>`).join('')}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="g2">
+    <div class="gt-card gt-card--glow-tl card"><span class="gt-glow"></span>
+      <div class="row"><span class="title">Muscle groups</span><span class="data">12 sessions · 6 groups</span></div>
+      <div class="tiles">
+        ${groups.map(([n,p,k])=>`<div class="tile" style="background:${tint(k)}">
+          <div class="cap tile__name">${n}</div>
+          <div class="tile__head" style="margin-top:3px"><span class="met-sm tile__name" style="color:${tone(k)}">${p}%</span><i class="tile__dot" style="background:${tone(k)}"></i></div></div>`).join('')}
+      </div>
+    </div>
+
+    <div class="gt-card gt-card--glow-br card"><span class="gt-glow"></span>
+      <div class="row"><span class="title">Recent sessions</span><span class="data">View all</span></div>
+      <div style="display:grid;grid-template-columns:1.7fr .7fr .6fr .8fr;gap:10px;padding:11px 0 7px;border-bottom:var(--border-width) solid var(--border-subtle)">
+        ${['Session','Date','Volume','Status'].map(h=>`<span class="eyebrow">${h}</span>`).join('')}
+      </div>
+      ${sessions.map(([a,n,d,v,st,k])=>`
+      <div style="display:grid;grid-template-columns:1.7fr .7fr .6fr .8fr;gap:10px;align-items:center;padding:9px 0;border-bottom:var(--border-width) solid var(--border-subtle)">
+        <div class="row" style="gap:9px;min-width:0">
+          <span style="width:28px;height:28px;border-radius:var(--radius-sm);background:${tint(k)};color:${tone(k)};display:grid;place-items:center;font:var(--text-data);flex:none">${a}</span>
+          <span class="cap" style="color:var(--text-heading);font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${n}</span>
+        </div>
+        <span class="data">${d}</span>
+        <span class="data" style="color:var(--text-heading)">${v}</span>
+        <span class="bdg" style="justify-self:start;background:${tint(k)};color:${tone(k)}">${st}</span>
+      </div>`).join('')}
+    </div>
+  </div>
+</div>`;
+
+document.getElementById('m').innerHTML = combos.map(c =>
+  `<div data-scheme="${c.s}"${c.d ? ' class="theme-dark"' : ''}>${slice(c.label)}</div>`).join('');
+</script>
+</body></html>

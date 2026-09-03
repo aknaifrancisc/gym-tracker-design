@@ -1,0 +1,1130 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/gym-tracker-design-system-42e631ff-e31a-4d3e-8495-62b3190c9d4a/styles.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@0.454.0/dist/umd/lucide.min.js"></script>
+<script src="_ds/gym-tracker-design-system-42e631ff-e31a-4d3e-8495-62b3190c9d4a/_ds_bundle.js"></script>
+<script src="anim-engine.js"></script>
+<script src="slot-images.js"></script>
+<style>
+  body{margin:0;background:#e4e1da;font-family:'Manrope',system-ui,sans-serif;-webkit-font-smoothing:antialiased;
+    --accent:#2a69c8;--accent-deep:#1f56a8;--accent-tint:#eaf1fb;--glow:rgba(42,105,200,.20);--glow-soft:rgba(42,105,200,.13)}
+  a{color:var(--accent);text-decoration:none}
+  a:hover{color:var(--accent-deep);text-decoration:underline;text-underline-offset:3px}
+  @keyframes riseIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+  @keyframes zoneIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  @keyframes zoneFade{from{opacity:0}to{opacity:1}}
+  @keyframes glowBreath{0%,100%{opacity:.6}50%{opacity:1}}
+  @keyframes tipIn{from{opacity:0;transform:translate(-4px,-50%)}to{opacity:1;transform:translate(0,-50%)}}
+  @media (prefers-reduced-motion:reduce){
+    @keyframes riseIn{from{opacity:0}to{opacity:1}}
+    @keyframes zoneIn{from{opacity:0}to{opacity:1}}
+    @keyframes glowBreath{0%,100%{opacity:.8}}
+  }
+  image-slot[data-compact]::part(empty){color:transparent!important}
+</style>
+</helmet>
+
+<template id="__bundler_thumbnail" data-bg-color="#17161c">
+  <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><rect width="100" height="100" fill="#17161c"></rect><rect x="30" y="30" width="12" height="40" rx="3" fill="#2a69c8"></rect><rect x="46" y="30" width="24" height="16" rx="3" fill="#e0a83a"></rect><rect x="46" y="50" width="24" height="20" rx="3" fill="#f4f1ea"></rect></svg>
+</template>
+
+<div style="width:100%;min-width:1440px;max-width:1920px;margin:0 auto;background:#efece6;display:grid;grid-template-columns:auto minmax(0,1fr);font-family:'Manrope',sans-serif;color:#1a1a18">
+
+  <div style="padding:18px 0 18px 18px;display:flex;align-items:flex-start">
+  <aside style="position:sticky;top:18px;isolation:isolate;overflow:visible;width:{{ railW }};height:calc(100vh - 36px);min-height:760px;background:#fff;border:1px solid #eae6df;border-radius:22px;box-shadow:0 18px 40px -28px rgba(26,26,24,.5);padding:16px 12px 14px;display:flex;flex-direction:column;gap:14px;transition:width .28s cubic-bezier(.2,0,0,1)">
+    <span style="position:absolute;inset:0;overflow:hidden;border-radius:22px;pointer-events:none;z-index:-1">
+      <span style="position:absolute;top:-90px;left:-70px;width:260px;height:220px;background:radial-gradient(circle at 50% 50%,var(--glow-soft),transparent 70%)"></span>
+    </span>
+
+    <div style="display:flex;align-items:center;gap:8px;height:34px;padding:0 4px;flex:none">
+      <sc-if value="{{ railExpanded }}" hint-placeholder-val="{{ true }}">
+        <img src="assets/logo-mono-ink.svg" alt="Gym Tracker" style="display:block;height:24px;width:auto;flex:none">
+      </sc-if>
+      <sc-if value="{{ railCollapsed }}" hint-placeholder-val="{{ false }}">
+        <img src="assets/logo-mark.svg" alt="Gym Tracker" style="display:block;height:26px;width:26px;flex:none;margin:0 auto">
+      </sc-if>
+      <span style="flex:{{ railLabelFlex }}"></span>
+      <span onClick="{{ toggleRail }}" style="width:28px;height:28px;flex:none;border-radius:9px;color:#8a867e;display:{{ railToggleDisplay }};align-items:center;justify-content:center;cursor:pointer;transition:background .16s,color .16s" style-hover="background:#f3f1ec;color:#1a1a18">
+        <span style="display:flex;transform:rotate({{ railChevRot }});transition:transform .28s cubic-bezier(.2,0,0,1)">
+          <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="chevrons-left" size="16" stroke-width="1.9" hint-size="16px,16px"></x-import>
+        </span>
+      </span>
+    </div>
+
+    <sc-if value="{{ railCollapsed }}" hint-placeholder-val="{{ false }}">
+      <div onClick="{{ toggleRail }}" style="flex:none;height:34px;border-radius:11px;border:1px dashed #e4e1da;color:#8a867e;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .16s,border-color .16s" style-hover="background:#f7f5f1;border-color:#c4bfb4">
+        <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="chevrons-right" size="16" stroke-width="1.9" hint-size="16px,16px"></x-import>
+      </div>
+    </sc-if>
+
+    <nav style="display:flex;flex-direction:column;gap:3px;flex:none">
+      <sc-for list="{{ nav }}" as="n" hint-placeholder-count="6">
+        <div onClick="{{ n.go }}" onMouseEnter="{{ n.enter }}" onMouseLeave="{{ railLeave }}" style="position:relative;display:flex;align-items:center;justify-content:{{ railJustify }};gap:11px;height:42px;padding:0 {{ railPadX }};border-radius:12px;background:{{ n.bg }};color:{{ n.fg }};font-size:13.5px;font-weight:{{ n.weight }};cursor:pointer;transition:background .16s,color .16s,transform .16s" style-hover="background:#f3f1ec;color:#1a1a18;transform:translateX(2px)">
+          <i style="position:absolute;left:0;top:50%;width:3px;height:{{ n.barH }};margin-top:{{ n.barOff }};border-radius:0 3px 3px 0;background:var(--accent);transition:height .26s cubic-bezier(.2,0,0,1),margin-top .26s cubic-bezier(.2,0,0,1)"></i>
+          <span style="display:flex;flex:none">
+            <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="{{ n.icon }}" size="18" stroke-width="1.8" hint-size="18px,18px"></x-import>
+          </span>
+          <span style="flex:{{ railLabelFlex }};min-width:0;overflow:hidden;white-space:nowrap;text-align:left;opacity:{{ railLabelOp }};transform:translateX({{ railLabelX }});transition:opacity .2s,transform .24s">{{ n.name }}</span>
+          <sc-if value="{{ n.tip }}" hint-placeholder-val="{{ false }}">
+            <span style="position:absolute;left:100%;top:50%;margin-left:12px;transform:translateY(-50%);background:#17161c;color:#fff;font-size:12px;font-weight:600;white-space:nowrap;border-radius:9px;padding:7px 11px;z-index:9;box-shadow:0 12px 26px -14px rgba(0,0,0,.55);animation:tipIn .16s both cubic-bezier(.2,0,0,1)">{{ n.name }}</span>
+          </sc-if>
+        </div>
+        <sc-if value="{{ n.showSubs }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:2px;margin:1px 0 3px 25px;padding-left:12px;border-left:1px solid #f2efe9;overflow:hidden">
+            <sc-for list="{{ n.subs }}" as="s" hint-placeholder-count="2">
+              <div onClick="{{ s.go }}" style="padding:7px 10px;border-radius:9px;font-size:12.5px;font-weight:{{ s.weight }};color:{{ s.fg }};background:{{ s.bg }};white-space:nowrap;cursor:pointer;transition:background .16s,color .16s" style-hover="background:#f3f1ec;color:#1a1a18">{{ s.name }}</div>
+            </sc-for>
+          </div>
+        </sc-if>
+      </sc-for>
+    </nav>
+
+    <div style="flex:1"></div>
+
+    <sc-if value="{{ railExpanded }}" hint-placeholder-val="{{ true }}">
+    <div style="position:relative;isolation:isolate;overflow:hidden;background:#17161c;border-radius:16px;padding:15px 15px 14px;color:#fff">
+      <span style="position:absolute;top:-80px;right:-60px;width:230px;height:200px;pointer-events:none;z-index:-1;background:radial-gradient(circle at 50% 50%,var(--glow),transparent 70%);animation:glowBreath 6s ease-in-out infinite"></span>
+      <div style="display:flex;align-items:center;gap:7px;font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--accent-tint)">
+        <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="sparkles" size="14" stroke-width="1.8" hint-size="14px,14px"></x-import>
+        AI coach
+      </div>
+      <p style="margin:9px 0 0;font-size:13px;line-height:1.45;color:#d8d4cc">Let the coach read your step pattern and set the daily target.</p>
+      <div style="display:flex;flex-direction:column;gap:7px;margin-top:13px;padding-top:12px;border-top:1px solid rgba(255,255,255,.09)">
+        <sc-for list="{{ plans }}" as="p" hint-placeholder-count="2">
+          <div style="display:flex;align-items:baseline;gap:8px">
+            <span style="flex:1;font-size:12.5px;font-weight:600;color:#fff">{{ p.name }}</span>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#a8a49b">{{ p.price }}</span>
+          </div>
+        </sc-for>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:center;gap:7px;margin-top:13px;background:var(--accent);color:#fff;border-radius:10px;padding:9px 12px;font-size:13px;font-weight:600;cursor:pointer;transition:transform .14s" style-hover="transform:translateY(-1px)">
+        Upgrade
+        <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="arrow-right" size="14" hint-size="14px,14px"></x-import>
+      </div>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ railCollapsed }}" hint-placeholder-val="{{ false }}">
+      <div style="position:relative;isolation:isolate;overflow:hidden;flex:none;height:44px;border-radius:14px;background:#17161c;color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer">
+        <span style="position:absolute;inset:-40% -60% auto auto;width:150px;height:130px;pointer-events:none;z-index:-1;background:radial-gradient(circle at 50% 50%,var(--glow),transparent 70%);animation:glowBreath 6s ease-in-out infinite"></span>
+        <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="sparkles" size="18" stroke-width="1.9" hint-size="18px,18px"></x-import>
+      </div>
+    </sc-if>
+
+    <div style="display:flex;align-items:center;justify-content:{{ railJustify }};gap:10px;flex:none;border-top:1px solid #f2efe9;padding-top:14px">
+      <div style="position:relative;width:34px;height:34px;flex:none">
+        <span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#b4b0a7;pointer-events:none;z-index:0">
+          <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="user" size="16" stroke-width="1.8" hint-size="16px,16px"></x-import>
+        </span>
+        <x-import component-from-global-scope="image-slot" from="./image-slot.js" id="gt-activity-side-avatar" shape="circle" data-compact="" placeholder="" style="position:relative;z-index:1;width:34px;height:34px" hint-size="34px,34px"></x-import>
+      </div>
+      <span style="flex:{{ railLabelFlex }};min-width:0;overflow:hidden;opacity:{{ railLabelOp }};transition:opacity .2s">
+        <span style="display:block;font-size:13px;font-weight:600;color:#1a1a18;white-space:nowrap">John Doe</span>
+        <span style="display:block;font-size:11.5px;color:#a8a49b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">john.doe@gymgoer.com</span>
+      </span>
+      <sc-if value="{{ railExpanded }}" hint-placeholder-val="{{ true }}">
+        <span style="color:#b4b0a7;display:flex">
+          <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="chevrons-up-down" size="14" hint-size="14px,14px"></x-import>
+        </span>
+      </sc-if>
+    </div>
+  </aside>
+  </div>
+
+  <main style="min-width:0;display:flex;flex-direction:column">
+    <div style="display:flex;align-items:center;gap:14px;padding:18px 32px 0;font-size:12.5px;color:#a8a49b">
+      <div style="display:flex;align-items:center;gap:7px;min-width:0">
+        <span>Training</span>
+        <span style="color:#d2cec6">/</span>
+        <span style="color:#4a4740;font-weight:600">Activity &amp; cardio</span>
+      </div>
+      <div style="flex:1"></div>
+      <div style="display:flex;align-items:center;gap:14px;font-size:12.5px;color:#8a867e">
+        <span style="display:inline-flex;align-items:center;gap:6px;color:var(--accent-deep);font-weight:600;cursor:pointer" style-hover="opacity:.75">
+          <span style="width:5px;height:5px;border-radius:50%;background:var(--accent)"></span>
+          Free plan
+        </span>
+        <span style="width:1px;height:12px;background:#e4e1da"></span>
+        <span style="cursor:pointer" style-hover="color:#1a1a18">Contact</span>
+        <span style="cursor:pointer" style-hover="color:#1a1a18">About us</span>
+        <span style="display:inline-flex;align-items:center;gap:5px;cursor:pointer" style-hover="color:#1a1a18">
+          <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="globe" size="14" stroke-width="1.8" hint-size="14px,14px"></x-import>
+          EN
+        </span>
+      </div>
+    </div>
+
+    <div style="padding:14px 32px 40px;display:flex;flex-direction:column;gap:22px">
+
+      <header style="display:flex;align-items:flex-end;gap:24px;animation:riseIn .42s cubic-bezier(.23,1,.32,1) 0ms both">
+        <div style="flex:1;min-width:0">
+          <h1 style="margin:0;font-family:'Outfit',sans-serif;font-size:30px;font-weight:600;letter-spacing:-.035em">Activity &amp; cardio</h1>
+          <p style="margin:5px 0 0;font-size:13.5px;color:#8a867e">Steps, cardio sessions and heart-rate zones — one log, three views.</p>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px">
+          <div style="display:flex;align-items:center;gap:8px;background:#fff;border:1px solid #eae6df;border-radius:11px;padding:10px 14px;font-size:13px;font-weight:600;color:#1a1a18;cursor:pointer;transition:background .14s,border-color .14s" style-hover="background:#f7f5f1;border-color:#d8d2c6">
+            <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="calendar-days" size="15" stroke-width="1.9" hint-size="15px,15px"></x-import>
+            Select date
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;background:#fff;border:1px solid #eae6df;border-radius:11px;padding:10px 14px;font-size:13px;font-weight:600;color:#1a1a18;cursor:pointer;transition:background .14s,border-color .14s" style-hover="background:#f7f5f1;border-color:#d8d2c6">
+            <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="smartphone" size="15" stroke-width="1.9" hint-size="15px,15px"></x-import>
+            Sync from phone
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;background:var(--accent);color:#fff;border-radius:11px;padding:10px 15px;font-size:13px;font-weight:600;cursor:pointer;box-shadow:0 6px 16px -8px rgba(0,0,0,.35);transition:transform .14s" style-hover="transform:translateY(-1px)">
+            <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="plus" size="15" stroke-width="1.9" hint-size="15px,15px"></x-import>
+            Add steps
+          </div>
+        </div>
+      </header>
+
+      <div style="display:flex;gap:26px;border-bottom:1px solid #eae6df">
+        <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="3">
+          <div onClick="{{ t.pick }}" style="display:flex;align-items:center;gap:8px;padding:0 2px 12px;font-size:13.5px;font-weight:{{ t.weight }};color:{{ t.fg }};border-bottom:2px solid {{ t.border }};margin-bottom:-1px;cursor:pointer;transition:color .14s">
+            <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="{{ t.icon }}" size="15" stroke-width="1.9" hint-size="15px,15px"></x-import>
+            {{ t.name }}
+            <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#b4b0a7">{{ t.count }}</span>
+          </div>
+        </sc-for>
+      </div>
+
+      <sc-if value="{{ isSteps }}" hint-placeholder-val="{{ true }}">
+        <div style="display:flex;flex-direction:column;gap:22px">
+
+          <section style="display:grid;grid-template-columns:minmax(0,1.02fr) minmax(0,1fr);gap:20px;animation:riseIn .42s cubic-bezier(.23,1,.32,1) 110ms both">
+            <div style="position:relative;isolation:isolate;overflow:hidden;background:#17161c;border-radius:22px;padding:22px 24px;color:#fff;display:grid;grid-template-columns:minmax(0,1fr) 188px;gap:22px">
+              <span style="position:absolute;top:-110px;left:110px;width:340px;height:280px;pointer-events:none;z-index:-1;background:radial-gradient(circle at 50% 50%,var(--glow),transparent 70%);animation:glowBreath 6s ease-in-out infinite"></span>
+              <div style="min-width:0;display:flex;flex-direction:column">
+                <div style="font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#8a867e">Today · Tuesday 4 Aug</div>
+                <div style="display:flex;align-items:baseline;gap:8px;margin-top:10px">
+                  <span style="font-family:'Outfit',sans-serif;font-variant-numeric:tabular-nums;font-size:56px;font-weight:600;letter-spacing:-.045em;line-height:1;color:#fff">{{ heroSteps }}</span>
+                  <span style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#a8a49b">steps</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:10px;margin-top:12px">
+                  <span style="display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:600;color:#e0a83a;background:rgba(224,168,58,.16);padding:5px 9px;border-radius:8px">
+                    <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="trending-down" size="13" hint-size="13px,13px"></x-import>
+                    0.9% vs yesterday
+                  </span>
+                  <span style="font-size:12px;color:#8a867e">1 580 short of 10 000</span>
+                </div>
+                <div style="margin-top:auto;padding-top:20px">
+                  <div style="height:8px;border-radius:99px;background:rgba(255,255,255,.10);overflow:hidden">
+                    <i style="display:block;height:100%;width:84%;border-radius:99px;background:var(--accent)"></i>
+                  </div>
+                  <div style="display:flex;align-items:baseline;gap:10px;margin-top:11px">
+                    <span style="font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#d8d4cc">84% of daily goal</span>
+                    <span style="flex:1"></span>
+                    <sc-for list="{{ todayFacts }}" as="f" hint-placeholder-count="3">
+                      <span style="display:inline-flex;align-items:baseline;gap:5px;white-space:nowrap">
+                        <span style="font-family:'Outfit',sans-serif;font-variant-numeric:tabular-nums;font-size:15px;font-weight:600;letter-spacing:-.02em">{{ f.value }}</span>
+                        <span style="font-size:11px;color:#8a867e">{{ f.label }}</span>
+                      </span>
+                    </sc-for>
+                  </div>
+                </div>
+              </div>
+              <div style="border-radius:16px;overflow:hidden;background:rgba(255,255,255,.04);min-height:196px">
+                <x-import component-from-global-scope="image-slot" from="./image-slot.js" id="gt-activity-hero" shape="rounded" radius="16" placeholder="Walking photo — city pavement, cool daylight" style="width:100%;height:100%" hint-size="188px,196px"></x-import>
+              </div>
+            </div>
+
+            <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px">
+              <sc-for list="{{ kpis }}" as="k" hint-placeholder-count="4">
+                <div style="position:relative;isolation:isolate;overflow:hidden;background:#fff;border:1px solid #eae6df;border-radius:18px;padding:15px 16px;display:flex;flex-direction:column;animation:{{ k.anim }}">
+                  <span style="position:absolute;{{ k.glowPos }};width:200px;height:170px;pointer-events:none;z-index:-1;background:radial-gradient(circle at 50% 50%,{{ k.glow }},transparent 70%)"></span>
+                  <div style="display:flex;align-items:center;gap:9px">
+                    <span style="width:28px;height:28px;flex:none;border-radius:9px;background:{{ k.tint }};color:{{ k.fg }};display:flex;align-items:center;justify-content:center">
+                      <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="{{ k.icon }}" size="14" stroke-width="1.9" hint-size="14px,14px"></x-import>
+                    </span>
+                    <span style="flex:1;min-width:0;font-size:11.5px;font-weight:600;color:#4a4740;line-height:1.25">{{ k.label }}</span>
+                  </div>
+                  <div style="display:flex;align-items:baseline;gap:5px;margin-top:12px">
+                    <span style="font-family:'Outfit',sans-serif;font-variant-numeric:tabular-nums;font-size:25px;font-weight:600;letter-spacing:-.04em;line-height:1;color:{{ k.valueFg }}">{{ k.value }}</span>
+                    <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;color:#a8a49b">{{ k.unit }}</span>
+                  </div>
+                  <div style="font-size:11px;color:#a8a49b;margin-top:auto;padding-top:9px">{{ k.range }}</div>
+                </div>
+              </sc-for>
+            </div>
+          </section>
+
+          <section style="display:grid;grid-template-columns:minmax(0,1.42fr) minmax(0,1fr);gap:20px;animation:riseIn .42s cubic-bezier(.23,1,.32,1) 230ms both">
+            <div style="position:relative;isolation:isolate;overflow:hidden;background:#fff;border:1px solid #eae6df;border-radius:20px;padding:20px 22px 16px">
+              <span style="position:absolute;top:-85px;right:-60px;width:250px;height:215px;pointer-events:none;z-index:-1;background:radial-gradient(circle at 50% 50%,var(--glow-soft),transparent 70%)"></span>
+              <div style="display:flex;align-items:flex-start;gap:14px">
+                <div style="flex:1;min-width:0">
+                  <div style="font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#a8a49b">Daily steps</div>
+                  <h3 style="margin:6px 0 0;font-family:'Outfit',sans-serif;font-size:18px;font-weight:600;letter-spacing:-.03em">14 days against your 10 000 line</h3>
+                </div>
+                <div style="display:flex;align-items:center;gap:8px;background:#f7f5f1;border-radius:10px;padding:8px 12px;font-size:12.5px;font-weight:600;color:#4a4740;cursor:pointer">
+                  <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="calendar-days" size="14" hint-size="14px,14px"></x-import>
+                  22 Jul – 4 Aug
+                  <span style="color:#b4b0a7;display:flex">
+                    <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="chevron-down" size="13" hint-size="13px,13px"></x-import>
+                  </span>
+                </div>
+              </div>
+
+              <div style="display:flex;align-items:flex-end;gap:12px;height:216px;margin-top:20px">
+                <div style="display:flex;flex-direction:column;justify-content:space-between;height:100%;padding-bottom:24px;font-family:'JetBrains Mono',monospace;font-size:10.5px;color:#b4b0a7">
+                  <span>18k</span><span>13.5k</span><span>9k</span><span>4.5k</span><span>0</span>
+                </div>
+                <div style="flex:1;min-width:0;height:100%;position:relative">
+                  <div style="position:absolute;left:0;right:0;top:calc((100% - 24px) * (1 - 10000/18000));border-top:2px dashed #cfd9ea"></div>
+                  <div style="position:absolute;right:0;top:calc((100% - 24px) * (1 - 10000/18000) - 20px);font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:600;color:var(--accent-deep);background:var(--accent-tint);border-radius:6px;padding:3px 7px">Goal 10 000</div>
+                  <div style="position:absolute;left:0;right:0;top:calc((100% - 24px) * (1 - 11024/18000));border-top:1.5px dashed #e0a83a"></div>
+                  <div style="display:flex;align-items:flex-end;gap:9px;height:100%">
+                    <sc-for list="{{ dailyBars }}" as="b" hint-placeholder-count="14">
+                      <div onMouseEnter="{{ b.enter }}" onMouseLeave="{{ leave }}" style="flex:1;min-width:0;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:7px;cursor:crosshair;position:relative">
+                        <sc-if value="{{ b.on }}" hint-placeholder-val="{{ false }}">
+                          <div style="position:absolute;bottom:calc(100% - 18px);left:50%;transform:translate(-50%,0);background:#1a1a18;color:#fff;border-radius:10px;padding:8px 11px;white-space:nowrap;z-index:5;box-shadow:0 12px 26px -14px rgba(0,0,0,.55)">
+                            <div style="font-size:10.5px;color:#a8a49b">{{ b.label }}</div>
+                            <div style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;margin-top:2px">{{ b.tip }}</div>
+                          </div>
+                        </sc-if>
+                        <i style="width:100%;max-width:26px;border-radius:7px 7px 0 0;background:{{ b.fill }};height:{{ b.h }}%;transition:height .55s cubic-bezier(.2,0,0,1),background .14s"></i>
+                        <span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#b4b0a7">{{ b.tick }}</span>
+                      </div>
+                    </sc-for>
+                  </div>
+                </div>
+              </div>
+
+              <div style="display:flex;justify-content:center;gap:22px;margin-top:12px;padding-top:12px;border-top:1px solid #f2efe9">
+                <sc-for list="{{ dailyLegend }}" as="l" hint-placeholder-count="4">
+                  <div style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:#8a867e">
+                    <i style="width:16px;height:3px;border-radius:2px;background:{{ l.color }}"></i>{{ l.name }}
+                  </div>
+                </sc-for>
+              </div>
+
+              <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:14px;padding-top:14px;border-top:1px solid #f2efe9">
+                <sc-for list="{{ rangeFacts }}" as="f" hint-placeholder-count="4">
+                  <div style="background:#f7f5f1;border-radius:13px;padding:12px 13px">
+                    <div style="display:flex;align-items:center;gap:6px;font-size:10.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#a8a49b">
+                      <span style="color:{{ f.color }};display:flex">
+                        <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="{{ f.icon }}" size="13" hint-size="13px,13px"></x-import>
+                      </span>
+                      {{ f.label }}
+                    </div>
+                    <div style="display:flex;align-items:baseline;gap:5px;margin-top:5px">
+                      <span style="font-family:'Outfit',sans-serif;font-variant-numeric:tabular-nums;font-size:18px;font-weight:600;letter-spacing:-.03em">{{ f.value }}</span>
+                      <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;color:#a8a49b">{{ f.unit }}</span>
+                    </div>
+                    <div style="font-size:11px;color:#a8a49b;margin-top:5px">{{ f.note }}</div>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+
+            <div style="background:#fff;border:1px solid #eae6df;border-radius:20px;padding:20px 22px;display:flex;flex-direction:column">
+              <div style="display:flex;align-items:flex-start;gap:14px">
+                <div style="flex:1;min-width:0">
+                  <div style="font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#a8a49b">Steps list</div>
+                  <h3 style="margin:6px 0 0;font-family:'Outfit',sans-serif;font-size:18px;font-weight:600;letter-spacing:-.03em">Logged days</h3>
+                </div>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr auto auto;gap:0 14px;margin-top:16px">
+                <sc-for list="{{ listHead }}" as="h" hint-placeholder-count="3">
+                  <div style="display:flex;align-items:center;gap:5px;justify-content:{{ h.justify }};font-size:10.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#b4b0a7;padding-bottom:9px;border-bottom:1px solid #f2efe9">
+                    {{ h.name }}
+                    <sc-if value="{{ h.sortable }}" hint-placeholder-val="{{ false }}">
+                      <span style="color:#c4bfb4;display:flex">
+                        <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="chevrons-up-down" size="12" hint-size="12px,12px"></x-import>
+                      </span>
+                    </sc-if>
+                  </div>
+                </sc-for>
+                <sc-for list="{{ listRows }}" as="r" hint-placeholder-count="18">
+                  <div style="display:flex;align-items:center;gap:8px;justify-content:{{ r.justify }};padding:11px 0;border-bottom:1px solid #f7f5f1">
+                    <sc-if value="{{ r.isDate }}" hint-placeholder-val="{{ false }}">
+                      <span style="width:6px;height:6px;border-radius:50%;background:{{ r.dot }};flex:none"></span>
+                    </sc-if>
+                    <sc-if value="{{ r.isActions }}" hint-placeholder-val="{{ false }}">
+                      <span style="display:flex;gap:6px">
+                        <span style="width:28px;height:28px;border-radius:9px;border:1px solid #eae6df;color:#4a4740;display:flex;align-items:center;justify-content:center;cursor:pointer" style-hover="background:#f7f5f1">
+                          <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="pencil" size="13" hint-size="13px,13px"></x-import>
+                        </span>
+                        <span style="width:28px;height:28px;border-radius:9px;border:1px solid #eae6df;color:#c0432f;display:flex;align-items:center;justify-content:center;cursor:pointer" style-hover="background:#fdeeeb">
+                          <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="trash-2" size="13" hint-size="13px,13px"></x-import>
+                        </span>
+                      </span>
+                    </sc-if>
+                    <sc-if value="{{ r.text }}" hint-placeholder-val="{{ true }}">
+                      <span style="font-family:{{ r.font }};font-variant-numeric:tabular-nums;font-size:{{ r.size }};font-weight:{{ r.weight }};color:{{ r.fg }}">{{ r.text }}</span>
+                    </sc-if>
+                  </div>
+                </sc-for>
+              </div>
+              <div style="display:flex;align-items:center;gap:10px;margin-top:auto;padding-top:16px">
+                <div style="display:flex;align-items:center;gap:7px;border:1px solid #eae6df;border-radius:10px;padding:8px 12px;font-size:12.5px;font-weight:600;color:#8a867e;cursor:pointer">
+                  <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="chevron-left" size="14" hint-size="14px,14px"></x-import>
+                  Prev
+                </div>
+                <span style="flex:1;text-align:center;font-family:'JetBrains Mono',monospace;font-size:12px;color:#8a867e">Page 1 of 4</span>
+                <div style="display:flex;align-items:center;gap:7px;border:1px solid #eae6df;border-radius:10px;padding:8px 12px;font-size:12.5px;font-weight:600;color:#1a1a18;cursor:pointer" style-hover="background:#f7f5f1">
+                  Next
+                  <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="chevron-right" size="14" hint-size="14px,14px"></x-import>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;animation:riseIn .42s cubic-bezier(.23,1,.32,1) 340ms both">
+            <div style="background:#fff;border:1px solid #eae6df;border-radius:20px;padding:20px 22px">
+              <div style="display:flex;align-items:flex-end;gap:14px">
+                <div style="flex:1;min-width:0">
+                  <div style="font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#a8a49b">Steps per week</div>
+                  <h3 style="margin:6px 0 0;font-family:'Outfit',sans-serif;font-size:18px;font-weight:600;letter-spacing:-.03em">Week 32 is your best yet</h3>
+                </div>
+                <span style="font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#1a8f5a;background:#e8f4ee;padding:5px 9px;border-radius:8px">+6% vs W31</span>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:12px;margin-top:18px">
+                <sc-for list="{{ weekBars }}" as="w" hint-placeholder-count="5">
+                  <div style="display:flex;align-items:center;gap:12px">
+                    <span style="width:58px;font-size:12px;font-weight:600;color:{{ w.labelFg }}">{{ w.label }}</span>
+                    <span style="flex:1;min-width:0;height:24px;border-radius:8px;background:#f7f5f1;overflow:hidden;position:relative">
+                      <i style="display:block;height:100%;border-radius:8px;background:{{ w.fill }};width:{{ w.pct }}%;transition:width .55s cubic-bezier(.2,0,0,1)"></i>
+                    </span>
+                    <span style="font-family:'JetBrains Mono',monospace;font-variant-numeric:tabular-nums;font-size:12px;font-weight:600;color:#1a1a18;width:58px;text-align:right">{{ w.value }}</span>
+                    <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:{{ w.deltaFg }};width:44px;text-align:right">{{ w.delta }}</span>
+                  </div>
+                </sc-for>
+              </div>
+              <div style="display:flex;align-items:center;gap:16px;margin-top:16px;padding-top:14px;border-top:1px solid #f2efe9">
+                <sc-for list="{{ weekFacts }}" as="f" hint-placeholder-count="3">
+                  <div>
+                    <div style="font-size:10.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#a8a49b">{{ f.label }}</div>
+                    <div style="font-family:'Outfit',sans-serif;font-variant-numeric:tabular-nums;font-size:17px;font-weight:600;letter-spacing:-.03em;margin-top:3px">{{ f.value }}</div>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+
+            <div style="position:relative;isolation:isolate;overflow:hidden;background:#fff;border:1px solid #eae6df;border-radius:20px;padding:20px 22px">
+              <span style="position:absolute;bottom:-90px;left:-60px;width:240px;height:200px;pointer-events:none;z-index:-1;background:radial-gradient(circle at 50% 50%,rgba(224,168,58,.14),transparent 70%)"></span>
+              <div style="display:flex;align-items:flex-end;gap:14px">
+                <div style="flex:1;min-width:0">
+                  <div style="font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#a8a49b">Steps per month</div>
+                  <h3 style="margin:6px 0 0;font-family:'Outfit',sans-serif;font-size:18px;font-weight:600;letter-spacing:-.03em">July was the busiest</h3>
+                </div>
+                <div style="display:flex;align-items:baseline;gap:6px">
+                  <span style="font-family:'Outfit',sans-serif;font-variant-numeric:tabular-nums;font-size:24px;font-weight:600;letter-spacing:-.035em">332k</span>
+                  <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#a8a49b">steps in Jul</span>
+                </div>
+              </div>
+              <div style="display:flex;align-items:flex-end;gap:14px;height:172px;margin-top:20px">
+                <sc-for list="{{ monthBars }}" as="m" hint-placeholder-count="6">
+                  <div style="flex:1;min-width:0;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:8px">
+                    <span style="font-family:'JetBrains Mono',monospace;font-variant-numeric:tabular-nums;font-size:11px;color:{{ m.valueFg }}">{{ m.value }}</span>
+                    <i style="width:100%;border-radius:9px 9px 0 0;background:{{ m.fill }};height:{{ m.h }}%;transition:height .55s cubic-bezier(.2,0,0,1)"></i>
+                    <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;color:#b4b0a7">{{ m.label }}</span>
+                  </div>
+                </sc-for>
+              </div>
+              <div style="display:flex;align-items:center;gap:10px;margin-top:14px;padding-top:14px;border-top:1px solid #f2efe9;font-size:12px;color:#8a867e">
+                <span style="color:#c98a1e;display:flex">
+                  <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="triangle-alert" size="14" hint-size="14px,14px"></x-import>
+                </span>
+                August is 4 days in — the bar fills as you log.
+              </div>
+            </div>
+          </section>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isCardio }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;flex-direction:column;gap:20px">
+          <section style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;animation:riseIn .42s cubic-bezier(.23,1,.32,1) 110ms both">
+            <sc-for list="{{ cardioKpis }}" as="k" hint-placeholder-count="4">
+              <div style="background:#fff;border:1px solid #eae6df;border-radius:18px;padding:15px 16px">
+                <div style="display:flex;align-items:center;gap:9px">
+                  <span style="width:28px;height:28px;flex:none;border-radius:9px;background:{{ k.tint }};color:{{ k.fg }};display:flex;align-items:center;justify-content:center">
+                    <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="{{ k.icon }}" size="14" stroke-width="1.9" hint-size="14px,14px"></x-import>
+                  </span>
+                  <span style="flex:1;min-width:0;font-size:11.5px;font-weight:600;color:#4a4740">{{ k.label }}</span>
+                </div>
+                <div style="display:flex;align-items:baseline;gap:5px;margin-top:12px">
+                  <span style="font-family:'Outfit',sans-serif;font-variant-numeric:tabular-nums;font-size:25px;font-weight:600;letter-spacing:-.04em;line-height:1">{{ k.value }}</span>
+                  <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;color:#a8a49b">{{ k.unit }}</span>
+                </div>
+                <div style="font-size:11px;color:#a8a49b;margin-top:9px">{{ k.range }}</div>
+              </div>
+            </sc-for>
+          </section>
+
+          <section style="background:#fff;border:1px solid #eae6df;border-radius:20px;padding:20px 22px;animation:riseIn .42s cubic-bezier(.23,1,.32,1) 230ms both">
+            <div style="display:flex;align-items:flex-end;gap:14px">
+              <div style="flex:1;min-width:0">
+                <div style="font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#a8a49b">Cardio sessions</div>
+                <h3 style="margin:6px 0 0;font-family:'Outfit',sans-serif;font-size:18px;font-weight:600;letter-spacing:-.03em">Last five sessions</h3>
+              </div>
+              <div style="display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:600;color:var(--accent-deep);cursor:pointer">
+                <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="plus" size="15" stroke-width="1.9" hint-size="15px,15px"></x-import>
+                Log session
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:10px;margin-top:16px">
+              <sc-for list="{{ sessions }}" as="s" hint-placeholder-count="5">
+                <div style="display:grid;grid-template-columns:72px minmax(0,1.1fr) repeat(4,minmax(0,.7fr)) 90px;align-items:center;gap:14px;background:#f7f5f1;border-radius:14px;padding:12px 14px;cursor:pointer;transition:background .14s" style-hover="background:#f2efe9">
+                  <div style="width:72px;height:56px;border-radius:12px;overflow:hidden;background:#eae6df">
+                    <x-import component-from-global-scope="image-slot" from="./image-slot.js" id="{{ s.photoId }}" shape="rounded" radius="12" data-compact="" placeholder="" style="width:100%;height:100%" hint-size="72px,56px"></x-import>
+                  </div>
+                  <div style="min-width:0">
+                    <div style="font-size:13px;font-weight:600">{{ s.type }}</div>
+                    <div style="font-size:11.5px;color:#a8a49b;margin-top:1px">{{ s.date }}</div>
+                  </div>
+                  <sc-for list="{{ s.metrics }}" as="m" hint-placeholder-count="4">
+                    <div>
+                      <div style="font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#a8a49b">{{ m.label }}</div>
+                      <div style="display:flex;align-items:baseline;gap:4px;margin-top:3px">
+                        <span style="font-family:'Outfit',sans-serif;font-variant-numeric:tabular-nums;font-size:16px;font-weight:600;letter-spacing:-.03em">{{ m.value }}</span>
+                        <span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#a8a49b">{{ m.unit }}</span>
+                      </div>
+                    </div>
+                  </sc-for>
+                  <div style="text-align:right">
+                    <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Badge" tone="{{ s.tone }}" hint-size="auto,22px">{{ s.zone }}</x-import>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+          </section>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isZones }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;flex-direction:column;gap:18px">
+
+        <div style="display:flex;align-items:flex-end;gap:24px;animation:riseIn .42s cubic-bezier(.23,1,.32,1) 40ms both">
+          <div style="flex:1;min-width:0">
+            <h3 style="margin:0;font-family:'Outfit',sans-serif;font-size:19px;font-weight:600;letter-spacing:-.03em">Heart rate zones</h3>
+            <div style="font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#a8a49b;margin-top:4px">Zone explorer</div>
+          </div>
+          <div style="display:flex;align-items:flex-end;gap:34px">
+            <div style="text-align:right">
+              <div style="font-size:9.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#a8a49b">User age</div>
+              <div style="font-family:'Outfit',sans-serif;font-variant-numeric:tabular-nums;font-size:24px;font-weight:600;letter-spacing:-.035em;margin-top:3px">{{ userAge }}</div>
+            </div>
+            <div style="text-align:right">
+              <div style="font-size:9.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#a8a49b">Calculated max HR</div>
+              <div style="display:flex;align-items:baseline;justify-content:flex-end;gap:5px;margin-top:3px">
+                <span style="font-family:'Outfit',sans-serif;font-variant-numeric:tabular-nums;font-size:24px;font-weight:600;letter-spacing:-.035em">{{ maxHr }}</span>
+                <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#a8a49b">bpm</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div onMouseLeave="{{ zoneReset }}" style="display:flex;border:1px solid #eae6df;border-radius:20px;overflow:hidden;min-height:492px;animation:riseIn .42s cubic-bezier(.23,1,.32,1) 130ms both">
+          <sc-for list="{{ zoneSlides }}" as="z" hint-placeholder-count="5">
+            <div onMouseEnter="{{ z.enter }}" onClick="{{ z.enter }}" style="flex:{{ z.flex }} 1 0;min-width:0;position:relative;isolation:isolate;overflow:hidden;background:{{ z.tint }};border-left:1px solid {{ z.edge }};cursor:pointer;transition:flex-grow .52s cubic-bezier(.23,1,.32,1),background .4s ease">
+
+              <sc-if value="{{ z.collapsed }}" hint-placeholder-val="{{ false }}">
+                <div style="display:flex;flex-direction:column;height:100%;padding:26px 22px 24px">
+                  <div style="flex:1"></div>
+                  <span style="color:#b4b0a7;display:flex">
+                    <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="{{ z.icon }}" size="19" stroke-width="1.9" hint-size="19px,19px"></x-import>
+                  </span>
+                  <div style="font-family:'Outfit',sans-serif;font-style:italic;font-size:20px;font-weight:700;letter-spacing:-.02em;color:#c4bfb4;margin-top:16px;white-space:nowrap">{{ z.title }}</div>
+                  <div style="font-size:9.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#b4b0a7;margin-top:8px;white-space:nowrap">{{ z.label }}</div>
+                  <div style="height:1px;background:{{ z.rule }};margin-top:18px"></div>
+                  <div style="flex:.3"></div>
+                  <div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:600;letter-spacing:.06em;color:#b4b0a7;white-space:nowrap">{{ z.floorBpm }}</div>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ z.open }}" hint-placeholder-val="{{ true }}">
+                <div style="display:flex;flex-direction:column;height:100%;padding:30px 36px 28px;animation:{{ z.anim }}">
+                  <div style="flex:1"></div>
+                  <div style="display:flex;align-items:center;gap:11px">
+                    <span style="color:#1a1a18;display:flex">
+                      <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="{{ z.icon }}" size="19" stroke-width="1.9" hint-size="19px,19px"></x-import>
+                    </span>
+                    <span style="font-size:9.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#8a867e">Substrate analysis active</span>
+                  </div>
+                  <div style="font-family:'Outfit',sans-serif;font-style:italic;font-size:46px;font-weight:700;letter-spacing:-.045em;line-height:1;color:#1a1a18;margin-top:14px">{{ z.title }}</div>
+                  <div style="font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:{{ z.ink }};margin-top:12px">{{ z.label }}</div>
+                  <div style="height:1px;background:{{ z.rule }};margin-top:26px"></div>
+                  <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;max-width:640px;margin-top:22px">
+                    <div>
+                      <div style="font-size:9.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#8a867e">Intensity</div>
+                      <div style="font-family:'Outfit',sans-serif;font-variant-numeric:tabular-nums;font-size:27px;font-weight:700;letter-spacing:-.04em;line-height:1;margin-top:7px">{{ z.intensity }}</div>
+                    </div>
+                    <div>
+                      <div style="font-size:9.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#8a867e">BPM range</div>
+                      <div style="font-family:'Outfit',sans-serif;font-variant-numeric:tabular-nums;font-size:27px;font-weight:700;letter-spacing:-.04em;line-height:1;margin-top:7px">{{ z.range }}</div>
+                    </div>
+                  </div>
+                  <p style="margin:20px 0 0;max-width:520px;height:46px;overflow:hidden;font-size:13.5px;line-height:1.55;color:#4a4740;text-wrap:pretty">{{ z.desc }}</p>
+                  <div style="flex:1.15"></div>
+                  <div style="display:flex;align-items:baseline;gap:14px">
+                    <span style="font-size:9.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#4a4740">Fat oxidation {{ z.fat }}%</span>
+                    <span style="flex:1"></span>
+                    <span style="font-size:9.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#4a4740">Glycogenolysis {{ z.carb }}%</span>
+                  </div>
+                  <div style="display:flex;height:6px;border-radius:99px;overflow:hidden;background:rgba(26,26,24,.06);margin-top:9px">
+                    <i style="height:100%;background:#1a8f5a;width:{{ z.fatW }}%;transition:width .7s cubic-bezier(.23,1,.32,1)"></i>
+                    <i style="height:100%;background:#e0a83a;width:{{ z.carbW }}%;transition:width .7s cubic-bezier(.23,1,.32,1)"></i>
+                  </div>
+                </div>
+              </sc-if>
+            </div>
+          </sc-for>
+        </div>
+
+        <div style="display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:20px;animation:riseIn .42s cubic-bezier(.23,1,.32,1) 230ms both">
+
+          <div style="background:#fff;border:1px solid #eae6df;border-radius:20px;padding:20px 22px;display:flex;flex-direction:column">
+            <div style="font-family:'Outfit',sans-serif;font-size:16px;font-weight:600;letter-spacing:-.025em">Metabolic fuel crossover</div>
+            <div style="font-size:12px;color:#8a867e;margin-top:4px">Showing {{ active.nick }} ({{ active.intensity }} intensity)</div>
+            <div style="position:relative;margin-top:18px">
+              <svg viewBox="0 0 1000 250" preserveAspectRatio="none" style="display:block;width:100%;height:212px">
+                <rect x="0" y="0" width="1000" height="230" fill="#faf9f6"></rect>
+                <sc-for list="{{ gridY }}" as="g" hint-placeholder-count="4">
+                  <line x1="0" y1="{{ g.y }}" x2="1000" y2="{{ g.y }}" stroke="#e4e1da" strokeWidth="1" strokeDasharray="3 5"></line>
+                </sc-for>
+                <sc-for list="{{ gridX }}" as="g" hint-placeholder-count="6">
+                  <line x1="{{ g.x }}" y1="0" x2="{{ g.x }}" y2="230" stroke="#e4e1da" strokeWidth="1" strokeDasharray="3 5"></line>
+                </sc-for>
+                <rect x="{{ band.x }}" y="0" width="{{ band.w }}" height="230" fill="{{ band.fill }}" style="transition:x .5s cubic-bezier(.23,1,.32,1),width .5s cubic-bezier(.23,1,.32,1),fill .4s ease"></rect>
+                <path d="{{ fatArea }}" fill="rgba(26,26,24,.07)"></path>
+                <path d="{{ carbArea }}" fill="rgba(26,26,24,.05)"></path>
+                <polyline points="{{ fatLine }}" fill="none" stroke="#1a8f5a" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" strokeDasharray="1200" strokeDashoffset="{{ drawOff }}"></polyline>
+                <polyline points="{{ carbLine }}" fill="none" stroke="#e0a83a" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" strokeDasharray="1200" strokeDashoffset="{{ drawOff }}"></polyline>
+              </svg>
+              <div style="display:flex;justify-content:space-between;margin-top:7px">
+                <sc-for list="{{ axisX }}" as="a" hint-placeholder-count="7">
+                  <span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#b4b0a7">{{ a }}</span>
+                </sc-for>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:center;gap:22px;margin-top:auto;padding-top:16px">
+              <span style="display:inline-flex;align-items:center;gap:8px;font-size:11.5px;color:#4a4740">
+                <i style="width:16px;height:2.5px;border-radius:2px;background:#1a8f5a"></i>Fat oxidation
+              </span>
+              <span style="display:inline-flex;align-items:center;gap:8px;font-size:11.5px;color:#4a4740">
+                <i style="width:16px;height:2.5px;border-radius:2px;background:#e0a83a"></i>Glycogen burn
+              </span>
+            </div>
+          </div>
+
+          <div style="position:relative;isolation:isolate;overflow:hidden;background:#fff;border:1px solid #eae6df;border-radius:20px;padding:20px 22px;display:flex;flex-direction:column">
+            <span style="position:absolute;top:-85px;right:-60px;width:250px;height:215px;pointer-events:none;z-index:-1;background:radial-gradient(circle at 50% 50%,var(--glow-soft),transparent 70%)"></span>
+            <div style="display:flex;align-items:center;gap:14px">
+              <span style="display:inline-flex;align-items:center;gap:9px;font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#4a4740">
+                <i style="width:7px;height:7px;border-radius:50%;background:{{ active.ink }};transition:background .4s ease"></i>Strategy pulse
+              </span>
+              <span style="flex:1"></span>
+              <span style="position:relative">
+                <span onClick="{{ togglePulse }}" style="display:inline-flex;align-items:center;gap:6px;font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#4a4740;background:#f7f5f1;border:1px solid #eae6df;border-radius:8px;padding:6px 9px;cursor:pointer;transition:background .14s,border-color .14s" style-hover="background:#f2efe9;border-color:#d8d2c6">
+                  {{ active.tag }}
+                  <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="chevron-down" size="12" stroke-width="2.2" hint-size="12px,12px"></x-import>
+                </span>
+                <sc-if value="{{ pulseOpen }}" hint-placeholder-val="{{ false }}">
+                  <span style="position:absolute;top:calc(100% + 6px);right:0;z-index:6;display:flex;flex-direction:column;min-width:150px;background:#fff;border:1px solid #eae6df;border-radius:12px;padding:5px;box-shadow:0 18px 40px -22px rgba(26,26,24,.45);animation:zoneFade .16s both">
+                    <sc-for list="{{ pulseCats }}" as="c" hint-placeholder-count="4">
+                      <span onClick="{{ c.pick }}" style="padding:8px 10px;border-radius:8px;font-size:11.5px;font-weight:600;color:{{ c.fg }};background:{{ c.bg }};white-space:nowrap;cursor:pointer;transition:background .14s" style-hover="background:#f2efe9">{{ c.name }}</span>
+                    </sc-for>
+                  </span>
+                </sc-if>
+              </span>
+            </div>
+            <div style="display:flex;align-items:center;gap:11px;margin-top:16px;animation:{{ active.anim }}">
+              <span style="width:30px;height:30px;flex:none;border-radius:10px;background:{{ active.tint }};color:{{ active.ink }};display:flex;align-items:center;justify-content:center">
+                <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="{{ active.nickIcon }}" size="15" stroke-width="1.9" hint-size="15px,15px"></x-import>
+              </span>
+              <div style="min-width:0">
+                <div style="font-family:'Outfit',sans-serif;font-style:italic;font-size:17px;font-weight:700;letter-spacing:-.025em;color:{{ active.ink }}">{{ active.nick }}</div>
+                <div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.06em;color:#a8a49b;margin-top:3px">{{ active.intensity }} max HR</div>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:14px;margin-top:20px;min-height:172px;animation:{{ active.anim }}">
+              <sc-for list="{{ active.protocol }}" as="p" hint-placeholder-count="3">
+                <div style="display:grid;grid-template-columns:34px minmax(0,1fr);gap:10px;align-items:start">
+                  <span style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;color:{{ p.fg }}">{{ p.num }}</span>
+                  <span style="font-size:12.5px;line-height:1.55;color:#4a4740;text-wrap:pretty">{{ p.text }}</span>
+                </div>
+              </sc-for>
+            </div>
+            <div style="display:flex;align-items:center;gap:14px;margin-top:auto;padding-top:20px;font-size:9.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#c4bfb4">
+              <span>Zone training protocol</span>
+              <span style="flex:1"></span>
+              <span>{{ active.footTag }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="background:#f7f5f1;border:1px solid #eae6df;border-radius:16px;padding:16px 20px;animation:riseIn .42s cubic-bezier(.23,1,.32,1) 330ms both">
+          <div style="font-size:12.5px;font-weight:600;color:#1a1a18">How fuel sources work</div>
+          <p style="margin:8px 0 0;font-size:12.5px;line-height:1.55;color:#4a4740;text-wrap:pretty">At lower intensities your body burns a higher percentage of fat. As intensity rises, glycogen becomes the primary fuel — but total calories per minute rise too, so higher zones still burn more overall even though a smaller share comes from fat.</p>
+          <p style="margin:6px 0 0;font-size:12px;line-height:1.55;color:#8a867e">Formula: max HR = 220 − age. Zones and fuel estimates are approximate and vary with fitness level, diet and training adaptation.</p>
+        </div>
+      </div>
+      </sc-if>
+
+      <footer style="display:flex;align-items:center;gap:18px;padding-top:8px;font-size:12px;color:#a8a49b;animation:riseIn .42s cubic-bezier(.23,1,.32,1) 430ms both">
+        <span>© 2026 Gym Tracker</span>
+        <div style="flex:1"></div>
+        <a href="#privacy">Privacy policy</a>
+        <a href="#terms">Terms of use</a>
+      </footer>
+    </div>
+  </main>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;accent&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#2A69C8&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;options&quot;:[&quot;#2A69C8&quot;,&quot;#1A8F5A&quot;,&quot;#1E1E1E&quot;],&quot;section&quot;:&quot;Theme&quot;},&quot;glow&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Theme&quot;},&quot;loadMs&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:300,&quot;min&quot;:0,&quot;max&quot;:2600,&quot;step&quot;:100,&quot;unit&quot;:&quot;ms&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Loading&quot;}}">
+class Component extends DCLogic {
+  state = { tab: 'Steps', hoverDay: -1, zone: 0, railCollapsed: false, railHover: null, loaded: true, now: 0 };
+
+  railItem(n, subActive){
+    const rc = this.state.railCollapsed, on = !!n.active;
+    return { name:n.name, icon:n.icon, go: () => GTNav.go(n.name),
+      enter: () => this.setState({ railHover: n.name }),
+      tip: rc && this.state.railHover === n.name,
+      bg: on ? 'var(--accent-tint)' : 'transparent',
+      fg: on ? 'var(--accent-deep)' : '#4a4740',
+      weight: on ? 600 : 500,
+      barH: on ? '20px' : '0px',
+      barOff: on ? '-10px' : '0px',
+      showSubs: !rc && !!n.subs && on,
+      subs: (n.subs || []).map(s => ({ name:s, go: () => GTNav.go(s),
+        weight: s === subActive ? 600 : 500,
+        fg: s === subActive ? 'var(--accent-deep)' : '#8a867e',
+        bg: s === subActive ? 'var(--accent-tint)' : 'transparent' })) };
+  }
+
+  railVals(){
+    const rc = this.state.railCollapsed;
+    return {
+      railW: rc ? '76px' : '248px',
+      railExpanded: !rc,
+      railCollapsed: rc,
+      railLabelOp: rc ? 0 : 1,
+      railLabelX: rc ? '-6px' : '0px',
+      railLabelFlex: rc ? '0 0 0px' : '1 1 auto',
+      railJustify: rc ? 'center' : 'flex-start',
+      railPadX: rc ? '0px' : '11px',
+      railChevRot: rc ? '180deg' : '0deg',
+      railToggleDisplay: rc ? 'none' : 'flex',
+      toggleRail: () => this.setState(s => ({ railCollapsed: !s.railCollapsed })),
+      railLeave: () => this.setState({ railHover: null })
+    };
+  }
+
+  componentDidMount(){ this.applyTheme(); this.waitForLucide(); GTAnim.boot(this); }
+  componentDidUpdate(prev){
+    if(prev.accent !== this.props.accent || prev.glow !== this.props.glow) this.applyTheme();
+  }
+  componentWillUnmount(){ if(this._t) clearInterval(this._t); GTAnim.stop(this); }
+
+  waitForLucide(){
+    const ok = () => typeof window !== 'undefined' && window.lucide && window.lucide.icons;
+    if(ok()) return;
+    this._t = setInterval(() => {
+      if(ok()){ clearInterval(this._t); this._t = null; this.forceUpdate(); }
+    }, 120);
+  }
+
+  applyTheme(){
+    const accent = this.props.accent ?? '#2A69C8';
+    const map = {
+      '#2A69C8': ['#1f56a8', '#eaf1fb', '42,105,200'],
+      '#1A8F5A': ['#146c44', '#e8f4ee', '26,143,90'],
+      '#1E1E1E': ['#000000', '#f0eeea', '30,30,30']
+    };
+    const [deep, tint, rgb] = map[accent.toUpperCase()] || map['#2A69C8'];
+    const on = this.props.glow ?? true;
+    const s = document.body.style;
+    s.setProperty('--accent', accent);
+    s.setProperty('--accent-deep', deep);
+    s.setProperty('--accent-tint', tint);
+    s.setProperty('--glow', on ? `rgba(${rgb},.20)` : 'transparent');
+    s.setProperty('--glow-soft', on ? `rgba(${rgb},.13)` : 'transparent');
+  }
+
+  anim(ms){ return GTAnim.anim(ms); }
+  prog(d, dur){ return GTAnim.prog(this, d, dur); }
+  roll(v, p){ return GTAnim.roll(v, p); }
+  reload(){ GTAnim.reload(this); }
+
+  zoneDefs(){
+    return [
+      { title:'Zone 01', label:'Aerobic base', icon:'circle-dashed', ink:'#2a69c8',
+        tint:'#f3f7fc', band:'rgba(42,105,200,.11)', intensity:'50–60%', range:'89–107',
+        lo:50, hi:60, floorBpm:'89 BPM', fat:85, carb:15,
+        desc:'Mitochondrial priming and sustained lipid oxidation for foundational endurance.',
+        nick:'Warm-up zone', nickIcon:'footprints', tag:'Recovery', footTag:'Zone 1 / recovery',
+        protocol:[
+          'Zone 1 is your recovery zone. After hard training days, 20–30 min of easy walking or cycling flushes metabolic waste and reduces soreness.',
+          'Keep heart rate strictly below 60% max. If you drift above, slow down — the goal is active blood flow, not extra training stimulus.',
+          'Pair zone 1 movement with breathing work: 4 count inhale, 6 count exhale. That drives the parasympathetic response and speeds recovery.'
+        ] },
+      { title:'Zone 02', label:'Lipid peak', icon:'circle-dot', ink:'#146c44',
+        tint:'#f2f8f4', band:'rgba(26,143,90,.11)', intensity:'60–70%', range:'107–125',
+        lo:60, hi:70, floorBpm:'107 BPM', fat:65, carb:35,
+        desc:'The metabolic sweet spot. Maximum fatty acid utilisation and base building.',
+        nick:'Fat burn zone', nickIcon:'flame', tag:'Weight loss', footTag:'Zone 2 / weight loss',
+        protocol:[
+          'This is the money zone for fat loss. At 60–70% max HR your body draws the highest share of energy directly from stored fat.',
+          'Build a base of 3–4 zone 2 sessions a week at 40–60 minutes each. Duration matters more than intensity for fat oxidation.',
+          'Keep it conversational — if you can talk in full sentences you are in range. Push harder and you shift to glycogen burning.'
+        ] },
+      { title:'Zone 03', label:'Transition', icon:'pie-chart', ink:'#8a5a0a',
+        tint:'#fdfaef', band:'rgba(224,168,58,.16)', intensity:'70–80%', range:'125–142',
+        lo:70, hi:80, floorBpm:'125 BPM', fat:45, carb:55,
+        desc:'Mixed fuel utilisation. Enhancing cardiovascular efficiency and volume.',
+        nick:'Cardio zone', nickIcon:'activity', tag:'Endurance', footTag:'Zone 3 / endurance',
+        protocol:[
+          'Zone 3 tempo work builds race-specific endurance. Hold the pace for progressively longer blocks — 20 min, then 30, then 40.',
+          'This zone teaches your body to clear lactate while still producing it — the equilibrium that defines sustainable race pace.',
+          'Once a week run a sweet-spot session: sustained zone 3 at 75% max HR for your target race duration, scaled down in training.'
+        ] },
+      { title:'Zone 04', label:'Threshold', icon:'gauge', ink:'#b03a28',
+        tint:'#fdf4ef', band:'rgba(224,83,61,.12)', intensity:'80–90%', range:'142–160',
+        lo:80, hi:90, floorBpm:'142 BPM', fat:20, carb:80,
+        desc:'High-intensity output. Glycogen becomes the primary driver for power.',
+        nick:'Peak zone', nickIcon:'rocket', tag:'Performance', footTag:'Zone 4 / performance',
+        protocol:[
+          'Zone 4 is where VO₂max adaptations happen. Intervals of 3–5 min at 85–90% HR with equal recovery drive maximum aerobic power.',
+          'Structure it as 4 × 4 min with 3 min active recovery — the Norwegian method used by world-class endurance athletes.',
+          'Heart rate should reach target inside the first 90 seconds of each interval. If it takes longer, the recovery is too short.'
+        ] },
+      { title:'Zone 05', label:'Neural max', icon:'zap', ink:'#a82f2f',
+        tint:'#fdf2f2', band:'rgba(214,69,69,.13)', intensity:'90–100%', range:'160–178',
+        lo:90, hi:100, floorBpm:'160 BPM', fat:5, carb:95,
+        desc:'Total anaerobic recruitment. Maximum effort for neurological adaptation.',
+        nick:'Red zone', nickIcon:'flame', tag:'Performance', footTag:'Zone 5 / performance',
+        protocol:[
+          'Zone 5 develops neuromuscular power and anaerobic capacity — the ability to surge, sprint and finish strong.',
+          'Use 15–30 second all-out efforts with 2–3 min full recovery. Quality over quantity: when power drops, the session is done.',
+          'Schedule zone 5 early in the week when you are freshest. Never stack it with zone 4 in one session — one stimulus per day.'
+        ] }
+    ];
+  }
+
+  zonePulses(){
+    return [
+      { 'Weight loss':[
+          'Use this zone for active recovery between intense sessions — walking burns more fat than sitting, and keeps your metabolism elevated.',
+          'Pair zone 1 sessions with fasted morning cardio to maximise fat oxidation while glycogen stores are already depleted overnight.',
+          'Aim for 30–45 min here on rest days. Low intensity preserves muscle mass while still contributing to your weekly caloric deficit.'],
+        'Performance':[
+          'Zone 1 is your foundation. 20% of weekly volume should sit here — active recovery between hard sessions accelerates adaptation.',
+          'Use zone 1 for dynamic warm-ups before intense sessions. Gradually elevating heart rate prevents injury and primes the cardiovascular system.',
+          'Track resting heart rate weekly. As aerobic fitness improves, resting HR drops and zone 1 gets easier — that is adaptation showing.'],
+        'Endurance':[
+          'Zone 1 walking or easy cycling for 45–60 min on rest days maintains aerobic conditioning without taxing your recovery systems.',
+          'Use zone 1 as the recovery portion of long training days. Sandwich harder efforts between zone 1 warm-up and cool-down segments.',
+          'In base-building phases zone 1 should feel almost too easy. That is the point — volume without accumulating fatigue.'],
+        'Recovery':[
+          'Zone 1 is your recovery zone. After hard training days, 20–30 min of easy walking or cycling flushes metabolic waste and reduces soreness.',
+          'Keep heart rate strictly below 60% max. If you drift above, slow down — the goal is active blood flow, not extra training stimulus.',
+          'Combine zone 1 movement with breathing work: 4 count inhale, 6 count exhale. That activates the parasympathetic response for faster recovery.'] },
+
+      { 'Weight loss':[
+          'This is the money zone for fat loss. At 60–70% max HR your body draws the highest percentage of energy directly from stored fat.',
+          'Build a base of 3–4 zone 2 sessions per week at 40–60 minutes each. Longer duration matters more than intensity for fat oxidation.',
+          'Keep sessions conversational — if you can talk in full sentences you are in range. Push harder and you shift to glycogen burning.'],
+        'Performance':[
+          'Build an aerobic engine: 60–70% of total weekly volume should be zone 2. This is the polarised training principle elite athletes use.',
+          'Zone 2 develops mitochondrial density — more cellular power plants mean greater capacity to produce energy at every intensity above it.',
+          'Long zone 2 sessions (60–90 min) teach your body to spare glycogen and burn fat efficiently, leaving more fuel for competition.'],
+        'Endurance':[
+          'Zone 2 is the endurance athlete\u2019s bread and butter. 80% of elite marathon and cycling volume lives in this zone.',
+          'The talk test is your best gauge: you should hold a full conversation. If you are breathless, you have drifted too high.',
+          'Extend zone 2 sessions by 10% each week. Progressive overload in duration beats increasing intensity for endurance.'],
+        'Recovery':[
+          'Zone 2 for recovery means the absolute lower end — 60–63% max HR. Use it for light 30 min sessions between high-intensity days.',
+          'Monitor heart rate variability alongside zone 2 sessions. If HRV is low, stay in zone 1 instead — your body needs deeper recovery.',
+          'Zone 2 recovery sessions maintain aerobic fitness through deload weeks without adding fatigue. Essential for periodisation.'] },
+
+      { 'Weight loss':[
+          'Zone 3 burns more total calories per minute than zone 2, even though the fat percentage is lower. Use it for efficient deficits.',
+          'Add 2 zone 3 sessions a week as intervals: 4 min at 75% HR, 2 min recovery. That triggers excess post-exercise oxygen consumption.',
+          'Metabolic elevation from zone 3 means you keep burning calories for hours after the session ends — the afterburn effect.'],
+        'Performance':[
+          'Zone 3 raises sustainable power output. Tempo blocks at 75% HR train the body to hold higher intensities before fatigue sets in.',
+          'Add 2 zone 3 sessions a week as intervals: 4 min at 75% HR, 2 min recovery, building toward continuous 20 min efforts.',
+          'Watch total load — zone 3 sits in the middle ground that costs recovery. Keep it purposeful rather than a default pace.'],
+        'Endurance':[
+          'Zone 3 tempo runs build race-specific endurance. Hold the pace for progressively longer blocks — 20 min, then 30, then 40.',
+          'This zone teaches your body to clear lactate while still producing it — the equilibrium that defines sustainable race pace.',
+          'Once a week run a sweet-spot session: sustained zone 3 at 75% max HR for your target race duration, scaled down in training.'],
+        'Recovery':[
+          'During recovery phases zone 3 is best avoided. It generates significant fatigue relative to its recovery benefit.',
+          'If you drift into zone 3 during a recovery session you are going too hard. Walk it back to zone 1–2.',
+          'The exception: one short zone 3 session a week keeps neural pathways active and prevents complete detraining.'] },
+
+      { 'Weight loss':[
+          'Short zone 4 bursts of 30–60 seconds inside interval work spike metabolic rate far beyond what steady-state cardio achieves.',
+          'Limit it to 1–2 sessions a week. High intensity with adequate recovery creates the hormonal environment optimal for fat loss.',
+          'Pair zone 4 intervals with zone 2 recovery: 30s hard, 90s easy. 8–10 rounds beats 45 min of moderate cardio for fat-loss stimulus.'],
+        'Performance':[
+          'Zone 4 is where VO₂max adaptations happen. Intervals of 3–5 min at 85–90% HR with equal recovery drive maximum aerobic power.',
+          'Structure it as 4 × 4 min with 3 min active recovery — the Norwegian method used by world-class endurance athletes.',
+          'Heart rate should reach target inside the first 90 seconds of each interval. If it takes longer, the recovery is too short.'],
+        'Endurance':[
+          'Even endurance athletes need zone 4. One VO₂max session a week raises the ceiling of your aerobic system.',
+          'Try cruise intervals: 8–10 min at 85% HR with 2 min recovery, 3–4 sets. Longer intervals build sustainable power at threshold.',
+          'Zone 4 should feel hard but controlled. If you are gasping, back off 5 bpm — sustainable intensity yields better adaptations.'],
+        'Recovery':[
+          'Zone 4 has no place in a recovery protocol. Even one session during a recovery week can delay adaptation from previous training.',
+          'If you are recovering from overtraining, avoid zone 4 entirely for 2–3 weeks and rebuild through zone 1 and 2 only.',
+          'Spend the time you would give zone 4 on mobility, foam rolling and sleep — those accelerate recovery far more.'] },
+
+      { 'Weight loss':[
+          'Zone 5 is an EPOC machine — maximum intensity creates the highest afterburn, keeping metabolism elevated for 24–48 hours.',
+          'Use it sparingly: 10–15 second all-out efforts with full recovery between. Think sprint intervals, not sustained suffering.',
+          'Once a week at most. Recovery is non-negotiable here — skimping on it sabotages fat loss by chronically spiking cortisol.'],
+        'Performance':[
+          'Zone 5 develops neuromuscular power and anaerobic capacity — the ability to surge, sprint and finish strong.',
+          'Use 15–30 second all-out efforts with 2–3 min full recovery. Quality over quantity: when power drops, the session is done.',
+          'Schedule zone 5 early in the week when you are freshest. Never stack it with zone 4 in one session — one stimulus per day.'],
+        'Endurance':[
+          'Zone 5 for endurance athletes is about finishing kicks and surge capacity — short 10–20 second accelerations inside longer runs.',
+          'Add strides: 6–8 × 20 second accelerations to 95% effort at the end of easy runs. Builds speed without heavy fatigue.',
+          'Use it sparingly — once every 10–14 days is enough. Your primary gains come from zone 2 volume, not zone 5 intensity.'],
+        'Recovery':[
+          'Zone 5 during recovery is counterproductive. Maximum intensity creates maximum recovery demand — the opposite of the goal.',
+          'Instead of zone 5 sprints, try cold exposure. Studies show similar hormonal benefits without the muscular damage.',
+          'Plan the next zone 5 session for when HRV returns to baseline and resting heart rate normalises. Those are your green lights.'] }
+    ];
+  }
+
+  fuelCurve(CX){
+    const fat = [88,85,82,78,73,66,56,44,33,24,17,12,8];
+    const Y = v => (225 - (v / 100) * 205).toFixed(1);
+    const pts = fat.map((v, i) => [CX(40 + i * 5).toFixed(1), Y(v)]);
+    const cpts = fat.map((v, i) => [CX(40 + i * 5).toFixed(1), Y(100 - v)]);
+    const join = a => a.map(p => p[0] + ',' + p[1]).join(' ');
+    const area = a => 'M' + a[0][0] + ',' + a[0][1] + ' L' + a.slice(1).map(p => p[0] + ',' + p[1]).join(' L') +
+      ' L' + a[a.length - 1][0] + ',230 L' + a[0][0] + ',230 Z';
+    return { fatLine: join(pts), carbLine: join(cpts), fatArea: area(pts), carbArea: area(cpts) };
+  }
+
+  renderVals(){
+    const L = this.props.loadMs ?? 900;
+    const A = ms => this.anim(ms);
+    const P = (shell, extra) => this.prog(shell + L + (extra || 0));
+    const G = (shell, extra) => (P(shell, extra) > 0 ? 1 : 0);
+    const R = (v, shell, extra) => this.roll(v, P(shell, extra));
+
+    const defs = this.zoneDefs();
+    const zi = Math.min(defs.length - 1, Math.max(0, this.state.zone || 0));
+    const act = defs[zi];
+    const cat = this.state.pulseCat || 'Weight loss';
+    const CX = p => ((p - 40) / 60) * 1000;
+    const curve = this.fuelCurve(CX);
+    const nav = [
+      { name:'Dashboard', icon:'layout-dashboard' },
+      { name:'Personal info', icon:'heart-pulse' },
+      { name:'Weight loss', icon:'trending-down' },
+      { name:'Steps', icon:'footprints', active:true },
+      { name:'Workouts', icon:'dumbbell', subs:['Logs','Exercises'] },
+      { name:'Macros tracker', icon:'utensils' }
+    ].map(n => this.railItem(n, ''));
+
+    const tab = this.state.tab;
+    const tabs = [
+      { name:'Steps', icon:'footprints', count:'14 d' },
+      { name:'Cardio sessions', icon:'heart-pulse', count:'5' },
+      { name:'Heart rate zones', icon:'activity', count:'4h 12m' }
+    ].map(t => {
+      const on = tab === t.name;
+      return { ...t, pick: () => this.setState({ tab: t.name }),
+        weight: on ? 600 : 500,
+        fg: on ? '#1a1a18' : '#8a867e',
+        border: on ? 'var(--accent)' : 'transparent' };
+    });
+
+    const days = [
+      ['22 Jul','Mon',12480],['23 Jul','Tue',9310],['24 Jul','Wed',14020],['25 Jul','Thu',7640],
+      ['26 Jul','Fri',11250],['27 Jul','Sat',16880],['28 Jul','Sun',6120],['29 Jul','Mon',12960],
+      ['30 Jul','Tue',10440],['31 Jul','Wed',13570],['1 Aug','Thu',8890],['2 Aug','Fri',15310],
+      ['3 Aug','Sat',8496],['4 Aug','Sun',8420]
+    ];
+    const dailyBars = days.map(([label, dow, v], i) => {
+      const on = this.state.hoverDay === i;
+      const hit = v >= 10000;
+      return {
+        label: label + ' · ' + dow,
+        tick: label.split(' ')[0],
+        tip: v.toLocaleString('fr-FR').replace(/\u202f|\u00a0/g, ' ') + ' steps',
+        h: Math.round((v / 18000) * 100),
+        on,
+        enter: () => this.setState({ hoverDay: i }),
+        fill: on ? '#1a1a18' : (i === days.length - 1 ? 'var(--accent)' : (hit ? 'rgba(42,105,200,.55)' : '#dcd7cd'))
+      };
+    });
+
+    const rows = [
+      ['4 Aug 2026','8 420', false],
+      ['3 Aug 2026','8 496', false],
+      ['2 Aug 2026','15 310', true],
+      ['1 Aug 2026','8 890', false],
+      ['31 Jul 2026','13 570', true],
+      ['30 Jul 2026','10 440', true]
+    ];
+    const listRows = rows.flatMap(([date, steps, hit]) => ([
+      { isDate:true, dot: hit ? '#1a8f5a' : '#e0a83a', text:date, justify:'flex-start',
+        font:"'Manrope',sans-serif", size:'12.5px', weight:500, fg:'#4a4740' },
+      { text:steps, justify:'flex-end', font:"'Outfit',sans-serif", size:'15px', weight:600, fg:'#1a1a18' },
+      { isActions:true, text:'', justify:'flex-end', font:"'Manrope',sans-serif", size:'12px', weight:400, fg:'#a8a49b' }
+    ]));
+
+    const weeksRaw = [['Week 28',68400],['Week 29',72150],['Week 30',76480],['Week 31',79260],['Week 32',83910]];
+    const weekMax = 90000;
+    const weekBars = weeksRaw.map(([label, v], i) => {
+      const prev = i > 0 ? weeksRaw[i - 1][1] : null;
+      const d = prev ? Math.round(((v - prev) / prev) * 100) : null;
+      const last = i === weeksRaw.length - 1;
+      return { label, value: v.toLocaleString('fr-FR').replace(/\u202f|\u00a0/g, ' '),
+        pct: Math.round((v / weekMax) * 100),
+        fill: last ? 'var(--accent)' : 'rgba(42,105,200,.42)',
+        labelFg: last ? '#1a1a18' : '#8a867e',
+        delta: d === null ? '—' : (d > 0 ? '+' + d + '%' : d + '%'),
+        deltaFg: d === null ? '#b4b0a7' : (d > 0 ? '#1a8f5a' : '#c98a1e') };
+    });
+
+    const monthsRaw = [['Mar',214],['Apr',236],['May',248],['Jun',301],['Jul',332],['Aug',118]];
+    const monthBars = monthsRaw.map(([label, v], i) => ({
+      label, value: v + 'k',
+      h: Math.round((v / 360) * 100),
+      fill: i === monthsRaw.length - 1 ? '#e0a83a' : (i === 4 ? 'var(--accent)' : 'rgba(42,105,200,.42)'),
+      valueFg: i >= 4 ? '#4a4740' : '#a8a49b'
+    }));
+
+    const session = (type, date, photoId, dur, dist, hr, kcal, zone, tone) => ({
+      type, date, photoId, zone, tone,
+      metrics: [
+        { label:'Duration', value:dur, unit:'min' },
+        { label:'Distance', value:dist, unit:'km' },
+        { label:'Avg HR', value:hr, unit:'bpm' },
+        { label:'Burned', value:kcal, unit:'kcal' }
+      ].map((m, j) => ({ ...m, value: R(m.value, 230, 120 + j * 40) }))
+    });
+
+    return {
+      nav,
+      subNav: ['Logs','Exercises'],
+      ...this.railVals(),
+      plans: [{ name:'PRO Limited · 20 ops', price:'€9.99/mo' }, { name:'PRO Unlimited · 500 ops', price:'€29.99/mo' }],
+      tabs,
+      heroSteps: R('8 420', 110),
+      isSteps: tab === 'Steps',
+      isCardio: tab === 'Cardio sessions',
+      isZones: tab === 'Heart rate zones',
+      todayFacts: [
+        { value:'6.1', label:'km' },
+        { value:'412', label:'kcal' },
+        { value:'71', label:'active min' }
+      ].map((v, i) => ({ ...v, value: R(v.value, 110, 60 + i * 50) })),
+      kpis: [
+        { label:'Steps chronicle', value:'275 420', unit:'steps', range:'11 Jul – 4 Aug 2026', icon:'footprints',
+          tint:'var(--accent-tint)', fg:'var(--accent-deep)', valueFg:'#1a1a18', glow:'var(--glow-soft)', glowPos:'top:-70px;right:-55px' },
+        { label:'Avg lifetime steps', value:'11 024', unit:'per day', range:'since Feb 2025', icon:'trending-up',
+          tint:'#e8f4ee', fg:'#1a8f5a', valueFg:'#1a1a18', glow:'rgba(26,143,90,.12)', glowPos:'bottom:-80px;left:-55px' },
+        { label:'Walking, last 30 days', value:'312 480', unit:'steps', range:'5 Jul – 4 Aug 2026', icon:'map',
+          tint:'#fdf3e2', fg:'#c98a1e', valueFg:'#1a1a18', glow:'rgba(224,168,58,.14)', glowPos:'top:-70px;right:-55px' },
+        { label:'July vs August challenge', value:'214 000', unit:'to go', range:'beat 332k by 31 Aug', icon:'award',
+          tint:'#fdeeeb', fg:'#c0432f', valueFg:'#c0432f', glow:'rgba(224,83,61,.12)', glowPos:'bottom:-80px;left:-55px' }
+      ].map((k, i) => ({ ...k, anim: A(130 + i * 45), value: R(k.value, 110, i * 50) })),
+      dailyBars: dailyBars.map((b, i) => ({ ...b, h: Math.round(b.h * P(230, i * 26)) })),
+      leave: () => this.setState({ hoverDay: -1 }),
+      rangeFacts: [
+        { label:'Best day', value:'16 880', unit:'steps', note:'Sat 27 Jul', icon:'trending-up', color:'#1a8f5a' },
+        { label:'Quietest day', value:'6 120', unit:'steps', note:'Sun 28 Jul', icon:'trending-down', color:'#c98a1e' },
+        { label:'Goal hit', value:'9 of 14', unit:'days', note:'64% of the range', icon:'check', color:'var(--accent-deep)' },
+        { label:'Range average', value:'11 128', unit:'per day', note:'+104 vs lifetime', icon:'activity', color:'#17a2a2' }
+      ].map((v, i) => ({ ...v, value: R(v.value, 230, 180 + i * 45) })),
+      dailyLegend: [
+        { name:'Today', color:'var(--accent)' },
+        { name:'Goal met', color:'rgba(42,105,200,.55)' },
+        { name:'Under goal', color:'#dcd7cd' },
+        { name:'Lifetime avg', color:'#e0a83a' }
+      ],
+      listHead: [
+        { name:'Date', justify:'flex-start', sortable:true },
+        { name:'Steps', justify:'flex-end', sortable:true },
+        { name:'Actions', justify:'flex-end', sortable:false }
+      ],
+      listRows: listRows.map((c, i) => (c.isDate || c.isActions ? c : { ...c, text: R(c.text, 230, 240 + Math.floor(i / 3) * 45) })),
+      weekBars: weekBars.map((w, i) => ({ ...w, value: R(w.value, 340, i * 45), pct: Math.round(w.pct * P(340, i * 45)) })),
+      weekFacts: [
+        { label:'Weekly avg', value:'76 040' },
+        { label:'Best week', value:'83 910' },
+        { label:'Goal weeks', value:'5 of 5' }
+      ].map((v, i) => ({ ...v, value: R(v.value, 340, 260 + i * 45) })),
+      monthBars: monthBars.map((m, i) => ({ ...m, h: Math.round(m.h * P(340, 120 + i * 45)) })),
+      cardioKpis: [
+        { label:'Sessions this month', value:'5', unit:'logged', range:'target 8', icon:'heart-pulse',
+          tint:'var(--accent-tint)', fg:'var(--accent-deep)' },
+        { label:'Total time', value:'4:12', unit:'h:mm', range:'avg 50 min each', icon:'timer',
+          tint:'#e8f4ee', fg:'#1a8f5a' },
+        { label:'Distance covered', value:'38.4', unit:'km', range:'run + cycle', icon:'map',
+          tint:'#fdf3e2', fg:'#c98a1e' },
+        { label:'Calories burned', value:'2 940', unit:'kcal', range:'from cardio only', icon:'flame',
+          tint:'#fdeeeb', fg:'#c0432f' }
+      ].map((k, i) => ({ ...k, value: R(k.value, 110, i * 50) })),
+      sessions: [
+        session('Treadmill run','Mon 3 Aug · 18:40','gt-cardio-1','42','7.2','148','520','Zone 3','brand'),
+        session('Zone 2 walk','Sun 2 Aug · 09:10','gt-cardio-2','65','5.8','112','380','Zone 2','success'),
+        session('Indoor cycle','Fri 31 Jul · 19:05','gt-cardio-3','48','16.4','139','610','Zone 3','brand'),
+        session('Intervals','Wed 29 Jul · 18:20','gt-cardio-4','32','5.1','162','470','Zone 4','warning'),
+        session('Rower','Mon 27 Jul · 07:45','gt-cardio-5','35','6.9','144','440','Zone 3','brand')
+      ],
+      userAge: R('42', 40),
+      maxHr: R('178', 40, 60),
+      zoneReset: () => {},
+      zoneSlides: defs.map((z, i) => ({ ...z,
+        flex: i === zi ? 5 : 1,
+        open: i === zi,
+        collapsed: i !== zi,
+        edge: i === 0 ? 'transparent' : 'rgba(26,26,24,.06)',
+        rule: 'rgba(26,26,24,.10)',
+        enter: () => this.setState({ zone: i }),
+        anim: 'zoneIn .5s cubic-bezier(.23,1,.32,1) both',
+        fatW: (z.fat * P(130, 220)).toFixed(1),
+        carbW: (z.carb * P(130, 220)).toFixed(1),
+        floorBpm: R(z.floorBpm, 130, i * 45)
+      })),
+      active: { ...act,
+        anim: 'zoneIn .5s cubic-bezier(.23,1,.32,1) both',
+        tag: cat,
+        footTag: 'Zone ' + (zi + 1) + ' / ' + cat.toLowerCase(),
+        protocol: (this.zonePulses()[zi][cat] || []).map((text, i) => ({ num: '/ 0' + (i + 1), text, fg: act.ink })) },
+      pulseOpen: !!this.state.pulseOpen,
+      togglePulse: () => this.setState(s => ({ pulseOpen: !s.pulseOpen })),
+      pulseCats: ['Weight loss','Performance','Endurance','Recovery'].map(name => ({
+        name,
+        pick: () => this.setState({ pulseCat: name, pulseOpen: false }),
+        fg: name === cat ? act.ink : '#4a4740',
+        bg: name === cat ? '#f7f5f1' : 'transparent'
+      })),
+      gridY: [46, 92, 138, 184].map(y => ({ y })),
+      gridX: [50, 60, 70, 80, 90].map(p => ({ x: CX(p).toFixed(1) })),
+      axisX: ['40%','50%','60%','70%','80%','90%','100%'],
+      band: { x: CX(act.lo).toFixed(1), w: (CX(act.hi) - CX(act.lo)).toFixed(1), fill: act.band },
+      fatLine: curve.fatLine,
+      carbLine: curve.carbLine,
+      fatArea: curve.fatArea,
+      carbArea: curve.carbArea,
+      drawOff: (1200 * (1 - P(230, 120))).toFixed(1)
+    };
+  }
+}
+</script>
+</body>
+</html>

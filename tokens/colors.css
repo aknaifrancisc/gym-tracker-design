@@ -1,0 +1,152 @@
+/* Gym Tracker colour tokens
+   Warm neutral ramp (single ramp, light -> dark) + two accent schemes.
+   Pages MUST declare a scheme and theme on <html>:
+     <html data-scheme="brand" data-theme="light">   scheme: brand | green   theme: light | dark
+   Token names are stable across schemes — never reference --brand-* / --gr-* in a screen,
+   always the semantic aliases (--primary, --surface, --text-1, ...). */
+
+:root {
+  /* ---- Warm neutral ramp — off-white paper through warm charcoal ---- */
+  --neutral-0:   #ffffff;
+  --neutral-25:  #fbfaf7;
+  --neutral-50:  #f8f6f2;
+  --neutral-100: #f2efe9;
+  --neutral-150: #efece6;  /* page canvas, light */
+  --neutral-200: #eae6df;  /* hairline border, light */
+  --neutral-300: #ddd7cd;
+  --neutral-400: #b4b0a7;
+  --neutral-500: #8e887e;
+  --neutral-600: #6e6b64;
+  --neutral-700: #4a4740;
+  --neutral-800: #26242e;  /* hairline border, dark */
+  --neutral-850: #23222a;  /* sunken surface, dark */
+  --neutral-875: #1c1b21;  /* card surface, dark */
+  --neutral-900: #17161b;
+  --neutral-950: #131217;  /* page canvas, dark */
+  --ink: #1a1a18;          /* logo ink, warm black */
+
+  /* ---- Brand ramp — anchored on logo blue #2A69C8 ---- */
+  --brand-50:  #f1f5fd;
+  --brand-100: #eaf1fb;
+  --brand-200: #b9d0f4;
+  --brand-300: #87b8ff;  /* dark-theme hover */
+  --brand-400: #5b9bf5;  /* dark-theme accent — logo blue is too dim on charcoal */
+  --brand-500: #3a7ad4;
+  --brand-600: #2a69c8;  /* logo blue — light-theme accent */
+  --brand-700: #1f4f99;
+  --brand-800: #23539e;
+
+  /* ---- Green ramp — the alternative accent scheme ---- */
+  --gr-50:  #f2f8f4;
+  --gr-100: #e9f4ee;
+  --gr-200: #a9dcc2;
+  --gr-300: #4ade9a;  /* dark-theme hover */
+  --gr-400: #34c47f;  /* dark-theme accent */
+  --gr-500: #1a8f5a;  /* light-theme accent */
+  --gr-600: #158050;
+  --gr-700: #146c44;
+  --gr-800: #127a4b;
+
+  /* ---- Semantic hues — warm, shared by both schemes ---- */
+  --amber-100: #fbf2df;
+  --amber-200: #f0cd83;
+  --amber-400: #e3a93b;
+  --amber-500: #e0a83a;
+  --amber-700: #b5872a;
+  --amber-800: #8a6a1f;
+  --clay-100: #fbeeea;
+  --clay-400: #d9704f;
+  --clay-500: #c25a44;
+  --clay-700: #a8452f;
+
+  /* ---- Chart palette — series 1 always follows the scheme accent ---- */
+  --chart-2: #2f9e9e;
+  --chart-3: var(--amber-500);
+  --chart-4: #8b6bd0;
+  --chart-5: var(--clay-500);
+
+  /* ---- Neutral aliases: light theme (theme-only, scheme-independent) ---- */
+  --bg: var(--neutral-150);
+  --bg-subtle: var(--neutral-100);
+  --surface: var(--neutral-0);
+  --surface-hover: var(--neutral-25);
+  --surface-sunken: var(--neutral-50);
+  --border: var(--neutral-200);
+  --border-strong: var(--neutral-300);
+  --text-1: var(--ink);
+  --text-2: var(--neutral-600);
+  --text-3: var(--neutral-400);
+  --text-inverse: var(--neutral-0);
+
+  /* ---- Status — light. Green is success/positive ONLY, in both schemes ---- */
+  --success: var(--gr-500);
+  --success-subtle: var(--gr-100);
+  --success-fg: var(--gr-700);
+  --warning: var(--amber-500);
+  --warning-subtle: var(--amber-100);
+  --warning-fg: var(--amber-700);
+  --danger: var(--clay-500);
+  --danger-subtle: var(--clay-100);
+  --danger-fg: var(--clay-700);
+
+  /* Fallback accent so an undeclared page still renders — declare data-scheme instead. */
+  --primary: var(--brand-600);
+  --primary-hover: var(--brand-700);
+  --primary-fg: #fff;
+  --primary-subtle: var(--brand-100);
+  --primary-subtle-fg: var(--brand-800);
+  --chart-1: var(--brand-600);
+  --focus-ring: 0 0 0 3px rgba(42,105,200,0.35);
+  --glow-primary: rgba(42,105,200,0.13);
+  --glow-accent: rgba(224,168,58,0.16);
+}
+
+/* ============ Scheme: _brand (logo blue) ============ */
+[data-scheme="brand"] {
+  --primary: var(--brand-600);
+  --primary-hover: var(--brand-700);
+  --primary-fg: #fff;
+  --primary-subtle: var(--brand-100);
+  --primary-subtle-fg: var(--brand-800);
+  --chart-1: var(--brand-600);
+  --focus-ring: 0 0 0 3px rgba(42,105,200,0.35);
+  --glow-primary: rgba(42,105,200,0.13);
+  --glow-accent: rgba(224,168,58,0.16);
+}
+[data-scheme="brand"][data-theme="dark"],
+[data-theme="dark"] [data-scheme="brand"] {
+  --primary: var(--brand-400);
+  --primary-hover: var(--brand-300);
+  --primary-fg: #0b1120;
+  --primary-subtle: rgba(91,155,245,0.13);
+  --primary-subtle-fg: var(--brand-400);
+  --chart-1: var(--brand-400);
+  --focus-ring: 0 0 0 3px rgba(91,155,245,0.40);
+  --glow-primary: rgba(91,155,245,0.26);
+  --glow-accent: rgba(227,169,59,0.20);
+}
+
+/* ============ Scheme: _green ============ */
+[data-scheme="green"] {
+  --primary: var(--gr-500);
+  --primary-hover: var(--gr-700);
+  --primary-fg: #fff;
+  --primary-subtle: var(--gr-100);
+  --primary-subtle-fg: var(--gr-800);
+  --chart-1: var(--gr-500);
+  --focus-ring: 0 0 0 3px rgba(26,143,90,0.35);
+  --glow-primary: rgba(26,143,90,0.13);
+  --glow-accent: rgba(224,168,58,0.16);
+}
+[data-scheme="green"][data-theme="dark"],
+[data-theme="dark"] [data-scheme="green"] {
+  --primary: var(--gr-400);
+  --primary-hover: var(--gr-300);
+  --primary-fg: #0f1a14;
+  --primary-subtle: rgba(52,196,127,0.13);
+  --primary-subtle-fg: var(--gr-400);
+  --chart-1: var(--gr-400);
+  --focus-ring: 0 0 0 3px rgba(52,196,127,0.40);
+  --glow-primary: rgba(52,196,127,0.26);
+  --glow-accent: rgba(227,169,59,0.20);
+}

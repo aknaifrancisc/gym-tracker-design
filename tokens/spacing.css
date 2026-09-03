@@ -1,0 +1,9 @@
+:root {
+  --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px;
+  --space-5: 20px; --space-6: 24px; --space-8: 32px; --space-10: 40px; --space-12: 48px;
+  /* Layout */
+  --sidebar-width: 248px;
+  --content-max: 1200px;
+  --card-pad: 20px;
+  --card-pad-compact: 12px;
+}

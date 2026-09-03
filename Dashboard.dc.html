@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/gym-tracker-design-system-42e631ff-e31a-4d3e-8495-62b3190c9d4a/styles.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@0.454.0/dist/umd/lucide.min.js"></script>
+<script src="_ds/gym-tracker-design-system-42e631ff-e31a-4d3e-8495-62b3190c9d4a/_ds_bundle.js"></script>
+<script src="anim-engine.js"></script>
+<script src="slot-images.js"></script>
+<style>
+  body{margin:0;background:#e4e1da;font-family:'Manrope',system-ui,sans-serif;-webkit-font-smoothing:antialiased;
+    --accent:#2a69c8;--accent-deep:#1f56a8;--accent-tint:#eaf1fb;--glow:rgba(42,105,200,.20);--glow-soft:rgba(42,105,200,.13)}
+  a{color:var(--accent);text-decoration:none}
+  a:hover{color:var(--accent-deep);text-decoration:underline;text-underline-offset:3px}
+  @keyframes riseIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+  @keyframes glowBreath{0%,100%{opacity:.6}50%{opacity:1}}
+  @keyframes tipIn{from{opacity:0;transform:translate(-4px,-50%)}to{opacity:1;transform:translate(0,-50%)}}
+  @media (prefers-reduced-motion:reduce){
+    @keyframes riseIn{from{opacity:0}to{opacity:1}}
+    @keyframes glowBreath{0%,100%{opacity:.8}}
+  }
+  image-slot[data-compact]::part(empty){color:transparent!important}
+  @keyframes drawIn{from{stroke-dashoffset:1400}to{stroke-dashoffset:0}}
+</style>
+</helmet>
+
+<template id="__bundler_thumbnail" data-bg-color="#17161c">
+  <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><rect width="100" height="100" fill="#17161c"></rect><rect x="30" y="30" width="12" height="40" rx="3" fill="#2a69c8"></rect><rect x="46" y="30" width="24" height="16" rx="3" fill="#e0a83a"></rect><rect x="46" y="50" width="24" height="20" rx="3" fill="#f4f1ea"></rect></svg>
+</template>
+
+<div style="width:100%;min-width:1440px;max-width:1920px;margin:0 auto;background:#efece6;display:grid;grid-template-columns:auto minmax(0,1fr);font-family:'Manrope',sans-serif;color:#1a1a18">
+
+  <div style="padding:18px 0 18px 18px;display:flex;align-items:flex-start">
+  <aside style="position:sticky;top:18px;isolation:isolate;overflow:visible;width:{{ railW }};height:calc(100vh - 36px);min-height:760px;background:#fff;border:1px solid #eae6df;border-radius:22px;box-shadow:0 18px 40px -28px rgba(26,26,24,.5);padding:16px 12px 14px;display:flex;flex-direction:column;gap:14px;transition:width .28s cubic-bezier(.2,0,0,1)">
+    <span style="position:absolute;inset:0;overflow:hidden;border-radius:22px;pointer-events:none;z-index:-1">
+      <span style="position:absolute;top:-90px;left:-70px;width:260px;height:220px;background:radial-gradient(circle at 50% 50%,var(--glow-soft),transparent 70%)"></span>
+    </span>
+
+    <div style="display:flex;align-items:center;gap:8px;height:34px;padding:0 4px;flex:none">
+      <sc-if value="{{ railExpanded }}" hint-placeholder-val="{{ true }}">
+        <img src="assets/logo-mono-ink.svg" alt="Gym Tracker" style="display:block;height:24px;width:auto;flex:none">
+      </sc-if>
+      <sc-if value="{{ railCollapsed }}" hint-placeholder-val="{{ false }}">
+        <img src="assets/logo-mark.svg" alt="Gym Tracker" style="display:block;height:26px;width:26px;flex:none;margin:0 auto">
+      </sc-if>
+      <span style="flex:{{ railLabelFlex }}"></span>
+      <span onClick="{{ toggleRail }}" style="width:28px;height:28px;flex:none;border-radius:9px;color:#8a867e;display:{{ railToggleDisplay }};align-items:center;justify-content:center;cursor:pointer;transition:background .16s,color .16s" style-hover="background:#f3f1ec;color:#1a1a18">
+        <span style="display:flex;transform:rotate({{ railChevRot }});transition:transform .28s cubic-bezier(.2,0,0,1)">
+          <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="chevrons-left" size="16" stroke-width="1.9" hint-size="16px,16px"></x-import>
+        </span>
+      </span>
+    </div>
+
+    <sc-if value="{{ railCollapsed }}" hint-placeholder-val="{{ false }}">
+      <div onClick="{{ toggleRail }}" style="flex:none;height:34px;border-radius:11px;border:1px dashed #e4e1da;color:#8a867e;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .16s,border-color .16s" style-hover="background:#f7f5f1;border-color:#c4bfb4">
+        <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="chevrons-right" size="16" stroke-width="1.9" hint-size="16px,16px"></x-import>
+      </div>
+    </sc-if>
+
+    <nav style="display:flex;flex-direction:column;gap:3px;flex:none">
+      <sc-for list="{{ nav }}" as="n" hint-placeholder-count="6">
+        <div onClick="{{ n.go }}" onMouseEnter="{{ n.enter }}" onMouseLeave="{{ railLeave }}" style="position:relative;display:flex;align-items:center;justify-content:{{ railJustify }};gap:11px;height:42px;padding:0 {{ railPadX }};border-radius:12px;background:{{ n.bg }};color:{{ n.fg }};font-size:13.5px;font-weight:{{ n.weight }};cursor:pointer;transition:background .16s,color .16s,transform .16s" style-hover="background:#f3f1ec;color:#1a1a18;transform:translateX(2px)">
+          <i style="position:absolute;left:0;top:50%;width:3px;height:{{ n.barH }};margin-top:{{ n.barOff }};border-radius:0 3px 3px 0;background:var(--accent);transition:height .26s cubic-bezier(.2,0,0,1),margin-top .26s cubic-bezier(.2,0,0,1)"></i>
+          <span style="display:flex;flex:none">
+            <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="{{ n.icon }}" size="18" stroke-width="1.8" hint-size="18px,18px"></x-import>
+          </span>
+          <span style="flex:{{ railLabelFlex }};min-width:0;overflow:hidden;white-space:nowrap;text-align:left;opacity:{{ railLabelOp }};transform:translateX({{ railLabelX }});transition:opacity .2s,transform .24s">{{ n.name }}</span>
+          <sc-if value="{{ n.tip }}" hint-placeholder-val="{{ false }}">
+            <span style="position:absolute;left:100%;top:50%;margin-left:12px;transform:translateY(-50%);background:#17161c;color:#fff;font-size:12px;font-weight:600;white-space:nowrap;border-radius:9px;padding:7px 11px;z-index:9;box-shadow:0 12px 26px -14px rgba(0,0,0,.55);animation:tipIn .16s both cubic-bezier(.2,0,0,1)">{{ n.name }}</span>
+          </sc-if>
+        </div>
+        <sc-if value="{{ n.showSubs }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:2px;margin:1px 0 3px 25px;padding-left:12px;border-left:1px solid #f2efe9;overflow:hidden">
+            <sc-for list="{{ n.subs }}" as="s" hint-placeholder-count="2">
+              <div onClick="{{ s.go }}" style="padding:7px 10px;border-radius:9px;font-size:12.5px;font-weight:{{ s.weight }};color:{{ s.fg }};background:{{ s.bg }};white-space:nowrap;cursor:pointer;transition:background .16s,color .16s" style-hover="background:#f3f1ec;color:#1a1a18">{{ s.name }}</div>
+            </sc-for>
+          </div>
+        </sc-if>
+      </sc-for>
+    </nav>
+
+    <div style="flex:1"></div>
+
+    <sc-if value="{{ railExpanded }}" hint-placeholder-val="{{ true }}">
+    <div style="position:relative;isolation:isolate;overflow:hidden;background:#17161c;border-radius:16px;padding:15px 15px 14px;color:#fff">
+      <span style="position:absolute;top:-80px;right:-60px;width:230px;height:200px;pointer-events:none;z-index:-1;background:radial-gradient(circle at 50% 50%,var(--glow),transparent 70%);animation:glowBreath 6s ease-in-out infinite"></span>
+      <div style="display:flex;align-items:center;gap:7px;font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--accent-tint)">
+        <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="sparkles" size="14" stroke-width="1.8" hint-size="14px,14px"></x-import>
+        AI coach
+      </div>
+      <p style="margin:9px 0 0;font-size:13px;line-height:1.45;color:#d8d4cc">Let the coach write your descriptions, sets and progressions.</p>
+      <div style="display:flex;flex-direction:column;gap:7px;margin-top:13px;padding-top:12px;border-top:1px solid rgba(255,255,255,.09)">
+        <sc-for list="{{ plans }}" as="p" hint-placeholder-count="2">
+          <div style="display:flex;align-items:baseline;gap:8px">
+            <span style="flex:1;font-size:12.5px;font-weight:600;color:#fff">{{ p.name }}</span>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#a8a49b">{{ p.price }}</span>
+          </div>
+        </sc-for>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:center;gap:7px;margin-top:13px;background:var(--accent);color:#fff;border-radius:10px;padding:9px 12px;font-size:13px;font-weight:600;cursor:pointer;transition:transform .14s" style-hover="transform:translateY(-1px)">
+        Upgrade
+        <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="arrow-right" size="14" hint-size="14px,14px"></x-import>
+      </div>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ railCollapsed }}" hint-placeholder-val="{{ false }}">
+      <div style="position:relative;isolation:isolate;overflow:hidden;flex:none;height:44px;border-radius:14px;background:#17161c;color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer">
+        <span style="position:absolute;inset:-40% -60% auto auto;width:150px;height:130px;pointer-events:none;z-index:-1;background:radial-gradient(circle at 50% 50%,var(--glow),transparent 70%);animation:glowBreath 6s ease-in-out infinite"></span>
+        <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="sparkles" size="18" stroke-width="1.9" hint-size="18px,18px"></x-import>
+      </div>
+    </sc-if>
+
+    <div style="display:flex;align-items:center;justify-content:{{ railJustify }};gap:10px;flex:none;border-top:1px solid #f2efe9;padding-top:14px">
+      <div style="position:relative;width:34px;height:34px;flex:none">
+        <span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#b4b0a7;pointer-events:none;z-index:0">
+          <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="user" size="16" stroke-width="1.8" hint-size="16px,16px"></x-import>
+        </span>
+        <x-import component-from-global-scope="image-slot" from="./image-slot.js" id="gt-user-avatar" shape="circle" data-compact="" placeholder="" style="position:relative;z-index:1;width:34px;height:34px" hint-size="34px,34px"></x-import>
+      </div>
+      <span style="flex:{{ railLabelFlex }};min-width:0;overflow:hidden;opacity:{{ railLabelOp }};transition:opacity .2s">
+        <span style="display:block;font-size:13px;font-weight:600;color:#1a1a18;white-space:nowrap">John Doe</span>
+        <span style="display:block;font-size:11.5px;color:#a8a49b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">john.doe@gymgoer.com</span>
+      </span>
+      <sc-if value="{{ railExpanded }}" hint-placeholder-val="{{ true }}">
+        <span style="color:#b4b0a7;display:flex">
+          <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="chevrons-up-down" size="14" hint-size="14px,14px"></x-import>
+        </span>
+      </sc-if>
+    </div>
+  </aside>
+  </div>
+
+  <main style="min-width:0;display:flex;flex-direction:column">
+    <div style="display:flex;align-items:center;gap:14px;padding:18px 32px 0;font-size:12.5px;color:#a8a49b">
+      <div style="display:flex;align-items:center;gap:7px;min-width:0">
+        <span>Overview</span>
+        <span style="color:#d2cec6">/</span>
+        <span style="color:#4a4740;font-weight:600">Dashboard</span>
+      </div>
+      <div style="flex:1"></div>
+      <div style="display:flex;align-items:center;gap:14px;font-size:12.5px;color:#8a867e">
+        <span style="display:inline-flex;align-items:center;gap:6px;color:var(--accent-deep);font-weight:600;cursor:pointer" style-hover="opacity:.75">
+          <span style="width:5px;height:5px;border-radius:50%;background:var(--accent)"></span>
+          Free plan
+        </span>
+        <span style="width:1px;height:12px;background:#e4e1da"></span>
+        <span style="cursor:pointer" style-hover="color:#1a1a18">Contact</span>
+        <span style="cursor:pointer" style-hover="color:#1a1a18">About us</span>
+        <span style="display:inline-flex;align-items:center;gap:5px;cursor:pointer" style-hover="color:#1a1a18">
+          <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="globe" size="14" stroke-width="1.8" hint-size="14px,14px"></x-import>
+          EN
+        </span>
+      </div>
+    </div>
+
+    <div style="padding:14px 32px 40px;display:flex;flex-direction:column;gap:26px">
+
+      <header style="display:flex;align-items:flex-end;gap:24px;animation:riseIn .42s cubic-bezier(.23,1,.32,1) 0ms both">
+        <div style="flex:1;min-width:0">
+          <h1 style="margin:0;font-family:'Outfit',sans-serif;font-size:30px;font-weight:600;letter-spacing:-.035em;color:#1a1a18">Dashboard</h1>
+          <p style="margin:4px 0 0;font-size:13.5px;color:#8a867e">Cutting phase · week 4 of 12 · goal 92.0 kg</p>
+        </div>
+        <sc-for list="{{ headStats }}" as="h" hint-placeholder-count="3">
+          <div style="min-width:118px">
+            <div style="font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#a8a49b">{{ h.label }}</div>
+            <div style="display:flex;align-items:baseline;gap:5px;margin-top:5px">
+              <span style="font-family:'Outfit',sans-serif;font-variant-numeric:tabular-nums;font-size:20px;font-weight:600;letter-spacing:-.03em;color:{{ h.fg }}">{{ h.value }}</span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#a8a49b">{{ h.unit }}</span>
+            </div>
+          </div>
+        </sc-for>
+      </header>
+
+      <div style="display:flex;align-items:center;gap:14px;animation:riseIn .42s cubic-bezier(.23,1,.32,1) 80ms both">
+        <div style="display:flex;align-items:center;gap:7px;background:#fff;border:1px solid #eae6df;border-radius:11px;padding:8px 13px;font-size:13px;font-weight:500;color:#1a1a18;cursor:pointer">
+          August 2026
+          <span style="color:#b4b0a7;display:flex">
+            <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="chevron-down" size="12" hint-size="12px,12px"></x-import>
+          </span>
+        </div>
+        <div style="flex:1;display:flex;align-items:center;gap:6px">
+          <div style="width:32px;height:32px;flex:none;border-radius:50%;border:1px solid #eae6df;background:#fff;display:flex;align-items:center;justify-content:center;color:#4a4740;cursor:pointer" style-hover="background:#f3f1ec">
+            <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="chevron-left" size="14" hint-size="14px,14px"></x-import>
+          </div>
+          <div style="flex:1;display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px">
+            <sc-for list="{{ days }}" as="d" hint-placeholder-count="7">
+              <div onClick="{{ d.pick }}" style="display:flex;flex-direction:column;align-items:center;gap:6px;padding:6px 0 4px;border-radius:14px;cursor:pointer;background:{{ d.wrapBg }};transition:background .14s" style-hover="background:#f3f1ec">
+                <span style="font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:{{ d.labelFg }}">{{ d.dow }}</span>
+                <span style="width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Outfit',sans-serif;font-variant-numeric:tabular-nums;font-size:15px;font-weight:600;background:{{ d.bg }};color:{{ d.fg }};box-shadow:{{ d.shadow }};transition:background .14s">{{ d.n }}</span>
+                <i style="width:5px;height:5px;border-radius:50%;background:{{ d.dot }}"></i>
+              </div>
+            </sc-for>
+          </div>
+          <div style="width:32px;height:32px;flex:none;border-radius:50%;border:1px solid #eae6df;background:#fff;display:flex;align-items:center;justify-content:center;color:#4a4740;cursor:pointer" style-hover="background:#f3f1ec">
+            <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="chevron-right" size="14" hint-size="14px,14px"></x-import>
+          </div>
+        </div>
+      </div>
+
+      <section style="position:relative;isolation:isolate;overflow:hidden;background:#17161c;border-radius:22px;padding:22px 24px;color:#fff;animation:riseIn .42s cubic-bezier(.23,1,.32,1) 170ms both;display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:26px;animation:riseIn .5s both cubic-bezier(.2,0,0,1)">
+        <span style="position:absolute;top:-110px;right:250px;width:340px;height:280px;pointer-events:none;z-index:-1;background:radial-gradient(circle at 50% 50%,var(--glow),transparent 70%);animation:glowBreath 6s ease-in-out infinite"></span>
+        <div style="min-width:0;display:flex;flex-direction:column">
+          <div style="display:flex;align-items:flex-start;gap:14px">
+            <div style="flex:1;min-width:0">
+              <h2 style="margin:0;font-family:'Outfit',sans-serif;font-size:20px;font-weight:600;letter-spacing:-.03em;color:#fff">Today</h2>
+              <p style="margin:3px 0 0;font-size:12.5px;color:#a8a49b">Tuesday 4 August · daily snapshot</p>
+            </div>
+            <span style="font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#34c47f;background:rgba(52,196,127,.14);padding:5px 10px;border-radius:8px">Lose weight</span>
+          </div>
+
+          <div style="display:flex;align-items:flex-end;gap:22px;margin-top:20px">
+            <div>
+              <div style="display:flex;align-items:baseline;gap:7px">
+                <span style="font-family:'Outfit',sans-serif;font-variant-numeric:tabular-nums;font-size:52px;font-weight:600;letter-spacing:-.045em;line-height:1">{{ heroKcal }}</span>
+                <span style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#a8a49b">kcal</span>
+              </div>
+              <div style="font-size:12px;color:#8a867e;margin-top:6px">of 2 581 baseline · 739 remaining</div>
+            </div>
+            <div style="flex:1;min-width:0;padding-bottom:6px">
+              <div style="height:8px;border-radius:99px;background:rgba(255,255,255,.10);overflow:hidden">
+                <i style="display:block;height:100%;width:71%;border-radius:99px;background:var(--accent)"></i>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:9px;margin-top:14px">
+                <sc-for list="{{ macros }}" as="m" hint-placeholder-count="3">
+                  <div style="display:flex;align-items:center;gap:10px">
+                    <span style="width:64px;font-size:11.5px;color:#a8a49b">{{ m.name }}</span>
+                    <span style="flex:1;height:6px;border-radius:99px;background:rgba(255,255,255,.09);overflow:hidden">
+                      <i style="display:block;height:100%;border-radius:99px;background:{{ m.color }};width:{{ m.pct }}%;transition:width .6s cubic-bezier(.2,0,0,1)"></i>
+                    </span>
+                    <span style="font-family:'JetBrains Mono',monospace;font-variant-numeric:tabular-nums;font-size:11.5px;color:#d8d4cc;width:78px;text-align:right">{{ m.value }}</span>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:22px;padding-top:18px;border-top:1px solid rgba(255,255,255,.09)">
+            <sc-for list="{{ todayTiles }}" as="t" hint-placeholder-count="3">
+              <div style="display:flex;align-items:center;gap:11px">
+                <span style="width:38px;height:38px;flex:none;border-radius:12px;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;color:{{ t.color }}">
+                  <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="{{ t.icon }}" size="18" stroke-width="1.8" hint-size="18px,18px"></x-import>
+                </span>
+                <div style="min-width:0">
+                  <div style="font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#8a867e">{{ t.label }}</div>
+                  <div style="display:flex;align-items:baseline;gap:5px;margin-top:2px">
+                    <span style="font-family:'Outfit',sans-serif;font-variant-numeric:tabular-nums;font-size:18px;font-weight:600;letter-spacing:-.03em">{{ t.value }}</span>
+                    <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;color:#8a867e">{{ t.unit }}</span>
+                  </div>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="flex:1;min-height:190px;border-radius:16px;overflow:hidden;background:rgba(255,255,255,.04)">
+            <x-import component-from-global-scope="image-slot" from="./image-slot.js" id="gt-today-session" shape="rounded" radius="16" placeholder="Today's session photo — gym interior, cool daylight" style="width:100%;height:100%" hint-size="100%,190px"></x-import>
+          </div>
+          <div style="display:flex;align-items:center;gap:11px;background:rgba(255,255,255,.05);border-radius:14px;padding:12px 14px">
+            <span style="width:34px;height:34px;flex:none;border-radius:11px;background:var(--accent);display:flex;align-items:center;justify-content:center;color:#fff">
+              <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="dumbbell" size="17" stroke-width="1.9" hint-size="17px,17px"></x-import>
+            </span>
+            <div style="flex:1;min-width:0">
+              <div style="font-size:12.5px;font-weight:600">Push A · 18:30</div>
+              <div style="font-size:11.5px;color:#8a867e">Bench 4×6 · 80 kg held</div>
+            </div>
+            <span style="color:#8a867e;display:flex">
+              <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="chevron-right" size="15" hint-size="15px,15px"></x-import>
+            </span>
+          </div>
+        </div>
+      </section>
+
+      <section style="display:grid;grid-template-columns:minmax(0,1.32fr) minmax(0,1fr);gap:20px;animation:riseIn .42s cubic-bezier(.23,1,.32,1) 260ms both">
+        <div style="position:relative;isolation:isolate;overflow:hidden;background:#fff;border:1px solid #eae6df;border-radius:20px;padding:20px 22px 16px">
+          <span style="position:absolute;top:-85px;left:-60px;width:250px;height:215px;pointer-events:none;z-index:-1;background:radial-gradient(circle at 50% 50%,var(--glow-soft),transparent 70%)"></span>
+          <div style="display:flex;align-items:flex-start;gap:14px">
+            <div style="flex:1;min-width:0">
+              <div style="font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#a8a49b">Predictive forecast</div>
+              <h3 style="margin:6px 0 0;font-family:'Outfit',sans-serif;font-size:18px;font-weight:600;letter-spacing:-.03em">Weight forecast</h3>
+              <p style="margin:3px 0 0;font-size:12.5px;color:#8a867e">On the current deficit you reach 92.0 kg in the week of 26 October.</p>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:6px">
+              <span style="font-family:'Outfit',sans-serif;font-variant-numeric:tabular-nums;font-size:26px;font-weight:600;letter-spacing:-.035em">104.8</span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#a8a49b">kg now</span>
+            </div>
+          </div>
+          <svg viewBox="0 0 1000 250" style="width:100%;height:236px;margin-top:14px;overflow:visible">
+            <g stroke="#f2efe9" stroke-width="1">
+              <path d="M52 30H1000M52 70H1000M52 110H1000M52 150H1000M52 190H1000"></path>
+            </g>
+            <g font-family="JetBrains Mono, monospace" font-size="11" fill="#b4b0a7">
+              <text x="0" y="34">108kg</text><text x="0" y="74">104kg</text><text x="0" y="114">100kg</text><text x="0" y="154">96kg</text><text x="0" y="194">92kg</text>
+            </g>
+            <path d="M520 62 640 84 760 108 880 132 1000 150 1000 190 880 168 760 142 640 112 520 62Z" fill="var(--accent)" opacity=".07"></path>
+            <path d="M52 190H1000" stroke="#1a8f5a" stroke-width="1.5" stroke-dasharray="7 6"></path>
+            <text x="1000" y="206" text-anchor="end" font-family="Manrope, sans-serif" font-size="11" fill="#1a8f5a">Goal 92.0 kg</text>
+            <path d="M520 62 640 90 760 118 880 140 1000 162" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-dasharray="8 7" stroke-linecap="round" opacity=".55"></path>
+            <path d="M60 21 152 30 244 41 336 45 428 55 520 62" fill="none" stroke="var(--accent)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="1400" style="animation:drawIn 1s .1s both cubic-bezier(.2,0,0,1)"></path>
+            <g fill="#fff" stroke="var(--accent)" stroke-width="2.5">
+              <circle cx="60" cy="21" r="4"></circle><circle cx="152" cy="30" r="4"></circle><circle cx="244" cy="41" r="4"></circle><circle cx="336" cy="45" r="4"></circle><circle cx="428" cy="55" r="4"></circle><circle cx="520" cy="62" r="5.5"></circle>
+            </g>
+            <g font-family="Manrope, sans-serif" font-size="11" fill="#b4b0a7" text-anchor="middle">
+              <text x="60" y="236">Jul 7</text><text x="244" y="236">Jul 21</text><text x="428" y="236">Aug 4</text><text x="640" y="236">Sep 8</text><text x="880" y="236">Oct 13</text>
+            </g>
+          </svg>
+          <div style="display:flex;justify-content:center;gap:22px;margin-top:8px;padding-top:12px;border-top:1px solid #f2efe9">
+            <sc-for list="{{ forecastLegend }}" as="l" hint-placeholder-count="4">
+              <div style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:#8a867e">
+                <i style="width:16px;height:3px;border-radius:2px;background:{{ l.color }}"></i>{{ l.name }}
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:20px">
+          <div style="position:relative;isolation:isolate;overflow:hidden;background:#fff;border:1px solid #eae6df;border-radius:20px;padding:20px 22px">
+            <span style="position:absolute;bottom:-95px;right:-60px;width:250px;height:215px;pointer-events:none;z-index:-1;background:radial-gradient(circle at 50% 50%,rgba(224,168,58,.16),transparent 70%)"></span>
+            <div style="font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#a8a49b">Energy balance</div>
+            <div style="display:flex;align-items:flex-end;gap:12px;margin-top:10px">
+              <span style="font-family:'Outfit',sans-serif;font-variant-numeric:tabular-nums;font-size:44px;font-weight:600;letter-spacing:-.045em;line-height:1;color:#1a1a18">{{ balanceKcal }}</span>
+              <span style="margin-bottom:4px">
+                <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Badge" tone="success" icon="trending-down" hint-size="auto,22px">Caloric deficit</x-import>
+              </span>
+            </div>
+            <div style="font-size:11.5px;color:#8a867e;margin-top:6px">Net calorie delta this week</div>
+            <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:16px">
+              <sc-for list="{{ balanceTiles }}" as="b" hint-placeholder-count="2">
+                <div style="background:#f7f5f1;border-radius:13px;padding:12px 13px">
+                  <div style="font-size:10.5px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:#a8a49b">{{ b.label }}</div>
+                  <div style="font-family:'Outfit',sans-serif;font-variant-numeric:tabular-nums;font-size:20px;font-weight:600;letter-spacing:-.03em;margin-top:4px">{{ b.value }}</div>
+                </div>
+              </sc-for>
+            </div>
+            <div style="margin-top:16px">
+              <div style="height:7px;border-radius:99px;background:#f2efe9;position:relative;overflow:hidden">
+                <i style="position:absolute;left:22%;width:34%;top:0;bottom:0;border-radius:99px;background:#1a8f5a"></i>
+                <i style="position:absolute;left:56%;top:-3px;bottom:-3px;width:2px;background:#1a1a18"></i>
+              </div>
+              <div style="display:flex;justify-content:space-between;margin-top:7px;font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#a8a49b">
+                <span>Target deficit</span><span>Baseline</span><span>Target surplus</span>
+              </div>
+            </div>
+          </div>
+
+          <div style="background:#fff;border:1px solid #eae6df;border-radius:20px;padding:20px 22px">
+            <div style="font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#a8a49b">Physical recomposition</div>
+            <div style="display:flex;align-items:center;gap:18px;margin-top:14px">
+              <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.ProgressRing" value="{{ 68 }}" size="{{ 88 }}" stroke="{{ 9 }}" color="var(--accent)" track-color="#f2efe9" center-value="68" center-label="Index" hint-size="88px,88px"></x-import>
+              <div style="min-width:0">
+                <div style="font-size:13.5px;font-weight:600">Comp efficiency</div>
+                <p style="margin:5px 0 0;font-size:12.5px;color:#8a867e;line-height:1.45">3.1 kg down, 0.4 kg of it lean. Two more weigh-ins this week keep the index reliable.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section style="position:relative;isolation:isolate;overflow:hidden;background:#fff;border:1px solid #eae6df;border-radius:20px;padding:20px 22px 16px;animation:riseIn .42s cubic-bezier(.23,1,.32,1) 350ms both">
+        <span style="position:absolute;top:-85px;right:-60px;width:250px;height:215px;pointer-events:none;z-index:-1;background:radial-gradient(circle at 50% 50%,var(--glow-soft),transparent 70%)"></span>
+        <div style="display:flex;align-items:flex-start;gap:16px">
+          <div style="flex:1;min-width:0">
+            <div style="font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#a8a49b">Energy dynamics</div>
+            <h3 style="margin:6px 0 0;font-family:'Outfit',sans-serif;font-size:18px;font-weight:600;letter-spacing:-.03em">Metabolic flow analysis</h3>
+            <p style="margin:3px 0 0;font-size:12.5px;color:#8a867e">Daily intake against total output over your goal period.</p>
+          </div>
+          <div style="display:flex;gap:3px;background:#f7f5f1;border-radius:11px;padding:3px">
+            <sc-for list="{{ ranges }}" as="r" hint-placeholder-count="3">
+              <div onClick="{{ r.pick }}" style="padding:7px 14px;border-radius:9px;font-size:12.5px;font-weight:600;cursor:pointer;background:{{ r.bg }};color:{{ r.fg }};box-shadow:{{ r.shadow }};transition:background .14s,color .14s">{{ r.name }}</div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="display:flex;align-items:center;gap:8px;margin-top:16px;font-size:12px;color:#4a4740;background:var(--accent-tint);border-radius:10px;padding:8px 12px;width:fit-content">
+          <span style="color:var(--accent);display:flex">
+            <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="info" size="14" hint-size="14px,14px"></x-import>
+          </span>
+          Your daily baseline (TDEE) <b style="font-weight:700">2 581 cal</b>
+        </div>
+
+        <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:14px">
+          <sc-for list="{{ flowTiles }}" as="f" hint-placeholder-count="3">
+            <div style="background:#f7f5f1;border-radius:14px;padding:14px 16px">
+              <div style="font-size:10.5px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:#a8a49b">{{ f.label }}</div>
+              <div style="display:flex;align-items:baseline;gap:6px;margin-top:5px">
+                <span style="font-family:'Outfit',sans-serif;font-variant-numeric:tabular-nums;font-size:24px;font-weight:600;letter-spacing:-.035em;color:{{ f.fg }}">{{ f.value }}</span>
+                <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#a8a49b">{{ f.unit }}</span>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+
+        <div style="display:flex;align-items:flex-end;gap:10px;height:210px;margin-top:20px">
+          <div style="display:flex;flex-direction:column;justify-content:space-between;height:100%;padding-bottom:22px;font-family:'JetBrains Mono',monospace;font-size:10.5px;color:#b4b0a7">
+            <span>3 200</span><span>2 400</span><span>1 600</span><span>800</span><span>0</span>
+          </div>
+          <div style="flex:1;min-width:0;height:100%;position:relative">
+            <div style="position:absolute;left:0;right:0;top:calc(100% - 22px - (2581/3200 * (100% - 22px)));border-top:2px dashed #d8d2c6"></div>
+            <div style="display:flex;align-items:flex-end;gap:12px;height:100%">
+              <sc-for list="{{ flowBars }}" as="b" hint-placeholder-count="7">
+                <div style="flex:1;min-width:0;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:8px">
+                  <div style="width:100%;display:flex;align-items:flex-end;justify-content:center;gap:5px;flex:1;min-height:0">
+                    <i style="width:34%;border-radius:6px 6px 0 0;background:var(--accent);height:{{ b.intake }}%;transition:height .55s cubic-bezier(.2,0,0,1)"></i>
+                    <i style="width:34%;border-radius:6px 6px 0 0;background:#e0a83a;height:{{ b.output }}%;transition:height .55s cubic-bezier(.2,0,0,1)"></i>
+                  </div>
+                  <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;color:#a8a49b">{{ b.tick }}</span>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;justify-content:center;gap:24px;margin-top:12px;padding-top:12px;border-top:1px solid #f2efe9">
+          <sc-for list="{{ flowLegend }}" as="l" hint-placeholder-count="3">
+            <div style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:#8a867e">
+              <i style="width:16px;height:3px;border-radius:2px;background:{{ l.color }}"></i>{{ l.name }}
+            </div>
+          </sc-for>
+        </div>
+      </section>
+
+      <section style="display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:20px;animation:riseIn .42s cubic-bezier(.23,1,.32,1) 430ms both">
+        <div style="background:#fff;border:1px solid #eae6df;border-radius:20px;padding:20px 22px">
+          <div style="display:flex;align-items:flex-end;gap:14px">
+            <div style="flex:1;min-width:0">
+              <div style="font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#a8a49b">Consistency streaks</div>
+              <h3 style="margin:6px 0 0;font-family:'Outfit',sans-serif;font-size:18px;font-weight:600;letter-spacing:-.03em">21 days logged</h3>
+            </div>
+            <div style="display:flex;gap:18px">
+              <sc-for list="{{ streakStats }}" as="s" hint-placeholder-count="2">
+                <div style="text-align:right">
+                  <div style="font-family:'Outfit',sans-serif;font-variant-numeric:tabular-nums;font-size:18px;font-weight:600;letter-spacing:-.03em">{{ s.value }}</div>
+                  <div style="font-size:10.5px;color:#a8a49b">{{ s.label }}</div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(14,minmax(0,1fr));gap:5px;margin-top:18px">
+            <sc-for list="{{ streakCells }}" as="c" hint-placeholder-count="56">
+              <i title="{{ c.title }}" style="aspect-ratio:1;border-radius:5px;background:{{ c.bg }};transition:transform .14s" style-hover="transform:scale(1.18)"></i>
+            </sc-for>
+          </div>
+          <div style="display:flex;align-items:center;gap:14px;margin-top:16px;padding-top:14px;border-top:1px solid #f2efe9">
+            <sc-for list="{{ streakLegend }}" as="l" hint-placeholder-count="4">
+              <div style="display:flex;align-items:center;gap:6px;font-size:11.5px;color:#8a867e">
+                <i style="width:11px;height:11px;border-radius:3px;background:{{ l.color }}"></i>{{ l.name }}
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="background:#fff;border:1px solid #eae6df;border-radius:20px;padding:20px 22px;display:flex;flex-direction:column;gap:14px">
+          <div style="display:flex;align-items:center;gap:12px">
+            <div style="width:40px;height:40px;flex:none">
+              <x-import component-from-global-scope="image-slot" from="./image-slot.js" id="gt-coach-avatar" shape="circle" data-compact="" placeholder="" style="width:40px;height:40px" hint-size="40px,40px"></x-import>
+            </div>
+            <div style="flex:1;min-width:0">
+              <div style="font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#a8a49b">Diagnostic feed</div>
+              <div style="font-size:13.5px;font-weight:600;margin-top:2px">Two things worth a look</div>
+            </div>
+          </div>
+          <sc-for list="{{ insights }}" as="i" hint-placeholder-count="2">
+            <div style="display:flex;gap:12px;background:#f7f5f1;border-radius:14px;padding:14px 15px;cursor:pointer;transition:background .14s" style-hover="background:#f2efe9">
+              <span style="width:34px;height:34px;flex:none;border-radius:11px;background:{{ i.tint }};display:flex;align-items:center;justify-content:center;color:{{ i.color }}">
+                <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="{{ i.icon }}" size="17" stroke-width="1.9" hint-size="17px,17px"></x-import>
+              </span>
+              <div style="flex:1;min-width:0">
+                <div style="display:flex;align-items:center;gap:8px">
+                  <span style="font-size:10.5px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:{{ i.color }}">{{ i.kind }}</span>
+                  <span style="font-size:10.5px;color:#b4b0a7">{{ i.when }}</span>
+                </div>
+                <p style="margin:5px 0 0;font-size:12.5px;line-height:1.5;color:#4a4740">{{ i.body }}</p>
+              </div>
+              <span style="color:#b4b0a7;display:flex;flex:none;margin-top:3px">
+                <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="chevron-right" size="15" hint-size="15px,15px"></x-import>
+              </span>
+            </div>
+          </sc-for>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:2px">
+            <sc-for list="{{ chips }}" as="c" hint-placeholder-count="3">
+              <span style="font-size:12px;font-weight:600;color:#1a1a18;background:#fff;border:1px solid #eae6df;border-radius:99px;padding:7px 13px;cursor:pointer;transition:border-color .14s,background .14s" style-hover="background:#f7f5f1;border-color:#d8d2c6">{{ c }}</span>
+            </sc-for>
+          </div>
+        </div>
+      </section>
+
+      <section style="display:grid;grid-template-columns:minmax(0,.78fr) minmax(0,1.22fr);gap:20px;animation:riseIn .42s cubic-bezier(.23,1,.32,1) 510ms both">
+        <div style="position:relative;isolation:isolate;overflow:hidden;background:#fff;border:1px solid #eae6df;border-radius:20px;padding:20px 22px;display:flex;flex-direction:column">
+          <span style="position:absolute;bottom:-95px;left:-70px;width:250px;height:215px;pointer-events:none;z-index:-1;background:radial-gradient(circle at 50% 50%,var(--glow-soft),transparent 70%)"></span>
+          <div style="font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#a8a49b">Composite score</div>
+          <div style="display:flex;justify-content:center;margin-top:16px">
+            <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.ProgressRing" value="{{ 73 }}" size="{{ 176 }}" stroke="{{ 12 }}" color="var(--accent)" track-color="#f2efe9" center-value="73" center-label="Fitness score" hint-size="176px,176px"></x-import>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:11px;margin-top:18px;padding-top:16px;border-top:1px solid #f2efe9">
+            <sc-for list="{{ scoreParts }}" as="s" hint-placeholder-count="4">
+              <div style="display:flex;align-items:center;gap:10px">
+                <span style="width:76px;font-size:12px;color:#4a4740">{{ s.name }}</span>
+                <span style="flex:1;height:6px;border-radius:99px;background:#f2efe9;overflow:hidden">
+                  <i style="display:block;height:100%;border-radius:99px;background:{{ s.color }};width:{{ s.pct }}%;transition:width .6s cubic-bezier(.2,0,0,1)"></i>
+                </span>
+                <span style="font-family:'JetBrains Mono',monospace;font-variant-numeric:tabular-nums;font-size:11.5px;color:#8a867e;width:30px;text-align:right">{{ s.pct }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="background:#fff;border:1px solid #eae6df;border-radius:20px;padding:20px 22px">
+          <div style="display:flex;align-items:flex-start;gap:14px">
+            <div style="flex:1;min-width:0">
+              <div style="font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#a8a49b">Structural symmetry</div>
+              <h3 style="margin:6px 0 0;font-family:'Outfit',sans-serif;font-size:18px;font-weight:600;letter-spacing:-.03em">Muscle balance</h3>
+              <p style="margin:3px 0 0;font-size:12.5px;color:#8a867e">Volume share across the last 4 weeks of training.</p>
+            </div>
+            <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Badge" tone="warning" icon="trending-down" hint-size="auto,22px">Pull lagging</x-import>
+          </div>
+          <div style="display:grid;grid-template-columns:200px minmax(0,1fr);gap:22px;margin-top:18px">
+            <div style="height:100%;min-height:250px;border-radius:16px;overflow:hidden;background:#f7f5f1">
+              <x-import component-from-global-scope="image-slot" from="./image-slot.js" id="gt-muscle-map" shape="rounded" radius="16" placeholder="Body map / muscle heat render" style="width:100%;height:100%" hint-size="200px,250px"></x-import>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:13px;justify-content:center">
+              <sc-for list="{{ muscles }}" as="m" hint-placeholder-count="6">
+                <div>
+                  <div style="display:flex;align-items:baseline;gap:8px">
+                    <span style="flex:1;font-size:12.5px;color:#4a4740">{{ m.name }}</span>
+                    <span style="font-family:'JetBrains Mono',monospace;font-variant-numeric:tabular-nums;font-size:11.5px;color:#8a867e">{{ m.sets }} sets</span>
+                    <span style="font-size:11.5px;font-weight:600;color:{{ m.deltaFg }};width:44px;text-align:right">{{ m.delta }}</span>
+                  </div>
+                  <span style="display:block;height:7px;border-radius:99px;background:#f2efe9;overflow:hidden;margin-top:6px">
+                    <i style="display:block;height:100%;border-radius:99px;background:{{ m.color }};width:{{ m.pct }}%;transition:width .6s cubic-bezier(.2,0,0,1)"></i>
+                  </span>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section style="position:relative;isolation:isolate;overflow:hidden;background:#fff;border:1px solid #eae6df;border-radius:20px;padding:20px 22px 18px;animation:riseIn .42s cubic-bezier(.23,1,.32,1) 580ms both">
+        <span style="position:absolute;top:-85px;right:-60px;width:250px;height:215px;pointer-events:none;z-index:-1;background:radial-gradient(circle at 50% 50%,rgba(224,168,58,.16),transparent 70%)"></span>
+        <div style="display:flex;align-items:flex-end;gap:16px">
+          <div style="flex:1;min-width:0">
+            <div style="font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#a8a49b">Load progression</div>
+            <h3 style="margin:6px 0 0;font-family:'Outfit',sans-serif;font-size:18px;font-weight:600;letter-spacing:-.03em">Weekly load log</h3>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:6px">
+            <span style="font-family:'Outfit',sans-serif;font-variant-numeric:tabular-nums;font-size:24px;font-weight:600;letter-spacing:-.035em">49.2</span>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#a8a49b">t this week</span>
+          </div>
+          <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Badge" tone="success" icon="trending-up" hint-size="auto,22px">+14% vs W1</x-import>
+        </div>
+        <div style="display:flex;align-items:flex-end;gap:14px;height:170px;margin-top:20px">
+          <sc-for list="{{ loadWeeks }}" as="w" hint-placeholder-count="8">
+            <div onMouseEnter="{{ w.enter }}" onMouseLeave="{{ leave }}" style="flex:1;min-width:0;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:8px;cursor:crosshair;position:relative">
+              <sc-if value="{{ w.on }}" hint-placeholder-val="{{ false }}">
+                <div style="position:absolute;bottom:100%;left:50%;transform:translate(-50%,-4px);background:#1a1a18;color:#fff;border-radius:10px;padding:8px 11px;white-space:nowrap;z-index:5;box-shadow:0 12px 26px -14px rgba(0,0,0,.55)">
+                  <div style="font-size:10.5px;color:#a8a49b">{{ w.label }}</div>
+                  <div style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;margin-top:2px">{{ w.tip }}</div>
+                </div>
+              </sc-if>
+              <span style="font-family:'JetBrains Mono',monospace;font-variant-numeric:tabular-nums;font-size:11px;color:#8a867e">{{ w.value }}</span>
+              <i style="width:100%;border-radius:9px 9px 0 0;background:{{ w.fill }};height:{{ w.h }}%;transition:height .55s cubic-bezier(.2,0,0,1),background .14s"></i>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;color:#b4b0a7">{{ w.label }}</span>
+            </div>
+          </sc-for>
+        </div>
+      </section>
+
+      <footer style="display:flex;align-items:center;gap:18px;padding-top:8px;font-size:12px;color:#a8a49b;animation:riseIn .42s cubic-bezier(.23,1,.32,1) 650ms both">
+        <span>© 2026 Gym Tracker</span>
+        <div style="flex:1"></div>
+        <a href="#privacy">Privacy policy</a>
+        <a href="#terms">Terms of use</a>
+      </footer>
+    </div>
+  </main>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;accent&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#2A69C8&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;options&quot;:[&quot;#2A69C8&quot;,&quot;#1A8F5A&quot;,&quot;#1E1E1E&quot;],&quot;section&quot;:&quot;Theme&quot;},&quot;glow&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Theme&quot;},&quot;loadMs&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:300,&quot;min&quot;:0,&quot;max&quot;:2600,&quot;step&quot;:100,&quot;unit&quot;:&quot;ms&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Loading&quot;}}">
+class Component extends DCLogic {
+  state = { day: 4, range: 'Week', hoverWeek: -1, lucideReady: false, railCollapsed: false, railHover: null, loaded: true, now: 0 };
+
+  railItem(n, subActive){
+    const rc = this.state.railCollapsed, on = !!n.active;
+    return { name:n.name, icon:n.icon, go: () => GTNav.go(n.name),
+      enter: () => this.setState({ railHover: n.name }),
+      tip: rc && this.state.railHover === n.name,
+      bg: on ? 'var(--accent-tint)' : 'transparent',
+      fg: on ? 'var(--accent-deep)' : '#4a4740',
+      weight: on ? 600 : 500,
+      barH: on ? '20px' : '0px',
+      barOff: on ? '-10px' : '0px',
+      showSubs: !rc && !!n.subs && on,
+      subs: (n.subs || []).map(s => ({ name:s, go: () => GTNav.go(s),
+        weight: s === subActive ? 600 : 500,
+        fg: s === subActive ? 'var(--accent-deep)' : '#8a867e',
+        bg: s === subActive ? 'var(--accent-tint)' : 'transparent' })) };
+  }
+
+  railVals(){
+    const rc = this.state.railCollapsed;
+    return {
+      railW: rc ? '76px' : '248px',
+      railExpanded: !rc,
+      railCollapsed: rc,
+      railLabelOp: rc ? 0 : 1,
+      railLabelX: rc ? '-6px' : '0px',
+      railLabelFlex: rc ? '0 0 0px' : '1 1 auto',
+      railJustify: rc ? 'center' : 'flex-start',
+      railPadX: rc ? '0px' : '11px',
+      railChevRot: rc ? '180deg' : '0deg',
+      railToggleDisplay: rc ? 'none' : 'flex',
+      toggleRail: () => this.setState(s => ({ railCollapsed: !s.railCollapsed })),
+      railLeave: () => this.setState({ railHover: null })
+    };
+  }
+
+  componentDidMount(){
+    this.applyTheme();
+    this.waitForLucide(); GTAnim.boot(this); }
+  componentDidUpdate(prev){
+    if(prev.accent !== this.props.accent || prev.glow !== this.props.glow) this.applyTheme();
+  }
+  componentWillUnmount(){ if(this._t) clearInterval(this._t); GTAnim.stop(this); }
+
+  waitForLucide(){
+    const ok = () => typeof window !== 'undefined' && window.lucide && window.lucide.icons;
+    if(ok()){ this.setState({ lucideReady: true }); return; }
+    this._t = setInterval(() => {
+      if(ok()){ clearInterval(this._t); this._t = null; this.setState({ lucideReady: true }); }
+    }, 120);
+  }
+
+  applyTheme(){
+    const accent = this.props.accent ?? '#2A69C8';
+    const map = {
+      '#2A69C8': ['#1f56a8', '#eaf1fb', '42,105,200'],
+      '#1A8F5A': ['#146c44', '#e8f4ee', '26,143,90'],
+      '#1E1E1E': ['#000000', '#f0eeea', '30,30,30']
+    };
+    const [deep, tint, rgb] = map[accent.toUpperCase()] || map['#2A69C8'];
+    const on = this.props.glow ?? true;
+    const s = document.body.style;
+    s.setProperty('--accent', accent);
+    s.setProperty('--accent-deep', deep);
+    s.setProperty('--accent-tint', tint);
+    s.setProperty('--glow', on ? `rgba(${rgb},.20)` : 'transparent');
+    s.setProperty('--glow-soft', on ? `rgba(${rgb},.13)` : 'transparent');
+  }
+
+  anim(ms){ return GTAnim.anim(ms); }
+  prog(d, dur){ return GTAnim.prog(this, d, dur); }
+  roll(v, p){ return GTAnim.roll(v, p); }
+  reload(){ GTAnim.reload(this); }
+
+  renderVals(){
+    const L = this.props.loadMs ?? 900;
+    const AN = ms => this.anim(ms);
+    const P = (shell, extra) => this.prog(shell + L + (extra || 0));
+    const G = (shell, extra) => (P(shell, extra) > 0 ? 1 : 0);
+    const R = (v, shell, extra) => this.roll(v, P(shell, extra));
+    const A = 'var(--accent)';
+    const nav = [
+      { name:'Dashboard', icon:'layout-dashboard', active:true },
+      { name:'Personal info', icon:'heart-pulse' },
+      { name:'Weight loss', icon:'trending-down' },
+      { name:'Steps', icon:'footprints' },
+      { name:'Workouts', icon:'dumbbell', subs:['Logs','Exercises'] },
+      { name:'Macros tracker', icon:'utensils' }
+    ].map(n => this.railItem(n, ''));
+
+    const days = [
+      { dow:'Sat', n:1, logged:true }, { dow:'Sun', n:2, logged:false },
+      { dow:'Mon', n:3, logged:true }, { dow:'Tue', n:4, logged:true },
+      { dow:'Wed', n:5, logged:false }, { dow:'Thu', n:6, logged:false },
+      { dow:'Fri', n:7, logged:false }
+    ].map(d => {
+      const on = this.state.day === d.n;
+      return { ...d,
+        pick: () => this.setState({ day: d.n }),
+        wrapBg: on ? '#fff' : 'transparent',
+        labelFg: on ? '#1a1a18' : '#a8a49b',
+        bg: on ? A : 'transparent',
+        fg: on ? '#fff' : '#4a4740',
+        shadow: on ? '0 6px 16px -6px rgba(0,0,0,.28)' : 'none',
+        dot: d.logged ? '#1a8f5a' : '#e4e1da' };
+    });
+
+    const flowSets = {
+      Week: [
+        { tick:'7/29', intake:64, output:80 }, { tick:'7/30', intake:58, output:78 },
+        { tick:'7/31', intake:71, output:86 }, { tick:'8/1', intake:52, output:74 },
+        { tick:'8/2', intake:78, output:81 }, { tick:'8/3', intake:61, output:79 },
+        { tick:'8/4', intake:57, output:83 }
+      ],
+      Month: [
+        { tick:'W1', intake:69, output:78 }, { tick:'W2', intake:66, output:80 },
+        { tick:'W3', intake:62, output:82 }, { tick:'W4', intake:58, output:84 },
+        { tick:'W5', intake:60, output:83 }, { tick:'W6', intake:57, output:85 },
+        { tick:'W7', intake:55, output:86 }
+      ],
+      'This goal': [
+        { tick:'M1', intake:74, output:77 }, { tick:'M2', intake:70, output:79 },
+        { tick:'M3', intake:65, output:81 }, { tick:'M4', intake:61, output:83 },
+        { tick:'M5', intake:58, output:84 }, { tick:'M6', intake:56, output:86 },
+        { tick:'M7', intake:54, output:87 }
+      ]
+    };
+    const flowFigures = {
+      Week: [['−18 060','calories'],['1 902','cal/day'],['−2.3','kg']],
+      Month: [['−72 240','calories'],['1 878','cal/day'],['−9.1','kg']],
+      'This goal': [['−148 900','calories'],['1 864','cal/day'],['−12.8','kg']]
+    };
+    const fig = flowFigures[this.state.range] || flowFigures.Week;
+
+    const ranges = ['Week','Month','This goal'].map(name => {
+      const on = this.state.range === name;
+      return { name, pick: () => this.setState({ range: name }),
+        bg: on ? '#fff' : 'transparent', fg: on ? '#1a1a18' : '#8a867e',
+        shadow: on ? '0 2px 8px -4px rgba(26,26,24,.28)' : 'none' };
+    });
+
+    const loadRaw = [
+      ['W1',43.1],['W2',44.6],['W3',41.8],['W4',46.2],
+      ['W5',45.0],['W6',47.4],['W7',44.9],['W8',49.2]
+    ];
+    const loadWeeks = loadRaw.map(([label, v], i) => ({
+      label, value: v.toFixed(1),
+      tip: v.toFixed(1) + ' t · ' + (18 + (i % 3)) + ' sets',
+      h: Math.round((v / 52) * 100),
+      on: this.state.hoverWeek === i,
+      fill: this.state.hoverWeek === i ? '#1a1a18' : (i === loadRaw.length - 1 ? A : '#d8d2c6'),
+      enter: () => this.setState({ hoverWeek: i })
+    }));
+
+    const fills = ['#f2efe9', 'var(--accent)', 'rgba(42,105,200,.42)', '#e8f4ee'];
+    const labels = ['Missed','Full log','Partial','Rest day'];
+    const pattern = [3,1,0,2,1,1,0, 1,1,2,0,1,1,0, 1,0,1,1,2,1,0, 1,1,1,0,1,2,1, 1,1,0,1,1,1,2, 1,1,1,1,0,1,1, 1,2,1,1,1,0,1, 1,1,1,1,1,2,3];
+    const streakCells = pattern.map((p, i) => ({ bg: fills[p], title: 'Day ' + (i + 1) + ' · ' + labels[p] }));
+
+    return {
+      nav,
+      subNav: ['Logs','Exercises'],
+      ...this.railVals(),
+      plans: [{ name:'PRO Limited · 20 ops', price:'€9.99/mo' }, { name:'PRO Unlimited · 500 ops', price:'€29.99/mo' }],
+      days,
+      heroKcal: R('1 842', 170),
+      balanceKcal: R('−2 581', 260),
+      headStats: [
+        { label:'Projection state', value:'On track', unit:'', fg:'#1a8f5a' },
+        { label:'Metabolic error', value:'−2 581', unit:'kcal', fg:'#1a1a18' },
+        { label:'Weeks remaining', value:'8', unit:'wks', fg:'#1a1a18' }
+      ].map((s, i) => ({ ...s, value: R(s.value, 170, i * 55) })),
+      macros: [
+        { name:'Protein', pct:78, value:'117 / 150 g', color:'var(--accent)' },
+        { name:'Carbs', pct:64, value:'128 / 200 g', color:'#e0a83a' },
+        { name:'Fat', pct:52, value:'34 / 65 g', color:'#e0533d' }
+      ].map((m, i) => ({ ...m, pct: Math.round(m.pct * P(170, 120 + i * 50)), value: R(m.value, 170, 120 + i * 50) })),
+      todayTiles: [
+        { label:'Steps', value:'8 420', unit:'steps', color:'#17a2a2', icon:'footprints' },
+        { label:'Burned', value:'612', unit:'kcal', color:'#e0533d', icon:'flame' },
+        { label:'Weight', value:'104.8', unit:'kg', color:'#34c47f', icon:'scale' }
+      ].map((v, i) => ({ ...v, value: R(v.value, 170, 200 + i * 50) })),
+      forecastLegend: [
+        { name:'Actual', color:'var(--accent)' },
+        { name:'Forecast', color:'rgba(42,105,200,.5)' },
+        { name:'Range', color:'#dfe7f4' },
+        { name:'Goal', color:'#1a8f5a' }
+      ],
+      balanceTiles: [
+        { label:'Gross intake', value:'+12 894' },
+        { label:'Total output', value:'−15 475' }
+      ].map((v, i) => ({ ...v, value: R(v.value, 260, 120 + i * 60) })),
+      ranges,
+      flowTiles: [
+        { label:'Cumulative gap', value:fig[0][0], unit:fig[0][1], fg:'#1a8f5a' },
+        { label:'Avg daily input', value:fig[1][0], unit:fig[1][1], fg:'#1a1a18' },
+        { label:'Estimated mass shift', value:fig[2][0], unit:fig[2][1], fg:'var(--accent-deep)' }
+      ].map((v, i) => ({ ...v, value: R(v.value, 350, i * 55) })),
+      flowBars: (flowSets[this.state.range] || flowSets.Week).map((b, i) => ({ ...b,
+        intake: Math.round(b.intake * P(350, 140 + i * 40)), output: Math.round(b.output * P(350, 140 + i * 40)) })),
+      flowLegend: [
+        { name:'Food (input)', color:'var(--accent)' },
+        { name:'Output (base + active)', color:'#e0a83a' },
+        { name:'Baseline', color:'#d8d2c6' }
+      ],
+      streakStats: [{ value:'21', label:'current' }, { value:'34', label:'best' }].map((s, i) => ({ ...s, value: R(s.value, 430, i * 60) })),
+      streakCells,
+      streakLegend: [
+        { name:'Full log', color:'var(--accent)' },
+        { name:'Partial', color:'rgba(42,105,200,.42)' },
+        { name:'Rest day', color:'#e8f4ee' },
+        { name:'Missed', color:'#f2efe9' }
+      ],
+      insights: [
+        { kind:'Correlation', when:'2 h ago', tint:'var(--accent-tint)', color:'var(--accent-deep)', icon:'trending-up',
+          body:'Bench volume is up 14% this week and your last set felt easier (RPE 7). Hold 80 kg one more session?' },
+        { kind:'Pattern', when:'Yesterday', tint:'#fdf3e2', color:'#c98a1e', icon:'calendar-days',
+          body:'Sunday is your only unlogged day three weeks running. A 30-second weigh-in keeps the forecast honest.' }
+      ],
+      chips: ['Hold the load','Add 2.5 kg','Why?'],
+      scoreParts: [
+        { name:'Training', pct:82, color:'var(--accent)' },
+        { name:'Nutrition', pct:74, color:'#e0a83a' },
+        { name:'Steps', pct:69, color:'#17a2a2' },
+        { name:'Recovery', pct:61, color:'#e0533d' }
+      ].map((s, i) => ({ ...s, pct: Math.round(s.pct * P(510, i * 55)) })),
+      muscles: [
+        { name:'Chest', sets:34, pct:88, delta:'+12%', deltaFg:'#1a8f5a', color:'var(--accent)' },
+        { name:'Back', sets:22, pct:56, delta:'−4%', deltaFg:'#c98a1e', color:'var(--accent)' },
+        { name:'Legs', sets:30, pct:78, delta:'+6%', deltaFg:'#1a8f5a', color:'var(--accent)' },
+        { name:'Shoulders', sets:18, pct:46, delta:'+2%', deltaFg:'#1a8f5a', color:'rgba(42,105,200,.55)' },
+        { name:'Arms', sets:16, pct:41, delta:'0%', deltaFg:'#8a867e', color:'rgba(42,105,200,.55)' },
+        { name:'Core', sets:11, pct:28, delta:'−9%', deltaFg:'#c98a1e', color:'rgba(42,105,200,.55)' }
+      ].map((m, i) => ({ ...m, sets: Math.round(m.sets * P(510, 120 + i * 45)), pct: Math.round(m.pct * P(510, 120 + i * 45)) })),
+      loadWeeks: loadWeeks.map((w, i) => ({ ...w, h: Math.round(w.h * P(580, i * 40)), value: R(w.value, 580, i * 40) })),
+      leave: () => this.setState({ hoverWeek: -1 })
+    };
+  }
+}
+</script>
+</body>
+</html>

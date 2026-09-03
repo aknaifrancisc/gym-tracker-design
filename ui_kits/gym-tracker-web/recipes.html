@@ -1,0 +1,221 @@
+<!-- @dsCard group="Gym Tracker Web" viewport="1440x1000" subtitle="Redesigned Recipes — hero, media cards with macro strips" name="Recipes" -->
+<!-- @startingPoint section="Screens" subtitle="Redesigned Recipes page" viewport="1440x1000" -->
+<!DOCTYPE html><html><head>
+<link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<script src="../../image-slot.js"></script>
+<script src="../../ds-loader.js"></script>
+<style>body{margin:0;background:var(--bg)}</style>
+</head><body><div id="root"></div>
+<script type="text/babel-app">
+let Button, IconButton, Card, Badge, Tabs, Avatar, SideNav, Input, Select;
+
+const ic = (n, s=16) => <i data-lucide={n} style={{width:s,height:s}}></i>;
+
+function App(){
+  const [nav,setNav]=React.useState('recipes');
+  React.useEffect(()=>{lucide.createIcons()});
+  return <div style={{display:'flex',minHeight:'100vh',fontFamily:'var(--font-sans)'}}>
+    <SideNav activeId={nav} onSelect={setNav} style={{position:'sticky',top:0,height:'100vh'}}
+      header={<a href="all-screens.html" style={{display:'block',padding:'4px 12px 16px'}}><img src="../../assets/Logo.svg" alt="Gym Tracker" style={{height:34,display:'block'}}/></a>}
+      items={[
+        {id:'dash',href:'dashboard.html',label:'Dashboard',icon:ic('layout-dashboard')},
+        {id:'personal',href:'index.html',label:'Personal info',icon:ic('heart-pulse')},
+        {id:'weight',href:'weight-loss.html',label:'Weight loss',icon:ic('scale')},
+        {id:'steps',href:'steps.html',label:'Steps',icon:ic('footprints')},
+        {id:'workouts',label:'Workouts',icon:ic('dumbbell'),open:false,children:[{id:'logs',href:'workout-logs.html',label:'Logs'},{id:'exercises',href:'exercises.html',label:'Exercises'}]},
+        {id:'macros',href:'macros-dashboard.html',label:'Macros tracker',icon:ic('utensils'),children:[{id:'meals',href:'daily-meals.html',label:'Daily meals'},{id:'recipes',href:'recipes.html',label:'Recipes'},{id:'ingredients',href:'ingredients.html',label:'Ingredients'}]}]}
+      footer={<div style={{display:'flex',alignItems:'center',gap:10,padding:'10px 12px',borderTop:'1px solid var(--border)'}}>
+        <Avatar name="John D" size={32}/>
+        <div style={{flex:1,minWidth:0}}><div style={{fontSize:13,fontWeight:500,color:'var(--text-1)'}}>John Doe</div><div style={{fontSize:11,color:'var(--text-3)',overflow:'hidden',textOverflow:'ellipsis'}}>john.doe@gymgoer.com</div></div>
+        <span style={{color:'var(--text-3)'}}>{ic('chevrons-up-down',14)}</span>
+      </div>}/>
+    <main style={{flex:1,minWidth:0,padding:'28px 32px',maxWidth:'var(--content-max)',margin:'0 auto',boxSizing:'border-box',width:'100%'}}>
+      <section style={{position:'relative',borderRadius:'var(--radius-lg)',overflow:'hidden',marginBottom:20,height:220}}>
+        <image-slot id="recipes-hero" shape="rect" placeholder="Hero image — fresh food spread"></image-slot>
+        <div style={{position:'absolute',inset:0,background:'linear-gradient(90deg, oklch(0.22 0.03 275 / 0.88), oklch(0.22 0.03 275 / 0.45) 55%, transparent)',pointerEvents:'none'}}></div>
+        <div style={{position:'absolute',left:28,top:'50%',transform:'translateY(-50%)',color:'#fff',pointerEvents:'none',maxWidth:520}}>
+          <h1 style={{margin:0,fontSize:32,fontWeight:700,letterSpacing:'-0.01em',lineHeight:1.15}}>Eat smart. Train hard.</h1>
+          <p style={{margin:'8px 0 0',fontSize:14,color:'oklch(1 0 0 / 0.8)'}}>Recipes built for performance — track macros and fuel your gains with chef-curated meals.</p>
+        </div>
+      </section>
+
+      <header style={{display:'flex',gap:12,alignItems:'center',marginBottom:20}}>
+        <Input placeholder="Search recipes…" style={{flex:1}}/>
+        <Select options={['All meals','Breakfast','Lunch','Dinner','Snack']} style={{width:140}}/>
+        <Select options={['Any time','Under 15 min','Under 45 min','Over 45 min']} style={{width:150}}/>
+        <Button icon={ic('plus')}>Add recipe</Button>
+      </header>
+
+      <div style={{display:'grid',gridTemplateColumns:'repeat(3, minmax(0, 1fr))',gap:16,marginBottom:20}}>
+        <Card key="Apple Yogurt Cake" interactive compact style={{padding:0,overflow:'hidden'}}>
+          <div style={{position:'relative',height:170,background:'var(--wash-blue)',color:'var(--text-3)'}}>
+            <image-slot id="rec-0" shape="rect" placeholder="Apple Yogurt Cake — photo"></image-slot>
+            <span style={{position:'absolute',top:10,left:10,right:84,display:'flex',gap:6,flexWrap:'wrap',pointerEvents:'none'}}><Badge tone="success">Snack</Badge></span>
+            <span style={{position:'absolute',top:10,right:10,pointerEvents:'none'}}><Badge tone="neutral" style={{background:'oklch(0.2 0.02 256 / 0.65)',color:'#fff'}}>{ic('clock',11)} 70 min</Badge></span>
+          </div>
+          <div style={{padding:'12px 14px 14px'}}>
+            <div style={{fontSize:15,fontWeight:600,color:'var(--text-1)'}}>Apple Yogurt Cake</div>
+            <div style={{display:'grid',gridTemplateColumns:'repeat(4, minmax(0,1fr))',gap:6,marginTop:12}}>
+              {[['flame','3,230','kcal','amber'],['zap','69.9','protein','blue'],['wheat','604.3','carbs','violet'],['droplet','60.6','fat','teal']].map(([i,v,l,g])=>
+                <div key={l} style={{background:'var(--bg-subtle)',borderRadius:8,padding:'7px 6px',textAlign:'center'}}>
+                  <div style={{fontFamily:'var(--font-mono)',fontFeatureSettings:'var(--tnum)',fontSize:13,fontWeight:600,color:'var(--text-1)'}}>{v}</div>
+                  <div style={{fontSize:10,color:'var(--text-3)',marginTop:1}}>{l}</div>
+                </div>)}
+            </div>
+          </div>
+        </Card>
+        <Card key="Chicken Gizzard & Heart Rice Pilaf" interactive compact style={{padding:0,overflow:'hidden'}}>
+          <div style={{position:'relative',height:170,background:'var(--wash-violet)',color:'var(--text-3)'}}>
+            <image-slot id="rec-1" shape="rect" placeholder="Chicken Gizzard & Heart Rice Pilaf — photo"></image-slot>
+            <span style={{position:'absolute',top:10,left:10,right:84,display:'flex',gap:6,flexWrap:'wrap',pointerEvents:'none'}}><Badge tone="primary">Lunch</Badge><Badge tone="primary">Dinner</Badge></span>
+            <span style={{position:'absolute',top:10,right:10,pointerEvents:'none'}}><Badge tone="neutral" style={{background:'oklch(0.2 0.02 256 / 0.65)',color:'#fff'}}>{ic('clock',11)} 90 min</Badge></span>
+          </div>
+          <div style={{padding:'12px 14px 14px'}}>
+            <div style={{fontSize:15,fontWeight:600,color:'var(--text-1)'}}>Chicken Gizzard & Heart Rice Pilaf</div>
+            <div style={{display:'grid',gridTemplateColumns:'repeat(4, minmax(0,1fr))',gap:6,marginTop:12}}>
+              {[['flame','4,775','kcal','amber'],['zap','430.3','protein','blue'],['wheat','547.3','carbs','violet'],['droplet','119.4','fat','teal']].map(([i,v,l,g])=>
+                <div key={l} style={{background:'var(--bg-subtle)',borderRadius:8,padding:'7px 6px',textAlign:'center'}}>
+                  <div style={{fontFamily:'var(--font-mono)',fontFeatureSettings:'var(--tnum)',fontSize:13,fontWeight:600,color:'var(--text-1)'}}>{v}</div>
+                  <div style={{fontSize:10,color:'var(--text-3)',marginTop:1}}>{l}</div>
+                </div>)}
+            </div>
+          </div>
+        </Card>
+        <Card key="Chicken Stew with Pasta" interactive compact style={{padding:0,overflow:'hidden'}}>
+          <div style={{position:'relative',height:170,background:'var(--wash-teal)',color:'var(--text-3)'}}>
+            <image-slot id="rec-2" shape="rect" placeholder="Chicken Stew with Pasta — photo"></image-slot>
+            <span style={{position:'absolute',top:10,left:10,right:84,display:'flex',gap:6,flexWrap:'wrap',pointerEvents:'none'}}><Badge tone="primary">Lunch</Badge><Badge tone="primary">Dinner</Badge></span>
+            <span style={{position:'absolute',top:10,right:10,pointerEvents:'none'}}><Badge tone="neutral" style={{background:'oklch(0.2 0.02 256 / 0.65)',color:'#fff'}}>{ic('clock',11)} 90 min</Badge></span>
+          </div>
+          <div style={{padding:'12px 14px 14px'}}>
+            <div style={{fontSize:15,fontWeight:600,color:'var(--text-1)'}}>Chicken Stew with Pasta</div>
+            <div style={{display:'grid',gridTemplateColumns:'repeat(4, minmax(0,1fr))',gap:6,marginTop:12}}>
+              {[['flame','644','kcal','amber'],['zap','51.8','protein','blue'],['wheat','66.8','carbs','violet'],['droplet','19.9','fat','teal']].map(([i,v,l,g])=>
+                <div key={l} style={{background:'var(--bg-subtle)',borderRadius:8,padding:'7px 6px',textAlign:'center'}}>
+                  <div style={{fontFamily:'var(--font-mono)',fontFeatureSettings:'var(--tnum)',fontSize:13,fontWeight:600,color:'var(--text-1)'}}>{v}</div>
+                  <div style={{fontSize:10,color:'var(--text-3)',marginTop:1}}>{l}</div>
+                </div>)}
+            </div>
+          </div>
+        </Card>
+        <Card key="Coffee" interactive compact style={{padding:0,overflow:'hidden'}}>
+          <div style={{position:'relative',height:170,background:'var(--wash-green)',color:'var(--text-3)'}}>
+            <image-slot id="rec-3" shape="rect" placeholder="Coffee — photo"></image-slot>
+            <span style={{position:'absolute',top:10,left:10,right:84,display:'flex',gap:6,flexWrap:'wrap',pointerEvents:'none'}}><Badge tone="warning">Breakfast</Badge></span>
+            <span style={{position:'absolute',top:10,right:10,pointerEvents:'none'}}><Badge tone="neutral" style={{background:'oklch(0.2 0.02 256 / 0.65)',color:'#fff'}}>{ic('clock',11)} 4 min</Badge></span>
+          </div>
+          <div style={{padding:'12px 14px 14px'}}>
+            <div style={{fontSize:15,fontWeight:600,color:'var(--text-1)'}}>Coffee</div>
+            <div style={{display:'grid',gridTemplateColumns:'repeat(4, minmax(0,1fr))',gap:6,marginTop:12}}>
+              {[['flame','167','kcal','amber'],['zap','1.7','protein','blue'],['wheat','10.5','carbs','violet'],['droplet','4.5','fat','teal']].map(([i,v,l,g])=>
+                <div key={l} style={{background:'var(--bg-subtle)',borderRadius:8,padding:'7px 6px',textAlign:'center'}}>
+                  <div style={{fontFamily:'var(--font-mono)',fontFeatureSettings:'var(--tnum)',fontSize:13,fontWeight:600,color:'var(--text-1)'}}>{v}</div>
+                  <div style={{fontSize:10,color:'var(--text-3)',marginTop:1}}>{l}</div>
+                </div>)}
+            </div>
+          </div>
+        </Card>
+        <Card key="Country Style Potatoes with Bacon" interactive compact style={{padding:0,overflow:'hidden'}}>
+          <div style={{position:'relative',height:170,background:'var(--wash-amber)',color:'var(--text-3)'}}>
+            <image-slot id="rec-4" shape="rect" placeholder="Country Style Potatoes with Bacon — photo"></image-slot>
+            <span style={{position:'absolute',top:10,left:10,right:84,display:'flex',gap:6,flexWrap:'wrap',pointerEvents:'none'}}><Badge tone="primary">Lunch</Badge><Badge tone="primary">Dinner</Badge></span>
+            <span style={{position:'absolute',top:10,right:10,pointerEvents:'none'}}><Badge tone="neutral" style={{background:'oklch(0.2 0.02 256 / 0.65)',color:'#fff'}}>{ic('clock',11)} 40 min</Badge></span>
+          </div>
+          <div style={{padding:'12px 14px 14px'}}>
+            <div style={{fontSize:15,fontWeight:600,color:'var(--text-1)'}}>Country Style Potatoes with Bacon</div>
+            <div style={{display:'grid',gridTemplateColumns:'repeat(4, minmax(0,1fr))',gap:6,marginTop:12}}>
+              {[['flame','1,175','kcal','amber'],['zap','41.4','protein','blue'],['wheat','163.1','carbs','violet'],['droplet','56.5','fat','teal']].map(([i,v,l,g])=>
+                <div key={l} style={{background:'var(--bg-subtle)',borderRadius:8,padding:'7px 6px',textAlign:'center'}}>
+                  <div style={{fontFamily:'var(--font-mono)',fontFeatureSettings:'var(--tnum)',fontSize:13,fontWeight:600,color:'var(--text-1)'}}>{v}</div>
+                  <div style={{fontSize:10,color:'var(--text-3)',marginTop:1}}>{l}</div>
+                </div>)}
+            </div>
+          </div>
+        </Card>
+        <Card key="Homemade Bacon & Basilico Pasta" interactive compact style={{padding:0,overflow:'hidden'}}>
+          <div style={{position:'relative',height:170,background:'var(--wash-blue)',color:'var(--text-3)'}}>
+            <image-slot id="rec-5" shape="rect" placeholder="Homemade Bacon & Basilico Pasta — photo"></image-slot>
+            <span style={{position:'absolute',top:10,left:10,right:84,display:'flex',gap:6,flexWrap:'wrap',pointerEvents:'none'}}><Badge tone="primary">Lunch</Badge><Badge tone="primary">Dinner</Badge></span>
+            <span style={{position:'absolute',top:10,right:10,pointerEvents:'none'}}><Badge tone="neutral" style={{background:'oklch(0.2 0.02 256 / 0.65)',color:'#fff'}}>{ic('clock',11)} 35 min</Badge></span>
+          </div>
+          <div style={{padding:'12px 14px 14px'}}>
+            <div style={{fontSize:15,fontWeight:600,color:'var(--text-1)'}}>Homemade Bacon & Basilico Pasta</div>
+            <div style={{display:'grid',gridTemplateColumns:'repeat(4, minmax(0,1fr))',gap:6,marginTop:12}}>
+              {[['flame','1,894','kcal','amber'],['zap','79.6','protein','blue'],['wheat','280.7','carbs','violet'],['droplet','46','fat','teal']].map(([i,v,l,g])=>
+                <div key={l} style={{background:'var(--bg-subtle)',borderRadius:8,padding:'7px 6px',textAlign:'center'}}>
+                  <div style={{fontFamily:'var(--font-mono)',fontFeatureSettings:'var(--tnum)',fontSize:13,fontWeight:600,color:'var(--text-1)'}}>{v}</div>
+                  <div style={{fontSize:10,color:'var(--text-3)',marginTop:1}}>{l}</div>
+                </div>)}
+            </div>
+          </div>
+        </Card>
+        <Card key="Light Tuna Salad" interactive compact style={{padding:0,overflow:'hidden'}}>
+          <div style={{position:'relative',height:170,background:'var(--wash-violet)',color:'var(--text-3)'}}>
+            <image-slot id="rec-6" shape="rect" placeholder="Light Tuna Salad — photo"></image-slot>
+            <span style={{position:'absolute',top:10,left:10,right:84,display:'flex',gap:6,flexWrap:'wrap',pointerEvents:'none'}}><Badge tone="primary">Lunch</Badge><Badge tone="success">Snack</Badge></span>
+            <span style={{position:'absolute',top:10,right:10,pointerEvents:'none'}}><Badge tone="neutral" style={{background:'oklch(0.2 0.02 256 / 0.65)',color:'#fff'}}>{ic('clock',11)} 6 min</Badge></span>
+          </div>
+          <div style={{padding:'12px 14px 14px'}}>
+            <div style={{fontSize:15,fontWeight:600,color:'var(--text-1)'}}>Light Tuna Salad</div>
+            <div style={{display:'grid',gridTemplateColumns:'repeat(4, minmax(0,1fr))',gap:6,marginTop:12}}>
+              {[['flame','535','kcal','amber'],['zap','102.7','protein','blue'],['wheat','8.6','carbs','violet'],['droplet','10.2','fat','teal']].map(([i,v,l,g])=>
+                <div key={l} style={{background:'var(--bg-subtle)',borderRadius:8,padding:'7px 6px',textAlign:'center'}}>
+                  <div style={{fontFamily:'var(--font-mono)',fontFeatureSettings:'var(--tnum)',fontSize:13,fontWeight:600,color:'var(--text-1)'}}>{v}</div>
+                  <div style={{fontSize:10,color:'var(--text-3)',marginTop:1}}>{l}</div>
+                </div>)}
+            </div>
+          </div>
+        </Card>
+        <Card key="Mashed Potatoes" interactive compact style={{padding:0,overflow:'hidden'}}>
+          <div style={{position:'relative',height:170,background:'var(--wash-teal)',color:'var(--text-3)'}}>
+            <image-slot id="rec-7" shape="rect" placeholder="Mashed Potatoes — photo"></image-slot>
+            <span style={{position:'absolute',top:10,left:10,right:84,display:'flex',gap:6,flexWrap:'wrap',pointerEvents:'none'}}><Badge tone="primary">Dinner</Badge><Badge tone="primary">Lunch</Badge></span>
+            <span style={{position:'absolute',top:10,right:10,pointerEvents:'none'}}><Badge tone="neutral" style={{background:'oklch(0.2 0.02 256 / 0.65)',color:'#fff'}}>{ic('clock',11)} 75 min</Badge></span>
+          </div>
+          <div style={{padding:'12px 14px 14px'}}>
+            <div style={{fontSize:15,fontWeight:600,color:'var(--text-1)'}}>Mashed Potatoes</div>
+            <div style={{display:'grid',gridTemplateColumns:'repeat(4, minmax(0,1fr))',gap:6,marginTop:12}}>
+              {[['flame','1,115','kcal','amber'],['zap','20.1','protein','blue'],['wheat','184.2','carbs','violet'],['droplet','33','fat','teal']].map(([i,v,l,g])=>
+                <div key={l} style={{background:'var(--bg-subtle)',borderRadius:8,padding:'7px 6px',textAlign:'center'}}>
+                  <div style={{fontFamily:'var(--font-mono)',fontFeatureSettings:'var(--tnum)',fontSize:13,fontWeight:600,color:'var(--text-1)'}}>{v}</div>
+                  <div style={{fontSize:10,color:'var(--text-3)',marginTop:1}}>{l}</div>
+                </div>)}
+            </div>
+          </div>
+        </Card>
+        <Card key="Overnight Oats with Berries" interactive compact style={{padding:0,overflow:'hidden'}}>
+          <div style={{position:'relative',height:170,background:'var(--wash-green)',color:'var(--text-3)'}}>
+            <image-slot id="rec-8" shape="rect" placeholder="Overnight Oats with Berries — photo"></image-slot>
+            <span style={{position:'absolute',top:10,left:10,right:84,display:'flex',gap:6,flexWrap:'wrap',pointerEvents:'none'}}><Badge tone="warning">Breakfast</Badge></span>
+            <span style={{position:'absolute',top:10,right:10,pointerEvents:'none'}}><Badge tone="neutral" style={{background:'oklch(0.2 0.02 256 / 0.65)',color:'#fff'}}>{ic('clock',11)} 10 min</Badge></span>
+          </div>
+          <div style={{padding:'12px 14px 14px'}}>
+            <div style={{fontSize:15,fontWeight:600,color:'var(--text-1)'}}>Overnight Oats with Berries</div>
+            <div style={{display:'grid',gridTemplateColumns:'repeat(4, minmax(0,1fr))',gap:6,marginTop:12}}>
+              {[['flame','420','kcal','amber'],['zap','18.4','protein','blue'],['wheat','62.0','carbs','violet'],['droplet','11.3','fat','teal']].map(([i,v,l,g])=>
+                <div key={l} style={{background:'var(--bg-subtle)',borderRadius:8,padding:'7px 6px',textAlign:'center'}}>
+                  <div style={{fontFamily:'var(--font-mono)',fontFeatureSettings:'var(--tnum)',fontSize:13,fontWeight:600,color:'var(--text-1)'}}>{v}</div>
+                  <div style={{fontSize:10,color:'var(--text-3)',marginTop:1}}>{l}</div>
+                </div>)}
+            </div>
+          </div>
+        </Card>
+      </div>
+
+      <div style={{display:'flex',alignItems:'center',gap:12,paddingBottom:40}}>
+        <span style={{fontSize:13,color:'var(--text-3)'}}>13 recipes · 12 global · 1 personal</span>
+        <span style={{flex:1}}></span>
+        <Button variant="secondary" size="sm" icon={ic('arrow-left',14)}></Button>
+        <Button variant="primary" size="sm">1</Button>
+        <Button variant="ghost" size="sm">2</Button>
+        <Button variant="secondary" size="sm" icon={ic('arrow-right',14)}></Button>
+      </div>
+    </main>
+  </div>;
+}
+window.__dsReady.then(ns=>{({ Button, IconButton, Card, Badge, Tabs, Avatar, SideNav, Input, Select }=ns);ReactDOM.createRoot(document.getElementById('root')).render(<App/>)});
+</script></body></html>

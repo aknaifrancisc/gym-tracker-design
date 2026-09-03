@@ -1,0 +1,23 @@
+<!-- @dsCard group="Components" viewport="700x420" subtitle="SideNav with nested collapsible items" name="Navigation" -->
+<!DOCTYPE html><html data-scheme="brand" data-theme="light"><head><link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<script src="../../ds-loader.js"></script>
+<style>body{margin:0;padding:16px;background:var(--bg)}</style></head><body style="padding:0"><div id="root"></div>
+<script type="text/babel-app">
+let SideNav, Avatar;
+function Demo(){
+  const [active,setActive]=React.useState('personal');
+  React.useEffect(()=>{lucide.createIcons()});
+  const ic=n=><i data-lucide={n} style={{width:16,height:16}}></i>;
+  return <div style={{height:420,display:'flex'}}>
+    <SideNav activeId={active} onSelect={setActive}
+      items={[{id:'dash',label:'Dashboard',icon:ic('layout-dashboard')},{id:'personal',label:'Personal info',icon:ic('heart-pulse')},{id:'weight',label:'Weight loss',icon:ic('scale')},{id:'steps',label:'Steps',icon:ic('footprints')},{id:'workouts',label:'Workouts',icon:ic('dumbbell'),children:[{id:'logs',label:'Logs'},{id:'exercises',label:'Exercises'}]},{id:'macros',label:'Macros tracker',icon:ic('utensils')}]}
+      footer={<div style={{display:'flex',alignItems:'center',gap:10,padding:'10px 12px',borderTop:'1px solid var(--border)'}}><Avatar name="John D" size={30}/><div><div style={{fontSize:13,fontWeight:500,color:'var(--text-1)'}}>John Doe</div><div style={{fontSize:11,color:'var(--text-3)'}}>john.doe@gymgoer.com</div></div></div>}/>
+    <div style={{flex:1,background:'var(--bg)',display:'flex',alignItems:'center',justifyContent:'center',color:'var(--text-3)',fontFamily:'var(--font-sans)',fontSize:13}}>content area</div>
+  </div>;
+}
+window.__dsReady.then(ns=>{({ SideNav, Avatar }=ns);ReactDOM.createRoot(document.getElementById('root')).render(<Demo/>)});
+</script></body></html>

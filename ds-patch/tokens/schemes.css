@@ -1,0 +1,141 @@
+/* ============================================================================
+   Accent schemes — _brand (logo blue) and _green.
+   Import AFTER colors.css and elevation.css (it overrides --shadow-brand).
+
+   Every page declares a scheme, and a theme when it is not light:
+     <html data-scheme="brand">                     light
+     <html data-scheme="green" data-theme="dark">   dark
+   Class forms work too, on any container: .scheme-brand / .scheme-green,
+   .theme-dark (the existing convention) or [data-theme="dark"].
+
+   Components read --primary* and the repointed --*-brand aliases, never
+   --blue-* / --leaf-* directly, so one attribute reskins a whole surface.
+   Blue still means action-or-brand and green-as-accent never means "good":
+   status stays on --green-500 / --text-success.
+   ============================================================================ */
+
+/* ---------- _brand · light ---------- */
+[data-scheme="brand"], .scheme-brand{
+  --primary:var(--blue-500);
+  --primary-hover:var(--blue-600);
+  --primary-active:var(--blue-700);
+  --primary-soft:var(--blue-400);
+  --primary-fg:var(--ink-000);
+  --surface-brand:var(--blue-500);
+  --surface-brand-subtle:var(--blue-50);
+  --text-brand:var(--blue-600);
+  --text-link:var(--blue-600);
+  --text-link-hover:var(--blue-700);
+  --border-brand:var(--blue-500);
+  --focus-ring:var(--blue-400);
+  --chart-1:var(--blue-500);
+  --shadow-brand:0 6px 16px rgba(42,105,200,.28);
+  --glow-primary:rgba(42,105,200,.13);
+  --glow-accent:rgba(233,160,32,.16);
+}
+
+/* ---------- _brand · dark ---------- */
+[data-scheme="brand"][data-theme="dark"], [data-scheme="brand"].theme-dark,
+[data-theme="dark"] [data-scheme="brand"], .theme-dark .scheme-brand,
+.scheme-brand.theme-dark, .scheme-brand[data-theme="dark"]{
+  --primary:var(--blue-400);
+  --primary-hover:var(--blue-300);
+  --primary-active:var(--blue-200);
+  --primary-soft:var(--blue-300);
+  --primary-fg:#0B1120;
+  --surface-brand:var(--blue-400);
+  --surface-brand-subtle:rgba(78,139,222,.18);
+  --text-brand:var(--blue-300);
+  --text-link:var(--blue-300);
+  --text-link-hover:var(--blue-200);
+  --border-brand:var(--blue-400);
+  --focus-ring:var(--blue-300);
+  --chart-1:var(--blue-400);
+  --shadow-brand:none;
+  --glow-primary:rgba(78,139,222,.26);
+  --glow-accent:rgba(233,160,32,.20);
+}
+
+/* ---------- _green · light ---------- */
+[data-scheme="green"], .scheme-green{
+  --primary:var(--leaf-500);
+  --primary-hover:var(--leaf-600);
+  --primary-active:var(--leaf-700);
+  --primary-soft:var(--leaf-400);
+  --primary-fg:var(--ink-000);
+  --surface-brand:var(--leaf-500);
+  --surface-brand-subtle:var(--leaf-50);
+  --text-brand:var(--leaf-600);
+  --text-link:var(--leaf-600);
+  --text-link-hover:var(--leaf-700);
+  --border-brand:var(--leaf-500);
+  --focus-ring:var(--leaf-400);
+  --chart-1:var(--leaf-500);
+  --shadow-brand:0 6px 16px rgba(26,143,90,.26);
+  --glow-primary:rgba(26,143,90,.13);
+  --glow-accent:rgba(233,160,32,.16);
+}
+
+/* ---------- _green · dark ---------- */
+[data-scheme="green"][data-theme="dark"], [data-scheme="green"].theme-dark,
+[data-theme="dark"] [data-scheme="green"], .theme-dark .scheme-green,
+.scheme-green.theme-dark, .scheme-green[data-theme="dark"]{
+  --primary:var(--leaf-400);
+  --primary-hover:var(--leaf-300);
+  --primary-active:var(--leaf-200);
+  --primary-soft:var(--leaf-300);
+  --primary-fg:#0C1A13;
+  --surface-brand:var(--leaf-400);
+  --surface-brand-subtle:rgba(52,196,127,.18);
+  --text-brand:var(--leaf-300);
+  --text-link:var(--leaf-300);
+  --text-link-hover:var(--leaf-200);
+  --border-brand:var(--leaf-400);
+  --focus-ring:var(--leaf-300);
+  --chart-1:var(--leaf-400);
+  --shadow-brand:none;
+  --glow-primary:rgba(52,196,127,.26);
+  --glow-accent:rgba(233,160,32,.20);
+}
+
+/* ---------- Fallback so an undeclared page still renders (declare a scheme) ---------- */
+:root{
+  --primary:var(--blue-500);
+  --primary-hover:var(--blue-600);
+  --primary-active:var(--blue-700);
+  --primary-soft:var(--blue-400);
+  --primary-fg:var(--ink-000);
+  --glow-primary:rgba(42,105,200,.13);
+  --glow-accent:rgba(233,160,32,.16);
+}
+
+/* ============================================================================
+   Corner glow — the one documented exception to "no gradients anywhere".
+   A single soft radial bloom bleeding in from ONE corner of a data widget.
+   It is not decoration on flat colour: it marks which card carries the
+   headline metric, and it is the only gradient the system ships.
+
+   Rules
+     · one glow per card, never two;
+     · alternate the corner across a grid so a dashboard does not read uniform;
+     · --glow-primary tint by default, --glow-accent only on secondary-metric
+       cards (at most one or two per screen);
+     · never behind a table, a paragraph, or a form;
+     · dashboard and marketing surfaces only — the mobile app stays flat.
+
+   Markup: add gt-card--glow-<corner> (or -accent) to a .gt-card and drop
+   <span class="gt-glow"></span> in as its first child.
+   ============================================================================ */
+.gt-card--glow-tl,.gt-card--glow-tr,.gt-card--glow-bl,.gt-card--glow-br,
+.gt-card--glow-tl-accent,.gt-card--glow-tr-accent,.gt-card--glow-bl-accent,.gt-card--glow-br-accent{
+  position:relative;overflow:hidden;isolation:isolate;
+}
+.gt-glow{position:absolute;width:250px;height:215px;pointer-events:none;z-index:-1;
+  background:radial-gradient(circle at 50% 50%, var(--glow-primary), transparent 70%)}
+.gt-card--glow-tl>.gt-glow,.gt-card--glow-tl-accent>.gt-glow{top:-85px;left:-60px}
+.gt-card--glow-tr>.gt-glow,.gt-card--glow-tr-accent>.gt-glow{top:-85px;right:-60px}
+.gt-card--glow-bl>.gt-glow,.gt-card--glow-bl-accent>.gt-glow{bottom:-95px;left:-70px}
+.gt-card--glow-br>.gt-glow,.gt-card--glow-br-accent>.gt-glow{bottom:-95px;right:-60px}
+.gt-card--glow-tl-accent>.gt-glow,.gt-card--glow-tr-accent>.gt-glow,
+.gt-card--glow-bl-accent>.gt-glow,.gt-card--glow-br-accent>.gt-glow{
+  background:radial-gradient(circle at 50% 50%, var(--glow-accent), transparent 70%)}

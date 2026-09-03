@@ -1,0 +1,33 @@
+<!-- @dsCard group="Components" viewport="700x560" subtitle="StatCard, ProgressRing, MacroBar, WorkoutRow, StreakDots, GoalCard, TrendChart" name="Fitness patterns" -->
+<!DOCTYPE html><html data-scheme="brand" data-theme="light"><head><link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<script src="../../ds-loader.js"></script>
+<style>body{margin:0;padding:16px;background:var(--bg)}</style></head><body><div id="root"></div>
+<script type="text/babel-app">
+let StatCard, ProgressRing, MacroBar, WorkoutRow, StreakDots, GoalCard, TrendChart, Card, Progress, Badge;
+function Demo(){
+  React.useEffect(()=>{lucide.createIcons()});
+  const chip=(n,bg,fg)=><span style={{width:34,height:34,borderRadius:8,background:'var(--'+bg+')',color:'var(--'+fg+')',display:'inline-flex',alignItems:'center',justifyContent:'center',flexShrink:0}}><i data-lucide={n} style={{width:17,height:17}}></i></span>;
+  return <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12,fontFamily:'var(--font-sans)'}}>
+    <StatCard label="Current weight" value="104.8" unit="kg" delta="↓ 6.2 kg" icon={chip('scale','primary-subtle','primary-subtle-fg')} footer={<Progress value={62} tone="success"/>}/>
+    <StatCard label="Daily steps" value="8,500" unit="/ 10,000" icon={chip('footprints','success-subtle','success-fg')} footer={<Progress value={85} tone="success"/>}/>
+    <Card compact style={{display:'flex',gap:16,alignItems:'center',padding:16}}>
+      <ProgressRing value={2571} max={2868} size={96} label="297" sublabel="kcal deficit"/>
+      <div style={{fontSize:13,color:'var(--text-2)'}}>Energy balance<div style={{fontFamily:'var(--font-mono)',fontSize:14,fontWeight:500,color:'var(--text-1)',marginTop:4}}>2,571 / 2,868 kcal</div></div>
+    </Card>
+    <Card compact title="This week" style={{padding:16}}><StreakDots days={['done','done','missed','done','done','today','missed']}/></Card>
+    <Card compact title="Macros today" style={{padding:16}}><MacroBar segments={[{label:'Protein',value:180,display:'180 g'},{label:'Carbs',value:220,display:'220 g'},{label:'Fat',value:70,display:'70 g'}]}/></Card>
+    <GoalCard title="Weight goal" current="104.8" target="95.0" unit="kg" progress={38} dateLabel="By Dec 1, 2026"/>
+    <Card compact style={{padding:'8px 4px',gridColumn:'1 / -1'}}>
+      <WorkoutRow icon={chip('dumbbell','primary-subtle','primary-subtle-fg')} title="Upper body strength" meta="Yesterday · 45 min" stats={[{value:'12',label:'sets'},{value:'320',label:'kcal'}]} badge={<Badge tone="success">Done</Badge>} onClick={()=>{}}/>
+      <div style={{height:1,background:'var(--border)',margin:'0 16px'}}/>
+      <WorkoutRow icon={chip('footprints','success-subtle','success-fg')} title="Morning run" meta="Jun 5 · 32 min" stats={[{value:'4.2',label:'km'},{value:'285',label:'kcal'}]} onClick={()=>{}}/>
+    </Card>
+    <Card compact title="Weight trend" style={{gridColumn:'1 / -1',padding:16}}><TrendChart data={[111,110.2,109.4,109.8,108.6,107.5,106.9,106.1,105.4,104.8]} height={80} xLabels={['Feb','Mar','Apr','May','Jun']}/></Card>
+  </div>;
+}
+window.__dsReady.then(ns=>{({ StatCard, ProgressRing, MacroBar, WorkoutRow, StreakDots, GoalCard, TrendChart, Card, Progress, Badge }=ns);ReactDOM.createRoot(document.getElementById('root')).render(<Demo/>)});
+</script></body></html>

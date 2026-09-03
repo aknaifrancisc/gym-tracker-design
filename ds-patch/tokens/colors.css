@@ -1,0 +1,129 @@
+:root{
+  /* ---- Brand ---- */
+  --blue-50:#EEF4FD;
+  --blue-100:#D8E6FA;
+  --blue-200:#B0CCF5;
+  --blue-300:#7FADEE;
+  --blue-400:#4E8BDE;
+  --blue-500:#2A69C8; /* logo blue — the brand primary */
+  --blue-600:#2255A6;
+  --blue-700:#1B4383;
+  --blue-800:#153261;
+  --blue-900:#0F2342;
+
+  /* ---- Ink / neutrals (very slightly cool) ---- */
+  --ink-000:#FFFFFF;
+  --ink-025:#FAFBFC;
+  --ink-050:#F4F6F8;
+  --ink-100:#EAEDF1;
+  --ink-200:#D9DEE5;
+  --ink-300:#BFC6D0;
+  --ink-400:#98A1AE;
+  --ink-500:#6F7885;
+  --ink-600:#4D555F;
+  --ink-700:#33393F;
+  --ink-800:#252A2E;
+  --ink-900:#1E1E1E; /* logo plate black */
+  --ink-950:#141516;
+
+  /* ---- Leaf: the _green accent ramp (scheme accent only — status green stays --green-*) ---- */
+  --leaf-50:#F2F8F4;
+  --leaf-100:#E9F4EE;
+  --leaf-200:#A9DCC2;
+  --leaf-300:#4ADE9A;
+  --leaf-400:#34C47F;
+  --leaf-500:#1A8F5A;
+  --leaf-600:#158050;
+  --leaf-700:#146C44;
+  --leaf-800:#0F5636;
+  --leaf-900:#0A3D26;
+
+  /* ---- Semantic status ---- */
+  --green-100:#DCF3E6;
+  --green-500:#1F9D5B;
+  --green-600:#17804A;
+  --amber-100:#FCEFD6;
+  --amber-500:#E9A020;
+  --amber-600:#C4831A;
+  --red-100:#FBE3E3;
+  --red-500:#D64545;
+  --red-600:#B23636;
+  --teal-100:#D6F1F1;
+  --teal-500:#17A2A2;
+
+  /* ---- Data / tracking colours ---- */
+  --data-protein:var(--blue-500);
+  --data-carbs:var(--amber-500);
+  --data-fat:#E0533D;
+  --data-fibre:var(--teal-500);
+  --ring-move:var(--blue-500);
+  --ring-steps:var(--teal-500);
+  --ring-calories:#E0533D;
+  --chart-1:var(--blue-500);
+  --chart-2:var(--teal-500);
+  --chart-3:var(--amber-500);
+  --chart-4:#E0533D;
+  --chart-5:var(--ink-400);
+  --chart-grid:var(--ink-100);
+
+  /* ---- Semantic aliases: surfaces ---- */
+  --surface-page:var(--ink-050);
+  --surface-card:var(--ink-000);
+  --surface-raised:var(--ink-000);
+  --surface-sunken:var(--ink-100);
+  --surface-inverse:var(--ink-900);
+  --surface-brand:var(--blue-500);
+  --surface-brand-subtle:var(--blue-50);
+  --surface-success-subtle:var(--green-100);
+  --surface-warning-subtle:var(--amber-100);
+  --surface-danger-subtle:var(--red-100);
+  --surface-overlay:rgba(20,21,22,.56);
+
+  /* ---- Semantic aliases: text ---- */
+  --text-heading:var(--ink-900);
+  --text-body:var(--ink-700);
+  --text-muted:var(--ink-500);
+  --text-subtle:var(--ink-400);
+  --text-inverse:var(--ink-000);
+  --text-brand:var(--blue-600);
+  --text-success:var(--green-600);
+  --text-warning:var(--amber-600);
+  --text-danger:var(--red-600);
+  --text-link:var(--blue-600);
+  --text-link-hover:var(--blue-700);
+
+  /* ---- Semantic aliases: borders ---- */
+  --border-subtle:var(--ink-100);
+  --border-default:var(--ink-200);
+  --border-strong:var(--ink-300);
+  --border-brand:var(--blue-500);
+  --border-inverse:rgba(255,255,255,.14);
+  --focus-ring:var(--blue-400);
+}
+
+/* Dark theme — the app's active-workout mode AND the dashboard's dark theme.
+   Apply to any container as .theme-dark or data-theme="dark" (equivalent). */
+.theme-dark, [data-theme="dark"]{
+  --surface-page:var(--ink-950);
+  --surface-card:#1B1D1F;
+  --surface-raised:#232629;
+  --surface-sunken:#121314;
+  --surface-inverse:var(--ink-000);
+  --surface-brand-subtle:rgba(42,105,200,.18);
+  --surface-success-subtle:rgba(31,157,91,.18);
+  --surface-warning-subtle:rgba(233,160,32,.18);
+  --surface-danger-subtle:rgba(214,69,69,.18);
+  --surface-overlay:rgba(0,0,0,.66);
+  --text-heading:#F7F8F9;
+  --text-body:#D5D9DE;
+  --text-muted:#9AA2AC;
+  --text-subtle:#767E88;
+  --text-inverse:var(--ink-900);
+  --text-brand:var(--blue-300);
+  --text-link:var(--blue-300);
+  --text-link-hover:var(--blue-200);
+  --border-subtle:rgba(255,255,255,.07);
+  --border-default:rgba(255,255,255,.12);
+  --border-strong:rgba(255,255,255,.22);
+  --chart-grid:rgba(255,255,255,.09);
+}

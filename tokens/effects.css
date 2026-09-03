@@ -1,0 +1,28 @@
+:root {
+  --radius-sm: 7px;    /* badges, chips, small buttons */
+  --radius-md: 11px;   /* buttons, inputs, selects */
+  --radius-lg: 18px;   /* cards, panels */
+  --radius-xl: 24px;   /* app shell */
+  --radius-full: 999px;
+  --shadow-sm: 0 1px 2px rgba(26,26,24,0.05);
+  --shadow-md: 0 8px 20px -12px rgba(26,26,24,0.18);
+  --shadow-lg: 0 24px 60px -30px rgba(26,26,24,0.32);
+  --ease: cubic-bezier(0.2, 0, 0, 1);
+  --dur-fast: 140ms;
+  --dur-med: 200ms;
+  --dur-slow: 550ms;   /* bar / ring / line fills */
+
+  /* Corner glow — the signature widget detail.
+     Card:  position:relative; overflow:hidden; isolation:isolate;
+     First child:
+       <div style="position:absolute;top:-85px;right:-60px;width:250px;height:215px;
+                   background:var(--glow-tr);pointer-events:none;z-index:-1"></div>
+     Rules: one glow per card; alternate the corner across a grid so the page does not
+     read uniform; primary tint by default and --glow-accent-any only on secondary-metric
+     cards; never behind a table or a paragraph. */
+  --glow-tl: radial-gradient(circle at 50% 50%, var(--glow-primary), transparent 70%);
+  --glow-tr: var(--glow-tl);
+  --glow-bl: var(--glow-tl);
+  --glow-br: var(--glow-tl);
+  --glow-accent-any: radial-gradient(circle at 50% 50%, var(--glow-accent), transparent 70%);
+}

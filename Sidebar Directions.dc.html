@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="stylesheet" href="_ds/gym-tracker-design-system-42e631ff-e31a-4d3e-8495-62b3190c9d4a/styles.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@0.454.0/dist/umd/lucide.min.js"></script>
+<script src="_ds/gym-tracker-design-system-42e631ff-e31a-4d3e-8495-62b3190c9d4a/_ds_bundle.js"></script>
+<style>
+  body{margin:0;background:#e4e1da;font-family:'Manrope',system-ui,sans-serif;-webkit-font-smoothing:antialiased;
+    --accent:#2a69c8;--accent-deep:#1f56a8;--accent-tint:#eaf1fb;--glow:rgba(42,105,200,.20);--glow-soft:rgba(42,105,200,.13)}
+  a{color:var(--accent);text-decoration:none}
+  a:hover{color:var(--accent-deep);text-decoration:underline;text-underline-offset:3px}
+  @keyframes glowBreath{0%,100%{opacity:.55}50%{opacity:1}}
+  @keyframes tipIn{from{opacity:0;transform:translate(-4px,-50%)}to{opacity:1;transform:translate(0,-50%)}}
+  @keyframes panelIn{from{opacity:0;transform:translateX(-8px)}to{opacity:1;transform:none}}
+</style>
+</helmet>
+
+<section style="padding:44px 48px 60px;display:flex;flex-direction:column;gap:26px;font-family:'Manrope',sans-serif;color:#1a1a18">
+  <div style="display:flex;align-items:baseline;gap:16px">
+    <h1 style="margin:0;font-family:'Outfit',sans-serif;font-size:26px;font-weight:600;letter-spacing:-.03em">Sidebar directions</h1>
+    <p style="margin:0;font-size:14px;line-height:1.5;color:#6e6b64;max-width:720px;text-wrap:pretty">Three takes on the left menu, each detached from the content like <a href="#1a">1a</a>. Every rail is shown expanded and collapsed — click the toggle on either one to watch it animate. Icons and the plate mark come from the design system.</p>
+  </div>
+
+  <div style="display:flex;flex-wrap:wrap;gap:26px;align-items:flex-start">
+
+    <div id="1a" style="display:flex;flex-direction:column;gap:14px">
+      <div style="display:flex;align-items:baseline;gap:12px">
+        <span style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;color:#fff;background:#17161c;border-radius:99px;padding:4px 10px">1a</span>
+        <div>
+          <div style="font-family:'Outfit',sans-serif;font-size:17px;font-weight:600;letter-spacing:-.02em">Floating rail</div>
+          <div style="font-size:12.5px;color:#8a867e;max-width:420px">One detached card. Active item carries a growing accent bar; labels fade and slide as the width animates.</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:18px">
+        <sc-for list="{{ instA }}" as="i" hint-placeholder-count="2">
+          <div style="display:flex;flex-direction:column;gap:9px">
+            <div style="height:600px;padding:18px;background:#efece6;border:1px solid #e4e1da;border-radius:26px;display:flex;align-items:stretch">
+              <aside style="position:relative;isolation:isolate;overflow:visible;width:{{ i.w }};background:#fff;border:1px solid #eae6df;border-radius:22px;box-shadow:0 18px 40px -28px rgba(26,26,24,.5);padding:16px 12px 14px;display:flex;flex-direction:column;gap:14px;transition:width .28s cubic-bezier(.2,0,0,1)">
+                <span style="position:absolute;inset:0;overflow:hidden;border-radius:22px;pointer-events:none;z-index:-1">
+                  <span style="position:absolute;top:-90px;left:-70px;width:250px;height:210px;background:radial-gradient(circle at 50% 50%,var(--glow-soft),transparent 70%)"></span>
+                </span>
+
+                <div style="display:flex;align-items:center;gap:8px;height:34px;padding:0 4px">
+                  <sc-if value="{{ i.expanded }}" hint-placeholder-val="{{ true }}">
+                    <img src="assets/logo-mono-ink.svg" alt="Gym Tracker" style="display:block;height:24px;width:auto;flex:none">
+                  </sc-if>
+                  <sc-if value="{{ i.collapsed }}" hint-placeholder-val="{{ false }}">
+                    <img src="assets/logo-mark.svg" alt="Gym Tracker" style="display:block;height:26px;width:26px;flex:none;margin:0 auto">
+                  </sc-if>
+                  <span style="flex:{{ i.labelFlex }}"></span>
+                  <span onClick="{{ i.toggle }}" style="width:28px;height:28px;flex:none;border-radius:9px;color:#8a867e;display:{{ i.toggleDisplay }};align-items:center;justify-content:center;cursor:pointer;transition:background .16s,color .16s" style-hover="background:#f3f1ec;color:#1a1a18">
+                    <span style="display:flex;transform:rotate({{ i.chevRot }});transition:transform .28s cubic-bezier(.2,0,0,1)">
+                      <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="chevrons-left" size="16" stroke-width="1.9" hint-size="16px,16px"></x-import>
+                    </span>
+                  </span>
+                </div>
+
+                <sc-if value="{{ i.collapsed }}" hint-placeholder-val="{{ false }}">
+                  <div onClick="{{ i.toggle }}" style="height:34px;border-radius:11px;border:1px dashed #e4e1da;color:#8a867e;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .16s,border-color .16s" style-hover="background:#f7f5f1;border-color:#c4bfb4">
+                    <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="chevrons-right" size="16" stroke-width="1.9" hint-size="16px,16px"></x-import>
+                  </div>
+                </sc-if>
+
+                <nav style="display:flex;flex-direction:column;gap:3px">
+                  <sc-for list="{{ i.items }}" as="n" hint-placeholder-count="6">
+                    <div onMouseEnter="{{ n.enter }}" onMouseLeave="{{ i.leave }}" onClick="{{ n.pick }}" style="position:relative;display:flex;align-items:center;justify-content:{{ i.justify }};gap:11px;height:42px;padding:0 {{ i.padX }};border-radius:12px;background:{{ n.bg }};color:{{ n.fg }};font-size:13.5px;font-weight:{{ n.weight }};cursor:pointer;transition:background .16s,color .16s,transform .16s" style-hover="background:#f3f1ec;color:#1a1a18;transform:translateX(2px)">
+                      <i style="position:absolute;left:0;top:50%;width:3px;height:{{ n.barH }};margin-top:{{ n.barOff }};border-radius:0 3px 3px 0;background:var(--accent);transition:height .26s cubic-bezier(.2,0,0,1),margin-top .26s cubic-bezier(.2,0,0,1)"></i>
+                      <span style="display:flex;flex:none">
+                        <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="{{ n.icon }}" size="18" stroke-width="1.8" hint-size="18px,18px"></x-import>
+                      </span>
+                      <span style="flex:{{ i.labelFlex }};min-width:0;overflow:hidden;white-space:nowrap;text-align:left;opacity:{{ i.labelOp }};transform:translateX({{ i.labelX }});transition:opacity .2s,transform .24s">{{ n.name }}</span>
+                      <sc-if value="{{ n.showCount }}" hint-placeholder-val="{{ false }}">
+                        <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#b4b0a7;flex:none">{{ n.count }}</span>
+                      </sc-if>
+                      <sc-if value="{{ n.tip }}" hint-placeholder-val="{{ false }}">
+                        <span style="position:absolute;left:100%;top:50%;margin-left:12px;background:#17161c;color:#fff;font-size:12px;font-weight:600;white-space:nowrap;border-radius:9px;padding:7px 11px;z-index:9;box-shadow:0 12px 26px -14px rgba(0,0,0,.55);animation:tipIn .16s both cubic-bezier(.2,0,0,1)">{{ n.name }}</span>
+                      </sc-if>
+                    </div>
+                    <sc-if value="{{ n.showSubs }}" hint-placeholder-val="{{ false }}">
+                      <div style="display:flex;flex-direction:column;gap:2px;margin:1px 0 3px 25px;padding-left:12px;border-left:1px solid #f2efe9;overflow:hidden">
+                        <sc-for list="{{ n.subs }}" as="s" hint-placeholder-count="2">
+                          <div style="padding:7px 10px;border-radius:9px;font-size:12.5px;font-weight:{{ s.weight }};color:{{ s.fg }};background:{{ s.bg }};white-space:nowrap;cursor:pointer;transition:background .16s,color .16s" style-hover="background:#f3f1ec;color:#1a1a18">{{ s.name }}</div>
+                        </sc-for>
+                      </div>
+                    </sc-if>
+                  </sc-for>
+                </nav>
+
+                <div style="flex:1"></div>
+
+                <sc-if value="{{ i.expanded }}" hint-placeholder-val="{{ true }}">
+                  <div style="position:relative;isolation:isolate;overflow:hidden;background:#17161c;border-radius:15px;padding:13px 14px;color:#fff">
+                    <span style="position:absolute;top:-80px;right:-60px;width:220px;height:190px;pointer-events:none;z-index:-1;background:radial-gradient(circle at 50% 50%,var(--glow),transparent 70%);animation:glowBreath 6s ease-in-out infinite"></span>
+                    <div style="display:flex;align-items:center;gap:7px;font-size:11.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--accent-tint)">
+                      <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="sparkles" size="14" stroke-width="1.8" hint-size="14px,14px"></x-import>
+                      AI coach
+                    </div>
+                    <p style="margin:8px 0 0;font-size:12.5px;line-height:1.45;color:#d8d4cc;white-space:normal">20 operations left this month.</p>
+                    <div style="display:flex;align-items:center;justify-content:center;gap:6px;margin-top:11px;background:var(--accent);color:#fff;border-radius:10px;padding:8px 12px;font-size:12.5px;font-weight:600;cursor:pointer;transition:transform .16s" style-hover="transform:translateY(-1px)">
+                      Upgrade
+                      <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="arrow-right" size="14" hint-size="14px,14px"></x-import>
+                    </div>
+                  </div>
+                </sc-if>
+                <sc-if value="{{ i.collapsed }}" hint-placeholder-val="{{ false }}">
+                  <div style="position:relative;isolation:isolate;overflow:hidden;height:44px;border-radius:14px;background:#17161c;color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer">
+                    <span style="position:absolute;inset:-40% -60% auto auto;width:150px;height:130px;pointer-events:none;z-index:-1;background:radial-gradient(circle at 50% 50%,var(--glow),transparent 70%);animation:glowBreath 6s ease-in-out infinite"></span>
+                    <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="sparkles" size="18" stroke-width="1.9" hint-size="18px,18px"></x-import>
+                  </div>
+                </sc-if>
+
+                <div style="display:flex;align-items:center;justify-content:{{ i.justify }};gap:10px;border-top:1px solid #f2efe9;padding-top:12px">
+                  <span style="width:32px;height:32px;flex:none;border-radius:50%;background:#f2efe9;color:#a8a49b;display:flex;align-items:center;justify-content:center">
+                    <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="user" size="16" stroke-width="1.8" hint-size="16px,16px"></x-import>
+                  </span>
+                  <span style="flex:{{ i.labelFlex }};min-width:0;overflow:hidden;opacity:{{ i.labelOp }};transition:opacity .2s">
+                    <span style="display:block;font-size:12.5px;font-weight:600;white-space:nowrap">John Doe</span>
+                    <span style="display:block;font-size:11px;color:#a8a49b;white-space:nowrap">Free plan</span>
+                  </span>
+                </div>
+              </aside>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;padding-left:4px">
+              <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#8a867e">{{ i.stateLabel }}</span>
+              <span style="font-size:11.5px;color:#b4b0a7">{{ i.hint }}</span>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <div id="1b" style="display:flex;flex-direction:column;gap:14px">
+      <div style="display:flex;align-items:baseline;gap:12px">
+        <span style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;color:#fff;background:#17161c;border-radius:99px;padding:4px 10px">1b</span>
+        <div>
+          <div style="font-family:'Outfit',sans-serif;font-size:17px;font-weight:600;letter-spacing:-.02em">Split dock</div>
+          <div style="font-size:12.5px;color:#8a867e;max-width:420px">Two stacked cards — navigation above, account below. Grouped by eyebrow; the active row is an ink chip.</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:18px">
+        <sc-for list="{{ instB }}" as="i" hint-placeholder-count="2">
+          <div style="display:flex;flex-direction:column;gap:9px">
+            <div style="height:600px;padding:18px;background:#efece6;border:1px solid #e4e1da;border-radius:26px;display:flex;align-items:stretch">
+              <div style="width:{{ i.w }};display:flex;flex-direction:column;gap:12px;transition:width .28s cubic-bezier(.2,0,0,1)">
+
+                <div style="position:relative;isolation:isolate;flex:1;min-height:0;background:#fff;border:1px solid #eae6df;border-radius:22px;box-shadow:0 18px 40px -28px rgba(26,26,24,.5);padding:15px 12px;display:flex;flex-direction:column;gap:10px">
+                  <span style="position:absolute;top:-90px;right:-70px;width:250px;height:210px;pointer-events:none;z-index:-1;background:radial-gradient(circle at 50% 50%,var(--glow-soft),transparent 70%)"></span>
+
+                  <div style="display:flex;align-items:center;gap:8px;height:32px;padding:0 4px">
+                    <sc-if value="{{ i.expanded }}" hint-placeholder-val="{{ true }}">
+                      <img src="assets/logo-mono-ink.svg" alt="Gym Tracker" style="display:block;height:23px;width:auto;flex:none">
+                    </sc-if>
+                    <sc-if value="{{ i.collapsed }}" hint-placeholder-val="{{ false }}">
+                      <img src="assets/logo-mark.svg" alt="Gym Tracker" style="display:block;height:26px;width:26px;flex:none;margin:0 auto">
+                    </sc-if>
+                    <span style="flex:{{ i.labelFlex }}"></span>
+                  </div>
+
+                  <sc-for list="{{ i.groups }}" as="g" hint-placeholder-count="2">
+                    <div style="display:flex;flex-direction:column;gap:3px">
+                      <sc-if value="{{ i.expanded }}" hint-placeholder-val="{{ true }}">
+                        <div style="padding:6px 8px 4px;font-size:10px;font-weight:600;letter-spacing:.11em;text-transform:uppercase;color:#b4b0a7;white-space:nowrap;overflow:hidden;opacity:{{ i.labelOp }};transition:opacity .2s">{{ g.name }}</div>
+                      </sc-if>
+                      <sc-if value="{{ i.collapsed }}" hint-placeholder-val="{{ false }}">
+                        <div style="height:1px;background:#f2efe9;margin:5px 8px 6px"></div>
+                      </sc-if>
+                      <sc-for list="{{ g.items }}" as="n" hint-placeholder-count="3">
+                        <div onMouseEnter="{{ n.enter }}" onMouseLeave="{{ i.leave }}" onClick="{{ n.pick }}" style="position:relative;display:flex;align-items:center;justify-content:{{ i.justify }};gap:11px;height:40px;padding:0 {{ i.padX }};border-radius:12px;background:{{ n.bg }};color:{{ n.fg }};font-size:13px;font-weight:{{ n.weight }};cursor:pointer;transition:background .16s,color .16s,padding-left .16s" style-hover="background:{{ n.hoverBg }};color:{{ n.hoverFg }}">
+                          <span style="display:flex;flex:none;transition:transform .18s cubic-bezier(.2,0,0,1)">
+                            <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="{{ n.icon }}" size="17" stroke-width="1.8" hint-size="17px,17px"></x-import>
+                          </span>
+                          <span style="flex:{{ i.labelFlex }};min-width:0;overflow:hidden;white-space:nowrap;text-align:left;opacity:{{ i.labelOp }};transform:translateX({{ i.labelX }});transition:opacity .2s,transform .24s">{{ n.name }}</span>
+                          <sc-if value="{{ n.showChev }}" hint-placeholder-val="{{ false }}">
+                            <span style="display:flex;flex:none;color:{{ n.chevFg }}">
+                              <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="chevron-right" size="14" hint-size="14px,14px"></x-import>
+                            </span>
+                          </sc-if>
+                          <sc-if value="{{ n.tip }}" hint-placeholder-val="{{ false }}">
+                            <span style="position:absolute;left:100%;top:50%;margin-left:12px;background:#17161c;color:#fff;font-size:12px;font-weight:600;white-space:nowrap;border-radius:9px;padding:7px 11px;z-index:9;box-shadow:0 12px 26px -14px rgba(0,0,0,.55);animation:tipIn .16s both cubic-bezier(.2,0,0,1)">{{ n.name }}</span>
+                          </sc-if>
+                        </div>
+                        <sc-if value="{{ n.showSubs }}" hint-placeholder-val="{{ false }}">
+                          <div style="display:flex;flex-direction:column;gap:2px;margin:2px 0 3px 24px;padding-left:11px;border-left:1px solid #f2efe9;overflow:hidden">
+                            <sc-for list="{{ n.subs }}" as="s" hint-placeholder-count="2">
+                              <div style="padding:6px 9px;border-radius:9px;font-size:12.5px;font-weight:{{ s.weight }};color:{{ s.fg }};background:{{ s.bg }};white-space:nowrap;cursor:pointer;transition:background .16s,color .16s" style-hover="background:#f3f1ec;color:#1a1a18">{{ s.name }}</div>
+                            </sc-for>
+                          </div>
+                        </sc-if>
+                      </sc-for>
+                    </div>
+                  </sc-for>
+
+                  <div style="flex:1;min-height:8px"></div>
+
+                  <div onClick="{{ i.toggle }}" style="flex:none;display:flex;align-items:center;justify-content:{{ i.justify }};gap:10px;height:38px;box-sizing:border-box;padding:0 {{ i.padX }};border-radius:12px;border:1px dashed #e4e1da;color:#8a867e;font-size:12.5px;font-weight:600;cursor:pointer;transition:background .16s,border-color .16s" style-hover="background:#f7f5f1;border-color:#c4bfb4;color:#1a1a18">
+                    <span style="display:flex;flex:none;transform:rotate({{ i.chevRot }});transition:transform .28s cubic-bezier(.2,0,0,1)">
+                      <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="chevrons-left" size="16" stroke-width="1.9" hint-size="16px,16px"></x-import>
+                    </span>
+                    <span style="flex:{{ i.labelFlex }};min-width:0;overflow:hidden;white-space:nowrap;text-align:left;opacity:{{ i.labelOp }};transition:opacity .2s">Collapse</span>
+                  </div>
+                </div>
+
+                <div style="position:relative;isolation:isolate;overflow:hidden;flex:none;background:#fff;border:1px solid #eae6df;border-radius:22px;box-shadow:0 18px 40px -28px rgba(26,26,24,.5);padding:13px 12px;display:flex;flex-direction:column;gap:11px">
+                  <span style="position:absolute;bottom:-95px;left:-70px;width:250px;height:210px;pointer-events:none;z-index:-1;background:radial-gradient(circle at 50% 50%,var(--glow-soft),transparent 70%)"></span>
+                  <div style="display:flex;align-items:center;justify-content:{{ i.justify }};gap:10px;background:#17161c;border-radius:14px;padding:{{ i.coachPad }};color:#fff;cursor:pointer;transition:transform .16s" style-hover="transform:translateY(-1px)">
+                    <span style="display:flex;flex:none;color:var(--accent-tint)">
+                      <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="sparkles" size="17" stroke-width="1.9" hint-size="17px,17px"></x-import>
+                    </span>
+                    <span style="flex:{{ i.labelFlex }};min-width:0;overflow:hidden;white-space:nowrap;opacity:{{ i.labelOp }};transition:opacity .2s">
+                      <span style="display:block;font-size:12.5px;font-weight:600">AI coach</span>
+                      <span style="display:block;font-size:11px;color:#a8a49b">20 ops left</span>
+                    </span>
+                  </div>
+                  <div style="display:flex;align-items:center;justify-content:{{ i.justify }};gap:10px;padding:2px">
+                    <span style="width:30px;height:30px;flex:none;border-radius:50%;background:#f2efe9;color:#a8a49b;display:flex;align-items:center;justify-content:center">
+                      <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="user" size="15" stroke-width="1.8" hint-size="15px,15px"></x-import>
+                    </span>
+                    <span style="flex:{{ i.labelFlex }};min-width:0;overflow:hidden;white-space:nowrap;opacity:{{ i.labelOp }};transition:opacity .2s">
+                      <span style="display:block;font-size:12.5px;font-weight:600">John Doe</span>
+                      <span style="display:block;font-size:11px;color:#a8a49b">Free plan</span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;padding-left:4px">
+              <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#8a867e">{{ i.stateLabel }}</span>
+              <span style="font-size:11.5px;color:#b4b0a7">{{ i.hint }}</span>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <div id="1c" style="display:flex;flex-direction:column;gap:14px">
+      <div style="display:flex;align-items:baseline;gap:12px">
+        <span style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;color:#fff;background:#17161c;border-radius:99px;padding:4px 10px">1c</span>
+        <div>
+          <div style="font-family:'Outfit',sans-serif;font-size:17px;font-weight:600;letter-spacing:-.02em">Ink rail + flyout</div>
+          <div style="font-size:12.5px;color:#8a867e;max-width:420px">A permanent dark icon rail; the label panel slides out beside it. Collapsed is the rail on its own.</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:18px">
+        <sc-for list="{{ instC }}" as="i" hint-placeholder-count="2">
+          <div style="display:flex;flex-direction:column;gap:9px">
+            <div style="height:600px;padding:18px;background:#efece6;border:1px solid #e4e1da;border-radius:26px;display:flex;align-items:stretch">
+              <div style="display:flex;align-items:stretch;background:#17161c;border-radius:22px;box-shadow:0 18px 40px -28px rgba(26,26,24,.6);overflow:hidden">
+
+                <div style="position:relative;isolation:isolate;width:68px;flex:none;padding:14px 12px;display:flex;flex-direction:column;gap:14px;align-items:center">
+                  <span style="position:absolute;top:-80px;left:-70px;width:230px;height:200px;pointer-events:none;z-index:-1;background:radial-gradient(circle at 50% 50%,var(--glow),transparent 70%);animation:glowBreath 6s ease-in-out infinite"></span>
+                  <img src="assets/logo-mark-blue.svg" alt="Gym Tracker" style="display:block;height:30px;width:30px;flex:none">
+                  <div style="display:flex;flex-direction:column;gap:6px;width:100%">
+                    <sc-for list="{{ i.items }}" as="n" hint-placeholder-count="6">
+                      <div onMouseEnter="{{ n.enter }}" onMouseLeave="{{ i.leave }}" onClick="{{ n.pick }}" style="position:relative;width:44px;height:44px;border-radius:14px;background:{{ n.railBg }};color:{{ n.railFg }};display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .18s,color .18s,transform .18s" style-hover="background:rgba(255,255,255,.09);color:#fff;transform:scale(1.06)">
+                        <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="{{ n.icon }}" size="19" stroke-width="1.8" hint-size="19px,19px"></x-import>
+                        <sc-if value="{{ n.tip }}" hint-placeholder-val="{{ false }}">
+                          <span style="position:absolute;left:100%;top:50%;margin-left:14px;background:#fff;color:#1a1a18;font-size:12px;font-weight:600;white-space:nowrap;border-radius:9px;padding:7px 11px;z-index:9;box-shadow:0 14px 30px -16px rgba(0,0,0,.5);animation:tipIn .16s both cubic-bezier(.2,0,0,1)">{{ n.name }}</span>
+                        </sc-if>
+                      </div>
+                    </sc-for>
+                  </div>
+                  <div style="flex:1"></div>
+                  <div onClick="{{ i.toggle }}" style="width:44px;height:44px;border-radius:14px;color:#a8a49b;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .18s,color .18s" style-hover="background:rgba(255,255,255,.09);color:#fff">
+                    <span style="display:flex;transform:rotate({{ i.chevRot }});transition:transform .3s cubic-bezier(.2,0,0,1)">
+                      <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="chevrons-right" size="17" stroke-width="1.9" hint-size="17px,17px"></x-import>
+                    </span>
+                  </div>
+                  <span style="width:32px;height:32px;flex:none;border-radius:50%;background:rgba(255,255,255,.08);color:#a8a49b;display:flex;align-items:center;justify-content:center">
+                    <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="user" size="16" stroke-width="1.8" hint-size="16px,16px"></x-import>
+                  </span>
+                </div>
+
+                <div style="width:{{ i.panelW }};overflow:hidden;background:#fff;transition:width .3s cubic-bezier(.2,0,0,1)">
+                  <sc-if value="{{ i.expanded }}" hint-placeholder-val="{{ true }}">
+                    <div style="width:210px;height:100%;box-sizing:border-box;padding:16px 14px 14px;display:flex;flex-direction:column;gap:12px;animation:panelIn .26s both cubic-bezier(.2,0,0,1)">
+                      <div style="font-size:10px;font-weight:600;letter-spacing:.11em;text-transform:uppercase;color:#b4b0a7;padding:0 6px">Navigation</div>
+                      <nav style="display:flex;flex-direction:column;gap:2px">
+                        <sc-for list="{{ i.items }}" as="n" hint-placeholder-count="6">
+                          <div onClick="{{ n.pick }}" style="display:flex;align-items:center;gap:9px;height:38px;padding:0 11px;border-radius:11px;background:{{ n.bg }};color:{{ n.fg }};font-size:13px;font-weight:{{ n.weight }};white-space:nowrap;cursor:pointer;transition:background .16s,color .16s,transform .16s" style-hover="background:#f3f1ec;color:#1a1a18;transform:translateX(2px)">
+                            <span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis">{{ n.name }}</span>
+                            <sc-if value="{{ n.showCount }}" hint-placeholder-val="{{ false }}">
+                              <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#b4b0a7">{{ n.count }}</span>
+                            </sc-if>
+                          </div>
+                          <sc-if value="{{ n.showSubs }}" hint-placeholder-val="{{ false }}">
+                            <div style="display:flex;flex-direction:column;gap:2px;margin:1px 0 3px 12px;padding-left:11px;border-left:1px solid #f2efe9">
+                              <sc-for list="{{ n.subs }}" as="s" hint-placeholder-count="2">
+                                <div style="padding:6px 9px;border-radius:9px;font-size:12.5px;font-weight:{{ s.weight }};color:{{ s.fg }};background:{{ s.bg }};white-space:nowrap;cursor:pointer;transition:background .16s,color .16s" style-hover="background:#f3f1ec;color:#1a1a18">{{ s.name }}</div>
+                              </sc-for>
+                            </div>
+                          </sc-if>
+                        </sc-for>
+                      </nav>
+                      <div style="flex:1"></div>
+                      <div style="border-top:1px solid #f2efe9;padding-top:12px">
+                        <div style="font-size:12.5px;font-weight:600">John Doe</div>
+                        <div style="font-size:11px;color:#a8a49b;margin-top:2px">Free plan · 20 AI ops left</div>
+                        <div style="display:flex;align-items:center;justify-content:center;gap:6px;margin-top:10px;background:var(--accent);color:#fff;border-radius:10px;padding:8px 12px;font-size:12.5px;font-weight:600;cursor:pointer;transition:transform .16s" style-hover="transform:translateY(-1px)">
+                          Upgrade
+                          <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="arrow-right" size="14" hint-size="14px,14px"></x-import>
+                        </div>
+                      </div>
+                    </div>
+                  </sc-if>
+                </div>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;padding-left:4px">
+              <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#8a867e">{{ i.stateLabel }}</span>
+              <span style="font-size:11.5px;color:#b4b0a7">{{ i.hint }}</span>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;accent&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#2A69C8&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;options&quot;:[&quot;#2A69C8&quot;,&quot;#1A8F5A&quot;,&quot;#1E1E1E&quot;],&quot;section&quot;:&quot;Theme&quot;},&quot;glow&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Theme&quot;}}">
+class Component extends DCLogic {
+  state = {
+    collapsed: { a1:false, a2:true, b1:false, b2:true, c1:false, c2:true },
+    active: { a1:'Workouts', a2:'Workouts', b1:'Workouts', b2:'Workouts', c1:'Workouts', c2:'Workouts' },
+    hover: {}
+  };
+
+  componentDidMount(){ this.applyTheme(); this.waitForLucide(); }
+  componentDidUpdate(prev){
+    if(prev.accent !== this.props.accent || prev.glow !== this.props.glow) this.applyTheme();
+  }
+  componentWillUnmount(){ if(this._t) clearInterval(this._t); }
+
+  waitForLucide(){
+    const ok = () => typeof window !== 'undefined' && window.lucide && window.lucide.icons;
+    if(ok()) return;
+    this._t = setInterval(() => {
+      if(ok()){ clearInterval(this._t); this._t = null; this.forceUpdate(); }
+    }, 120);
+  }
+
+  applyTheme(){
+    const accent = this.props.accent ?? '#2A69C8';
+    const map = {
+      '#2A69C8': ['#1f56a8', '#eaf1fb', '42,105,200'],
+      '#1A8F5A': ['#146c44', '#e8f4ee', '26,143,90'],
+      '#1E1E1E': ['#000000', '#f0eeea', '30,30,30']
+    };
+    const [deep, tint, rgb] = map[accent.toUpperCase()] || map['#2A69C8'];
+    const on = this.props.glow ?? true;
+    const s = document.body.style;
+    s.setProperty('--accent', accent);
+    s.setProperty('--accent-deep', deep);
+    s.setProperty('--accent-tint', tint);
+    s.setProperty('--glow', on ? `rgba(${rgb},.20)` : 'transparent');
+    s.setProperty('--glow-soft', on ? `rgba(${rgb},.13)` : 'transparent');
+  }
+
+  toggle(key){
+    return () => this.setState(s => ({ collapsed: { ...s.collapsed, [key]: !s.collapsed[key] } }));
+  }
+  pick(key, name){
+    return () => this.setState(s => ({ active: { ...s.active, [key]: name } }));
+  }
+  enter(key, name){
+    return () => this.setState(s => ({ hover: { ...s.hover, [key]: name } }));
+  }
+  leave(key){
+    return () => this.setState(s => ({ hover: { ...s.hover, [key]: null } }));
+  }
+
+  base(){
+    return [
+      { name:'Dashboard', icon:'layout-dashboard' },
+      { name:'Personal info', icon:'heart-pulse' },
+      { name:'Weight loss', icon:'trending-down' },
+      { name:'Steps', icon:'footprints' },
+      { name:'Workouts', icon:'dumbbell', count:'5', subs:['Logs','Exercises'] },
+      { name:'Macros tracker', icon:'utensils' }
+    ];
+  }
+
+  // shared per-instance shell values
+  shell(key, expandedW, collapsedW){
+    const collapsed = this.state.collapsed[key];
+    return {
+      key, collapsed, expanded: !collapsed,
+      w: (collapsed ? collapsedW : expandedW) + 'px',
+      labelOp: collapsed ? 0 : 1,
+      labelX: collapsed ? '-6px' : '0px',
+      labelFlex: collapsed ? '0 0 0px' : '1 1 auto',
+      justify: collapsed ? 'center' : 'flex-start',
+      padX: collapsed ? '0px' : '11px',
+      chevRot: collapsed ? '180deg' : '0deg',
+      toggleDisplay: collapsed ? 'none' : 'flex',
+      toggle: this.toggle(key),
+      leave: this.leave(key),
+      stateLabel: collapsed ? 'Collapsed' : 'Expanded',
+      hint: collapsed ? 'hover an icon for its label' : 'click the toggle to collapse'
+    };
+  }
+
+  itemsFor(key, variant){
+    const collapsed = this.state.collapsed[key];
+    const active = this.state.active[key];
+    const hover = this.state.hover[key];
+    return this.base().map(n => {
+      const on = active === n.name;
+      const item = {
+        name: n.name, icon: n.icon, count: n.count || '',
+        pick: this.pick(key, n.name),
+        enter: this.enter(key, n.name),
+        tip: collapsed && hover === n.name,
+        showCount: !collapsed && !!n.count && variant !== 'b',
+        showSubs: !collapsed && !!n.subs && on,
+        subs: (n.subs || []).map((s, idx) => ({
+          name: s,
+          weight: idx === 0 ? 600 : 500,
+          fg: idx === 0 ? 'var(--accent-deep)' : '#8a867e',
+          bg: idx === 0 ? 'var(--accent-tint)' : 'transparent'
+        })),
+        weight: on ? 600 : 500
+      };
+      if(variant === 'a'){
+        item.bg = on ? 'var(--accent-tint)' : 'transparent';
+        item.fg = on ? 'var(--accent-deep)' : '#4a4740';
+        item.barH = on ? '20px' : '0px';
+        item.barOff = on ? '-10px' : '0px';
+      } else if(variant === 'b'){
+        item.bg = on ? '#17161c' : 'transparent';
+        item.fg = on ? '#fff' : '#4a4740';
+        item.hoverBg = on ? '#17161c' : '#f3f1ec';
+        item.hoverFg = on ? '#fff' : '#1a1a18';
+        item.showChev = !collapsed;
+        item.chevFg = on ? 'rgba(255,255,255,.55)' : '#c4bfb4';
+      } else {
+        item.railBg = on ? 'var(--accent)' : 'transparent';
+        item.railFg = on ? '#fff' : '#a8a49b';
+        item.bg = on ? 'var(--accent-tint)' : 'transparent';
+        item.fg = on ? 'var(--accent-deep)' : '#4a4740';
+      }
+      return item;
+    });
+  }
+
+  renderVals(){
+    const mk = (key, variant, ew, cw) => {
+      const s = this.shell(key, ew, cw);
+      const items = this.itemsFor(key, variant);
+      if(variant === 'b'){
+        s.groups = [
+          { name:'Track', items: items.slice(0, 3) },
+          { name:'Analyse', items: items.slice(3) }
+        ];
+        s.coachPad = s.collapsed ? '11px 0' : '11px 12px';
+      } else {
+        s.items = items;
+      }
+      if(variant === 'c'){
+        s.panelW = s.collapsed ? '0px' : '210px';
+        s.chevRot = s.collapsed ? '0deg' : '180deg';
+      }
+      return s;
+    };
+
+    return {
+      instA: [mk('a1','a',248,76), mk('a2','a',248,76)],
+      instB: [mk('b1','b',248,72), mk('b2','b',248,72)],
+      instC: [mk('c1','c',278,68), mk('c2','c',278,68)]
+    };
+  }
+}
+</script>
+</body>
+</html>

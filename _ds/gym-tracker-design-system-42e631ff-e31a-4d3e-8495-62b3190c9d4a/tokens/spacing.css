@@ -1,0 +1,36 @@
+:root{
+  /* 4px base grid. Gym-Tracker UI is dense: 12 and 16 do most of the work. */
+  --space-0:0px;
+  --space-1:2px;
+  --space-2:4px;
+  --space-3:8px;
+  --space-4:12px;
+  --space-5:16px;
+  --space-6:20px;
+  --space-7:24px;
+  --space-8:32px;
+  --space-9:40px;
+  --space-10:48px;
+  --space-11:64px;
+  --space-12:80px;
+  --space-13:104px;
+  --space-14:128px;
+
+  /* Semantic */
+  --gap-inline:var(--space-3);
+  --gap-stack:var(--space-4);
+  --gap-section:var(--space-8);
+  --pad-card:var(--space-5);
+  --pad-card-lg:var(--space-7);
+  --pad-screen:var(--space-5);
+  --pad-section-y:var(--space-13);
+
+  /* Layout */
+  --container-max:1200px;
+  --container-narrow:760px;
+  --app-sidebar-w:248px;
+  --app-topbar-h:64px;
+  --mobile-frame-w:390px;
+  --tabbar-h:76px;
+  --touch-min:44px;
+}

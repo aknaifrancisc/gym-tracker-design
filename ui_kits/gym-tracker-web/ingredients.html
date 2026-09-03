@@ -1,0 +1,272 @@
+<!-- @dsCard group="Gym Tracker Web" viewport="1440x1000" subtitle="Redesigned Ingredient library — compact media cards, per-100g macros" name="Ingredients" -->
+<!-- @startingPoint section="Screens" subtitle="Redesigned Ingredient library page" viewport="1440x1000" -->
+<!DOCTYPE html><html><head>
+<link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<script src="../../image-slot.js"></script>
+<script src="../../ds-loader.js"></script>
+<style>body{margin:0;background:var(--bg)}</style>
+</head><body><div id="root"></div>
+<script type="text/babel-app">
+let Button, Card, Badge, Avatar, SideNav, Input, Select;
+
+const ic = (n, s=16) => <i data-lucide={n} style={{width:s,height:s}}></i>;
+
+function App(){
+  const [nav,setNav]=React.useState('ingredients');
+  React.useEffect(()=>{lucide.createIcons()});
+  return <div style={{display:'flex',minHeight:'100vh',fontFamily:'var(--font-sans)'}}>
+    <SideNav activeId={nav} onSelect={setNav} style={{position:'sticky',top:0,height:'100vh'}}
+      header={<a href="all-screens.html" style={{display:'block',padding:'4px 12px 16px'}}><img src="../../assets/Logo.svg" alt="Gym Tracker" style={{height:34,display:'block'}}/></a>}
+      items={[
+        {id:'dash',href:'dashboard.html',label:'Dashboard',icon:ic('layout-dashboard')},
+        {id:'personal',href:'index.html',label:'Personal info',icon:ic('heart-pulse')},
+        {id:'weight',href:'weight-loss.html',label:'Weight loss',icon:ic('scale')},
+        {id:'steps',href:'steps.html',label:'Steps',icon:ic('footprints')},
+        {id:'workouts',label:'Workouts',icon:ic('dumbbell'),open:false,children:[{id:'logs',href:'workout-logs.html',label:'Logs'},{id:'exercises',href:'exercises.html',label:'Exercises'}]},
+        {id:'macros',href:'macros-dashboard.html',label:'Macros tracker',icon:ic('utensils'),children:[{id:'meals',href:'daily-meals.html',label:'Daily meals'},{id:'recipes',href:'recipes.html',label:'Recipes'},{id:'ingredients',href:'ingredients.html',label:'Ingredients'}]}]}
+      footer={<div style={{display:'flex',alignItems:'center',gap:10,padding:'10px 12px',borderTop:'1px solid var(--border)'}}>
+        <Avatar name="John D" size={32}/>
+        <div style={{flex:1,minWidth:0}}><div style={{fontSize:13,fontWeight:500,color:'var(--text-1)'}}>John Doe</div><div style={{fontSize:11,color:'var(--text-3)',overflow:'hidden',textOverflow:'ellipsis'}}>john.doe@gymgoer.com</div></div>
+        <span style={{color:'var(--text-3)'}}>{ic('chevrons-up-down',14)}</span>
+      </div>}/>
+    <main style={{flex:1,minWidth:0,padding:'28px 32px',maxWidth:'var(--content-max)',margin:'0 auto',boxSizing:'border-box',width:'100%'}}>
+      <header style={{display:'flex',alignItems:'center',gap:16,marginBottom:20}}>
+        <div style={{flex:1}}>
+          <h1 style={{margin:0,fontSize:'var(--text-2xl)',fontWeight:700,color:'var(--text-1)',letterSpacing:'-0.01em'}}>Ingredient library</h1>
+          <p style={{margin:'4px 0 0',fontSize:14,color:'var(--text-2)'}}>Browse and manage your ingredient library · 182 ingredients · values per 100 g.</p>
+        </div>
+        <Button icon={ic('plus')}>Add ingredient</Button>
+      </header>
+
+      <div style={{display:'flex',gap:12,alignItems:'center',marginBottom:20}}>
+        <Input placeholder="Search ingredients…" style={{flex:1}}/>
+        <Select options={['All ingredients','Global','Personal']} style={{width:150}}/>
+        <Select options={['Sort: A–Z','Sort: kcal ↑','Sort: kcal ↓','Sort: protein ↓']} style={{width:150}}/>
+      </div>
+
+      <div style={{display:'grid',gridTemplateColumns:'repeat(4, minmax(0, 1fr))',gap:14,marginBottom:20}}>
+        <Card key="Air Fryer Salmon" interactive compact style={{padding:0,overflow:'hidden'}}>
+          <div style={{position:'relative',height:130,background:'var(--wash-blue)',color:'var(--text-3)'}}>
+            <image-slot id="ing-0" shape="rect" placeholder="Air Fryer Salmon"></image-slot>
+            <span style={{position:'absolute',top:8,right:8,pointerEvents:'none'}}><Badge tone="primary">Global</Badge></span>
+          </div>
+          <div style={{padding:'11px 13px 13px'}}>
+            <div style={{display:'flex',alignItems:'baseline',gap:8}}>
+              <span style={{fontSize:14,fontWeight:600,color:'var(--text-1)',flex:1,minWidth:0,overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>Air Fryer Salmon</span>
+              <span style={{fontFamily:'var(--font-mono)',fontFeatureSettings:'var(--tnum)',fontSize:13,fontWeight:600,color:'var(--text-1)',whiteSpace:'nowrap'}}>205 <span style={{fontSize:10,fontWeight:400,color:'var(--text-3)'}}>kcal</span></span>
+            </div>
+            <div style={{display:'flex',gap:6,marginTop:9,flexWrap:'wrap'}}>
+              {[['P','22.0','var(--chart-1)'],['C','0.0','var(--chart-3)'],['F','13.0','var(--chart-2)']].map(([l,v,col])=>
+                <span key={l} style={{flex:1,minWidth:'fit-content',display:'inline-flex',alignItems:'center',justifyContent:'center',gap:4,fontSize:11,fontFamily:'var(--font-mono)',color:'var(--text-2)',background:'var(--bg-subtle)',borderRadius:6,padding:'4px 0'}}>
+                  <span style={{width:6,height:6,borderRadius:2,background:col}}></span>{l} {v}g</span>)}
+            </div>
+          </div>
+        </Card>
+        <Card key="All Purpose Flour" interactive compact style={{padding:0,overflow:'hidden'}}>
+          <div style={{position:'relative',height:130,background:'var(--wash-violet)',color:'var(--text-3)'}}>
+            <image-slot id="ing-1" shape="rect" placeholder="All Purpose Flour"></image-slot>
+            <span style={{position:'absolute',top:8,right:8,pointerEvents:'none'}}><Badge tone="primary">Global</Badge></span>
+          </div>
+          <div style={{padding:'11px 13px 13px'}}>
+            <div style={{display:'flex',alignItems:'baseline',gap:8}}>
+              <span style={{fontSize:14,fontWeight:600,color:'var(--text-1)',flex:1,minWidth:0,overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>All Purpose Flour</span>
+              <span style={{fontFamily:'var(--font-mono)',fontFeatureSettings:'var(--tnum)',fontSize:13,fontWeight:600,color:'var(--text-1)',whiteSpace:'nowrap'}}>355 <span style={{fontSize:10,fontWeight:400,color:'var(--text-3)'}}>kcal</span></span>
+            </div>
+            <div style={{display:'flex',gap:6,marginTop:9,flexWrap:'wrap'}}>
+              {[['P','10.3','var(--chart-1)'],['C','76.3','var(--chart-3)'],['F','1.0','var(--chart-2)']].map(([l,v,col])=>
+                <span key={l} style={{flex:1,minWidth:'fit-content',display:'inline-flex',alignItems:'center',justifyContent:'center',gap:4,fontSize:11,fontFamily:'var(--font-mono)',color:'var(--text-2)',background:'var(--bg-subtle)',borderRadius:6,padding:'4px 0'}}>
+                  <span style={{width:6,height:6,borderRadius:2,background:col}}></span>{l} {v}g</span>)}
+            </div>
+          </div>
+        </Card>
+        <Card key="Apple Puff Pastry Pie" interactive compact style={{padding:0,overflow:'hidden'}}>
+          <div style={{position:'relative',height:130,background:'var(--wash-teal)',color:'var(--text-3)'}}>
+            <image-slot id="ing-2" shape="rect" placeholder="Apple Puff Pastry Pie"></image-slot>
+            <span style={{position:'absolute',top:8,right:8,pointerEvents:'none'}}><Badge tone="primary">Global</Badge></span>
+          </div>
+          <div style={{padding:'11px 13px 13px'}}>
+            <div style={{display:'flex',alignItems:'baseline',gap:8}}>
+              <span style={{fontSize:14,fontWeight:600,color:'var(--text-1)',flex:1,minWidth:0,overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>Apple Puff Pastry Pie</span>
+              <span style={{fontFamily:'var(--font-mono)',fontFeatureSettings:'var(--tnum)',fontSize:13,fontWeight:600,color:'var(--text-1)',whiteSpace:'nowrap'}}>280 <span style={{fontSize:10,fontWeight:400,color:'var(--text-3)'}}>kcal</span></span>
+            </div>
+            <div style={{display:'flex',gap:6,marginTop:9,flexWrap:'wrap'}}>
+              {[['P','5.0','var(--chart-1)'],['C','42.0','var(--chart-3)'],['F','13.0','var(--chart-2)']].map(([l,v,col])=>
+                <span key={l} style={{flex:1,minWidth:'fit-content',display:'inline-flex',alignItems:'center',justifyContent:'center',gap:4,fontSize:11,fontFamily:'var(--font-mono)',color:'var(--text-2)',background:'var(--bg-subtle)',borderRadius:6,padding:'4px 0'}}>
+                  <span style={{width:6,height:6,borderRadius:2,background:col}}></span>{l} {v}g</span>)}
+            </div>
+          </div>
+        </Card>
+        <Card key="Apples" interactive compact style={{padding:0,overflow:'hidden'}}>
+          <div style={{position:'relative',height:130,background:'var(--wash-green)',color:'var(--text-3)'}}>
+            <image-slot id="ing-3" shape="rect" placeholder="Apples"></image-slot>
+            <span style={{position:'absolute',top:8,right:8,pointerEvents:'none'}}><Badge tone="primary">Global</Badge></span>
+          </div>
+          <div style={{padding:'11px 13px 13px'}}>
+            <div style={{display:'flex',alignItems:'baseline',gap:8}}>
+              <span style={{fontSize:14,fontWeight:600,color:'var(--text-1)',flex:1,minWidth:0,overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>Apples</span>
+              <span style={{fontFamily:'var(--font-mono)',fontFeatureSettings:'var(--tnum)',fontSize:13,fontWeight:600,color:'var(--text-1)',whiteSpace:'nowrap'}}>51 <span style={{fontSize:10,fontWeight:400,color:'var(--text-3)'}}>kcal</span></span>
+            </div>
+            <div style={{display:'flex',gap:6,marginTop:9,flexWrap:'wrap'}}>
+              {[['P','0.0','var(--chart-1)'],['C','13.0','var(--chart-3)'],['F','0.0','var(--chart-2)']].map(([l,v,col])=>
+                <span key={l} style={{flex:1,minWidth:'fit-content',display:'inline-flex',alignItems:'center',justifyContent:'center',gap:4,fontSize:11,fontFamily:'var(--font-mono)',color:'var(--text-2)',background:'var(--bg-subtle)',borderRadius:6,padding:'4px 0'}}>
+                  <span style={{width:6,height:6,borderRadius:2,background:col}}></span>{l} {v}g</span>)}
+            </div>
+          </div>
+        </Card>
+        <Card key="Ayran (Müller)" interactive compact style={{padding:0,overflow:'hidden'}}>
+          <div style={{position:'relative',height:130,background:'var(--wash-amber)',color:'var(--text-3)'}}>
+            <image-slot id="ing-4" shape="rect" placeholder="Ayran (Müller)"></image-slot>
+            <span style={{position:'absolute',top:8,right:8,pointerEvents:'none'}}><Badge tone="primary">Global</Badge></span>
+          </div>
+          <div style={{padding:'11px 13px 13px'}}>
+            <div style={{display:'flex',alignItems:'baseline',gap:8}}>
+              <span style={{fontSize:14,fontWeight:600,color:'var(--text-1)',flex:1,minWidth:0,overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>Ayran (Müller)</span>
+              <span style={{fontFamily:'var(--font-mono)',fontFeatureSettings:'var(--tnum)',fontSize:13,fontWeight:600,color:'var(--text-1)',whiteSpace:'nowrap'}}>38 <span style={{fontSize:10,fontWeight:400,color:'var(--text-3)'}}>kcal</span></span>
+            </div>
+            <div style={{display:'flex',gap:6,marginTop:9,flexWrap:'wrap'}}>
+              {[['P','2.1','var(--chart-1)'],['C','2.3','var(--chart-3)'],['F','2.1','var(--chart-2)']].map(([l,v,col])=>
+                <span key={l} style={{flex:1,minWidth:'fit-content',display:'inline-flex',alignItems:'center',justifyContent:'center',gap:4,fontSize:11,fontFamily:'var(--font-mono)',color:'var(--text-2)',background:'var(--bg-subtle)',borderRadius:6,padding:'4px 0'}}>
+                  <span style={{width:6,height:6,borderRadius:2,background:col}}></span>{l} {v}g</span>)}
+            </div>
+          </div>
+        </Card>
+        <Card key="Baked Apple Purée" interactive compact style={{padding:0,overflow:'hidden'}}>
+          <div style={{position:'relative',height:130,background:'var(--wash-blue)',color:'var(--text-3)'}}>
+            <image-slot id="ing-5" shape="rect" placeholder="Baked Apple Purée"></image-slot>
+            <span style={{position:'absolute',top:8,right:8,pointerEvents:'none'}}><Badge tone="primary">Global</Badge></span>
+          </div>
+          <div style={{padding:'11px 13px 13px'}}>
+            <div style={{display:'flex',alignItems:'baseline',gap:8}}>
+              <span style={{fontSize:14,fontWeight:600,color:'var(--text-1)',flex:1,minWidth:0,overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>Baked Apple Purée</span>
+              <span style={{fontFamily:'var(--font-mono)',fontFeatureSettings:'var(--tnum)',fontSize:13,fontWeight:600,color:'var(--text-1)',whiteSpace:'nowrap'}}>55 <span style={{fontSize:10,fontWeight:400,color:'var(--text-3)'}}>kcal</span></span>
+            </div>
+            <div style={{display:'flex',gap:6,marginTop:9,flexWrap:'wrap'}}>
+              {[['P','0.3','var(--chart-1)'],['C','14.0','var(--chart-3)'],['F','0.2','var(--chart-2)']].map(([l,v,col])=>
+                <span key={l} style={{flex:1,minWidth:'fit-content',display:'inline-flex',alignItems:'center',justifyContent:'center',gap:4,fontSize:11,fontFamily:'var(--font-mono)',color:'var(--text-2)',background:'var(--bg-subtle)',borderRadius:6,padding:'4px 0'}}>
+                  <span style={{width:6,height:6,borderRadius:2,background:col}}></span>{l} {v}g</span>)}
+            </div>
+          </div>
+        </Card>
+        <Card key="Baklava with Sour Cherries" interactive compact style={{padding:0,overflow:'hidden'}}>
+          <div style={{position:'relative',height:130,background:'var(--wash-violet)',color:'var(--text-3)'}}>
+            <image-slot id="ing-6" shape="rect" placeholder="Baklava with Sour Cherries"></image-slot>
+            <span style={{position:'absolute',top:8,right:8,pointerEvents:'none'}}><Badge tone="primary">Global</Badge></span>
+          </div>
+          <div style={{padding:'11px 13px 13px'}}>
+            <div style={{display:'flex',alignItems:'baseline',gap:8}}>
+              <span style={{fontSize:14,fontWeight:600,color:'var(--text-1)',flex:1,minWidth:0,overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>Baklava with Sour Cherries</span>
+              <span style={{fontFamily:'var(--font-mono)',fontFeatureSettings:'var(--tnum)',fontSize:13,fontWeight:600,color:'var(--text-1)',whiteSpace:'nowrap'}}>419 <span style={{fontSize:10,fontWeight:400,color:'var(--text-3)'}}>kcal</span></span>
+            </div>
+            <div style={{display:'flex',gap:6,marginTop:9,flexWrap:'wrap'}}>
+              {[['P','3.4','var(--chart-1)'],['C','66.0','var(--chart-3)'],['F','14.9','var(--chart-2)']].map(([l,v,col])=>
+                <span key={l} style={{flex:1,minWidth:'fit-content',display:'inline-flex',alignItems:'center',justifyContent:'center',gap:4,fontSize:11,fontFamily:'var(--font-mono)',color:'var(--text-2)',background:'var(--bg-subtle)',borderRadius:6,padding:'4px 0'}}>
+                  <span style={{width:6,height:6,borderRadius:2,background:col}}></span>{l} {v}g</span>)}
+            </div>
+          </div>
+        </Card>
+        <Card key="Banana" interactive compact style={{padding:0,overflow:'hidden'}}>
+          <div style={{position:'relative',height:130,background:'var(--wash-teal)',color:'var(--text-3)'}}>
+            <image-slot id="ing-7" shape="rect" placeholder="Banana"></image-slot>
+            <span style={{position:'absolute',top:8,right:8,pointerEvents:'none'}}><Badge tone="primary">Global</Badge></span>
+          </div>
+          <div style={{padding:'11px 13px 13px'}}>
+            <div style={{display:'flex',alignItems:'baseline',gap:8}}>
+              <span style={{fontSize:14,fontWeight:600,color:'var(--text-1)',flex:1,minWidth:0,overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>Banana</span>
+              <span style={{fontFamily:'var(--font-mono)',fontFeatureSettings:'var(--tnum)',fontSize:13,fontWeight:600,color:'var(--text-1)',whiteSpace:'nowrap'}}>107 <span style={{fontSize:10,fontWeight:400,color:'var(--text-3)'}}>kcal</span></span>
+            </div>
+            <div style={{display:'flex',gap:6,marginTop:9,flexWrap:'wrap'}}>
+              {[['P','1.3','var(--chart-1)'],['C','27.0','var(--chart-3)'],['F','0.4','var(--chart-2)']].map(([l,v,col])=>
+                <span key={l} style={{flex:1,minWidth:'fit-content',display:'inline-flex',alignItems:'center',justifyContent:'center',gap:4,fontSize:11,fontFamily:'var(--font-mono)',color:'var(--text-2)',background:'var(--bg-subtle)',borderRadius:6,padding:'4px 0'}}>
+                  <span style={{width:6,height:6,borderRadius:2,background:col}}></span>{l} {v}g</span>)}
+            </div>
+          </div>
+        </Card>
+        <Card key="Basilico Sauce (Barilla)" interactive compact style={{padding:0,overflow:'hidden'}}>
+          <div style={{position:'relative',height:130,background:'var(--wash-green)',color:'var(--text-3)'}}>
+            <image-slot id="ing-8" shape="rect" placeholder="Basilico Sauce (Barilla)"></image-slot>
+            <span style={{position:'absolute',top:8,right:8,pointerEvents:'none'}}><Badge tone="primary">Global</Badge></span>
+          </div>
+          <div style={{padding:'11px 13px 13px'}}>
+            <div style={{display:'flex',alignItems:'baseline',gap:8}}>
+              <span style={{fontSize:14,fontWeight:600,color:'var(--text-1)',flex:1,minWidth:0,overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>Basilico Sauce (Barilla)</span>
+              <span style={{fontFamily:'var(--font-mono)',fontFeatureSettings:'var(--tnum)',fontSize:13,fontWeight:600,color:'var(--text-1)',whiteSpace:'nowrap'}}>64 <span style={{fontSize:10,fontWeight:400,color:'var(--text-3)'}}>kcal</span></span>
+            </div>
+            <div style={{display:'flex',gap:6,marginTop:9,flexWrap:'wrap'}}>
+              {[['P','1.6','var(--chart-1)'],['C','7.6','var(--chart-3)'],['F','2.6','var(--chart-2)']].map(([l,v,col])=>
+                <span key={l} style={{flex:1,minWidth:'fit-content',display:'inline-flex',alignItems:'center',justifyContent:'center',gap:4,fontSize:11,fontFamily:'var(--font-mono)',color:'var(--text-2)',background:'var(--bg-subtle)',borderRadius:6,padding:'4px 0'}}>
+                  <span style={{width:6,height:6,borderRadius:2,background:col}}></span>{l} {v}g</span>)}
+            </div>
+          </div>
+        </Card>
+        <Card key="Beef Boeuf Salad" interactive compact style={{padding:0,overflow:'hidden'}}>
+          <div style={{position:'relative',height:130,background:'var(--wash-amber)',color:'var(--text-3)'}}>
+            <image-slot id="ing-9" shape="rect" placeholder="Beef Boeuf Salad"></image-slot>
+            <span style={{position:'absolute',top:8,right:8,pointerEvents:'none'}}><Badge tone="primary">Global</Badge></span>
+          </div>
+          <div style={{padding:'11px 13px 13px'}}>
+            <div style={{display:'flex',alignItems:'baseline',gap:8}}>
+              <span style={{fontSize:14,fontWeight:600,color:'var(--text-1)',flex:1,minWidth:0,overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>Beef Boeuf Salad</span>
+              <span style={{fontFamily:'var(--font-mono)',fontFeatureSettings:'var(--tnum)',fontSize:13,fontWeight:600,color:'var(--text-1)',whiteSpace:'nowrap'}}>95 <span style={{fontSize:10,fontWeight:400,color:'var(--text-3)'}}>kcal</span></span>
+            </div>
+            <div style={{display:'flex',gap:6,marginTop:9,flexWrap:'wrap'}}>
+              {[['P','3.8','var(--chart-1)'],['C','8.0','var(--chart-3)'],['F','5.0','var(--chart-2)']].map(([l,v,col])=>
+                <span key={l} style={{flex:1,minWidth:'fit-content',display:'inline-flex',alignItems:'center',justifyContent:'center',gap:4,fontSize:11,fontFamily:'var(--font-mono)',color:'var(--text-2)',background:'var(--bg-subtle)',borderRadius:6,padding:'4px 0'}}>
+                  <span style={{width:6,height:6,borderRadius:2,background:col}}></span>{l} {v}g</span>)}
+            </div>
+          </div>
+        </Card>
+        <Card key="Bio Crisp Bread with Gouda" interactive compact style={{padding:0,overflow:'hidden'}}>
+          <div style={{position:'relative',height:130,background:'var(--wash-blue)',color:'var(--text-3)'}}>
+            <image-slot id="ing-10" shape="rect" placeholder="Bio Crisp Bread with Gouda"></image-slot>
+            <span style={{position:'absolute',top:8,right:8,pointerEvents:'none'}}><Badge tone="primary">Global</Badge></span>
+          </div>
+          <div style={{padding:'11px 13px 13px'}}>
+            <div style={{display:'flex',alignItems:'baseline',gap:8}}>
+              <span style={{fontSize:14,fontWeight:600,color:'var(--text-1)',flex:1,minWidth:0,overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>Bio Crisp Bread with Gouda</span>
+              <span style={{fontFamily:'var(--font-mono)',fontFeatureSettings:'var(--tnum)',fontSize:13,fontWeight:600,color:'var(--text-1)',whiteSpace:'nowrap'}}>445 <span style={{fontSize:10,fontWeight:400,color:'var(--text-3)'}}>kcal</span></span>
+            </div>
+            <div style={{display:'flex',gap:6,marginTop:9,flexWrap:'wrap'}}>
+              {[['P','18.0','var(--chart-1)'],['C','47.6','var(--chart-3)'],['F','18.0','var(--chart-2)']].map(([l,v,col])=>
+                <span key={l} style={{flex:1,minWidth:'fit-content',display:'inline-flex',alignItems:'center',justifyContent:'center',gap:4,fontSize:11,fontFamily:'var(--font-mono)',color:'var(--text-2)',background:'var(--bg-subtle)',borderRadius:6,padding:'4px 0'}}>
+                  <span style={{width:6,height:6,borderRadius:2,background:col}}></span>{l} {v}g</span>)}
+            </div>
+          </div>
+        </Card>
+        <Card key="Boiled Chicken Breast" interactive compact style={{padding:0,overflow:'hidden'}}>
+          <div style={{position:'relative',height:130,background:'var(--wash-violet)',color:'var(--text-3)'}}>
+            <image-slot id="ing-11" shape="rect" placeholder="Boiled Chicken Breast"></image-slot>
+            <span style={{position:'absolute',top:8,right:8,pointerEvents:'none'}}><Badge tone="primary">Global</Badge></span>
+          </div>
+          <div style={{padding:'11px 13px 13px'}}>
+            <div style={{display:'flex',alignItems:'baseline',gap:8}}>
+              <span style={{fontSize:14,fontWeight:600,color:'var(--text-1)',flex:1,minWidth:0,overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>Boiled Chicken Breast</span>
+              <span style={{fontFamily:'var(--font-mono)',fontFeatureSettings:'var(--tnum)',fontSize:13,fontWeight:600,color:'var(--text-1)',whiteSpace:'nowrap'}}>133 <span style={{fontSize:10,fontWeight:400,color:'var(--text-3)'}}>kcal</span></span>
+            </div>
+            <div style={{display:'flex',gap:6,marginTop:9,flexWrap:'wrap'}}>
+              {[['P','30.0','var(--chart-1)'],['C','0.0','var(--chart-3)'],['F','1.7','var(--chart-2)']].map(([l,v,col])=>
+                <span key={l} style={{flex:1,minWidth:'fit-content',display:'inline-flex',alignItems:'center',justifyContent:'center',gap:4,fontSize:11,fontFamily:'var(--font-mono)',color:'var(--text-2)',background:'var(--bg-subtle)',borderRadius:6,padding:'4px 0'}}>
+                  <span style={{width:6,height:6,borderRadius:2,background:col}}></span>{l} {v}g</span>)}
+            </div>
+          </div>
+        </Card>
+      </div>
+
+      <div style={{display:'flex',alignItems:'center',gap:12,paddingBottom:40}}>
+        <Select options={['12 per page','24 per page','48 per page']} style={{width:130}}/>
+        <span style={{flex:1}}></span>
+        <Button variant="secondary" size="sm" icon={ic('arrow-left',14)}></Button>
+        <Button variant="primary" size="sm">1</Button>
+        <Button variant="ghost" size="sm">2</Button>
+        <Button variant="ghost" size="sm">…</Button>
+        <Button variant="ghost" size="sm">16</Button>
+        <Button variant="secondary" size="sm" icon={ic('arrow-right',14)}></Button>
+      </div>
+    </main>
+  </div>;
+}
+window.__dsReady.then(ns=>{({ Button, Card, Badge, Avatar, SideNav, Input, Select }=ns);ReactDOM.createRoot(document.getElementById('root')).render(<App/>)});
+</script></body></html>

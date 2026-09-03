@@ -1,0 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+:root {
+  /* Instrument Sans for interface, Space Grotesk (tabular) for every numeral */
+  --font-sans: 'Instrument Sans', 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: 'Space Grotesk', 'SF Mono', Consolas, monospace;
+  /* Sizes */
+  --text-xs: 11.5px;  /* micro labels, axis ticks */
+  --text-sm: 12.5px;  /* captions, secondary meta */
+  --text-md: 13px;    /* body default */
+  --text-lg: 13.5px;  /* card titles */
+  --text-xl: 16px;    /* section titles */
+  --text-2xl: 23px;   /* page titles */
+  --text-stat: 19px;      /* tile / cell stat */
+  --text-stat-md: 34px;   /* card stat */
+  --text-stat-lg: 46px;   /* hero stat */
+  /* Weights */
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+  /* Line heights */
+  --leading-tight: 1.2;
+  --leading-normal: 1.5;
+  /* Tracking — big numerals tighten */
+  --track-tight: -0.03em;
+  --track-tighter: -0.045em;
+  /* Numeric text is always tabular */
+  --tnum: 'tnum' 1;
+}

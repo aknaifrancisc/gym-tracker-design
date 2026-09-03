@@ -1,0 +1,127 @@
+<!-- @dsCard group="Gym Tracker Web" viewport="1440x900" subtitle="Redesigned Workout Logs — KPI row, PR highlights, workout cards" name="Workout logs" -->
+<!-- @startingPoint section="Screens" subtitle="Redesigned Workout Logs page" viewport="1440x900" -->
+<!DOCTYPE html><html><head>
+<link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<script src="../../ds-loader.js"></script>
+<style>body{margin:0;background:var(--bg)}</style>
+</head><body><div id="root"></div>
+<script type="text/babel-app">
+let Button, IconButton, Card, Badge, Tabs, Avatar, SideNav, StatCard, MacroBar, TrendChart, Input;
+
+const ic = (n, s=16) => <i data-lucide={n} style={{width:s,height:s}}></i>;
+const chip = (n, grad) => <span style={{width:36,height:36,borderRadius:9,background:'var(--grad-'+grad+')',color:'#fff',display:'inline-flex',alignItems:'center',justifyContent:'center',flexShrink:0}}>{ic(n,18)}</span>;
+
+const workouts = [
+  {name:'Monday workout', date:'Mon, Nov 3, 2025', type:'Hypertrophy', time:'1h 02m', ex:7, sets:21, kg:'8,130', kcal:'338', muscles:[['Chest',45],['Shoulders',30],['Triceps',25]]},
+  {name:'Monday chest', date:'Mon, Feb 10, 2025', type:'Strength', time:'33m', ex:4, sets:13, kg:'5,940', kcal:'192', muscles:[['Chest',70],['Triceps',30]]},
+  {name:'Friday pull', date:'Fri, Feb 7, 2025', type:'Strength', time:'42m', ex:5, sets:15, kg:'2,525', kcal:'211', muscles:[['Back',55],['Biceps',45]]},
+  {name:'Leg day', date:'Thu, Feb 6, 2025', type:'Strength', time:'28m', ex:3, sets:10, kg:'6,790', kcal:'160', muscles:[['Legs',80],['Core',20]]},
+  {name:'Monday crushing it', date:'Mon, Feb 3, 2025', type:'Strength', time:'58m', ex:7, sets:22, kg:'8,565', kcal:'338', muscles:[['Chest',40],['Back',35],['Biceps',25]]},
+];
+const mcolors = {Chest:'var(--chart-1)',Back:'var(--chart-2)',Legs:'var(--chart-5)',Biceps:'var(--chart-4)',Shoulders:'var(--chart-3)',Triceps:'var(--chart-2)',Core:'var(--chart-3)'};
+
+function App(){
+  const [nav,setNav]=React.useState('logs');
+  React.useEffect(()=>{lucide.createIcons()});
+  return <div style={{display:'flex',minHeight:'100vh',fontFamily:'var(--font-sans)'}}>
+    <SideNav activeId={nav} onSelect={setNav} style={{position:'sticky',top:0,height:'100vh'}}
+      header={<a href="all-screens.html" style={{display:'block',padding:'4px 12px 16px'}}><img src="../../assets/Logo.svg" alt="Gym Tracker" style={{height:34,display:'block'}}/></a>}
+      items={[
+        {id:'dash',href:'dashboard.html',label:'Dashboard',icon:ic('layout-dashboard')},
+        {id:'personal',href:'index.html',label:'Personal info',icon:ic('heart-pulse')},
+        {id:'weight',href:'weight-loss.html',label:'Weight loss',icon:ic('scale')},
+        {id:'steps',href:'steps.html',label:'Steps',icon:ic('footprints')},
+        {id:'workouts',label:'Workouts',icon:ic('dumbbell'),children:[{id:'logs',href:'workout-logs.html',label:'Logs'},{id:'exercises',href:'exercises.html',label:'Exercises'}]},
+        {id:'macros',href:'macros-dashboard.html',label:'Macros tracker',icon:ic('utensils'),children:[{id:'meals',href:'daily-meals.html',label:'Daily meals'},{id:'recipes',href:'recipes.html',label:'Recipes'},{id:'ingredients',href:'ingredients.html',label:'Ingredients'}]}]}
+      footer={<div style={{display:'flex',alignItems:'center',gap:10,padding:'10px 12px',borderTop:'1px solid var(--border)'}}>
+        <Avatar name="John D" size={32}/>
+        <div style={{flex:1,minWidth:0}}><div style={{fontSize:13,fontWeight:500,color:'var(--text-1)'}}>John Doe</div><div style={{fontSize:11,color:'var(--text-3)',overflow:'hidden',textOverflow:'ellipsis'}}>john.doe@gymgoer.com</div></div>
+        <span style={{color:'var(--text-3)'}}>{ic('chevrons-up-down',14)}</span>
+      </div>}/>
+    <main style={{flex:1,minWidth:0,padding:'28px 32px',maxWidth:'var(--content-max)',margin:'0 auto',boxSizing:'border-box',width:'100%'}}>
+      <header style={{display:'flex',alignItems:'center',gap:16,marginBottom:20}}>
+        <div style={{flex:1}}>
+          <h1 style={{margin:0,fontSize:'var(--text-2xl)',fontWeight:700,color:'var(--text-1)',letterSpacing:'-0.01em'}}>Workout logs</h1>
+          <p style={{margin:'4px 0 0',fontSize:14,color:'var(--text-2)'}}>Every workout tells a story — this is yours.</p>
+        </div>
+        <Button variant="secondary" icon={ic('git-compare-arrows')}>Compare workouts</Button>
+        <Button icon={ic('plus')}>Add workout</Button>
+      </header>
+
+      <div style={{display:'grid',gridTemplateColumns:'repeat(4, minmax(0, 1fr))',gap:16,marginBottom:16}}>
+        <StatCard gradient="blue" label="Workouts · Aug" value="5" delta="↑ 2 vs Jul" deltaTone="primary"/>
+        <StatCard gradient="amber" label="Calories burned" value="901" unit="kcal" delta="this month" deltaTone="warning"/>
+        <StatCard gradient="teal" label="Total hours" value="2.7" unit="h" delta="avg 44m" deltaTone="neutral"/>
+        <StatCard gradient="violet" label="Weekly streak" value="3" unit="consecutive weeks" delta="best 5" deltaTone="primary"/>
+      </div>
+
+      <div style={{display:'grid',gridTemplateColumns:'repeat(2, minmax(0, 1fr))',gap:16,marginBottom:16}}>
+        <div style={{background:'var(--grad-fade), var(--grad-blue)',borderRadius:'var(--radius-lg)',padding:20,color:'#fff'}}>
+          <div style={{display:'flex',alignItems:'center',gap:8,marginBottom:10}}>
+            <span style={{fontSize:12,fontWeight:600,letterSpacing:'0.05em',color:'var(--on-grad-muted)'}}>PERSONAL RECORD</span>
+            <Badge style={{background:'oklch(1 0 0 / 0.18)',color:'#fff',marginLeft:'auto'}}>{ic('medal',12)} PR</Badge>
+          </div>
+          <div style={{fontSize:16,fontWeight:600}}>Barbell bench press</div>
+          <div style={{display:'flex',alignItems:'baseline',gap:6,margin:'6px 0 10px'}}>
+            <span style={{fontFamily:'var(--font-mono)',fontFeatureSettings:'var(--tnum)',fontSize:'var(--text-stat-lg)',fontWeight:600,lineHeight:1}}>90</span>
+            <span style={{fontSize:14,color:'var(--on-grad-muted)'}}>kg @ 3RM · potential 1RM 99.0 kg</span>
+          </div>
+          <div style={{height:6,borderRadius:999,background:'oklch(1 0 0 / 0.18)'}}><div style={{width:'89%',height:'100%',borderRadius:999,background:'#fff'}}/></div>
+          <div style={{display:'flex',justifyContent:'space-between',flexWrap:'wrap',gap:'2px 12px',fontSize:12,color:'var(--on-grad-muted)',marginTop:8}}>
+            <span style={{whiteSpace:'nowrap'}}>prev 80 kg · +10.0 kg (12.5 %)</span><span style={{whiteSpace:'nowrap'}}>Feb 3, 2025 · Wilks 58.1</span>
+          </div>
+        </div>
+        <div style={{background:'var(--grad-fade), var(--grad-violet)',borderRadius:'var(--radius-lg)',padding:20,color:'#fff'}}>
+          <div style={{display:'flex',alignItems:'center',gap:8,marginBottom:10}}>
+            <span style={{fontSize:12,fontWeight:600,letterSpacing:'0.05em',color:'var(--on-grad-muted)'}}>PERSONAL RECORD</span>
+            <Badge style={{background:'oklch(1 0 0 / 0.18)',color:'#fff',marginLeft:'auto'}}>{ic('medal',12)} PR</Badge>
+          </div>
+          <div style={{fontSize:16,fontWeight:600}}>Barbell squats</div>
+          <div style={{display:'flex',alignItems:'baseline',gap:6,margin:'6px 0 10px'}}>
+            <span style={{fontFamily:'var(--font-mono)',fontFeatureSettings:'var(--tnum)',fontSize:'var(--text-stat-lg)',fontWeight:600,lineHeight:1}}>80</span>
+            <span style={{fontSize:14,color:'var(--on-grad-muted)'}}>kg @ 8RM · potential 1RM 101.3 kg</span>
+          </div>
+          <div style={{height:6,borderRadius:999,background:'oklch(1 0 0 / 0.18)'}}><div style={{width:'79%',height:'100%',borderRadius:999,background:'#fff'}}/></div>
+          <div style={{display:'flex',justifyContent:'space-between',flexWrap:'wrap',gap:'2px 12px',fontSize:12,color:'var(--on-grad-muted)',marginTop:8}}>
+            <span style={{whiteSpace:'nowrap'}}>prev 70 kg · +10.0 kg (14.3 %)</span><span style={{whiteSpace:'nowrap'}}>Feb 5, 2025 · Wilks 59.5</span>
+          </div>
+        </div>
+      </div>
+
+      <div style={{display:'flex',gap:12,alignItems:'center',marginBottom:16}}>
+        <Input placeholder="Search workout logs…" style={{flex:1}}/>
+        <Button variant="secondary" size="sm" icon={ic('sliders-horizontal',14)}>Filters</Button>
+      </div>
+
+      <div style={{display:'grid',gridTemplateColumns:'repeat(2, minmax(0, 1fr))',gap:16,paddingBottom:40}}>
+        {workouts.map(wk=>(
+          <Card key={wk.name+wk.date} interactive compact style={{padding:18}}>
+            <div style={{display:'flex',alignItems:'center',gap:10,marginBottom:12}}>
+              {chip('dumbbell', wk.type==='Hypertrophy'?'violet':'blue')}
+              <div style={{flex:1,minWidth:0}}>
+                <div style={{fontSize:15,fontWeight:600,color:'var(--text-1)'}}>{wk.name}</div>
+                <div style={{fontSize:12,color:'var(--text-3)'}}>{wk.date}</div>
+              </div>
+              <Badge tone={wk.type==='Hypertrophy'?'primary':'neutral'}>{wk.type}</Badge>
+              <Badge tone="success">Completed</Badge>
+              <IconButton label="More">{ic('ellipsis-vertical',15)}</IconButton>
+            </div>
+            <div style={{display:'grid',gridTemplateColumns:'repeat(5, 1fr)',gap:8,marginBottom:12}}>
+              {[[wk.time,'duration'],[wk.ex,'exercises'],[wk.sets,'sets'],[wk.kg+' kg','volume'],[wk.kcal,'kcal']].map(([v,l])=>
+                <div key={l} style={{background:'var(--bg-subtle)',borderRadius:8,padding:'8px 10px',textAlign:'center'}}>
+                  <div style={{fontFamily:'var(--font-mono)',fontFeatureSettings:'var(--tnum)',fontSize:14,fontWeight:600,color:'var(--text-1)'}}>{v}</div>
+                  <div style={{fontSize:10,color:'var(--text-3)',marginTop:2}}>{l}</div>
+                </div>)}
+            </div>
+            <MacroBar height={8} segments={wk.muscles.map(([l,v])=>({label:l,value:v,display:v+' %',color:mcolors[l]}))}/>
+          </Card>))}
+      </div>
+    </main>
+  </div>;
+}
+window.__dsReady.then(ns=>{({ Button, IconButton, Card, Badge, Tabs, Avatar, SideNav, StatCard, MacroBar, TrendChart, Input }=ns);ReactDOM.createRoot(document.getElementById('root')).render(<App/>)});
+</script></body></html>

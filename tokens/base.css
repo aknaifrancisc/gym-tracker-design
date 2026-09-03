@@ -1,0 +1,15 @@
+body { margin: 0; font-family: var(--font-sans); font-size: var(--text-md); color: var(--text-1); background: var(--bg); -webkit-font-smoothing: antialiased; text-wrap: pretty; }
+a { color: var(--primary); text-decoration: none; }
+a:hover { color: var(--primary-hover); text-decoration: underline; }
+* { box-sizing: border-box; }
+:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+/* Every numeral in the product is Space Grotesk, tabular. */
+.num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-feature-settings: var(--tnum); letter-spacing: var(--track-tight); }
+/* Reminder for pages that forgot to declare a scheme — rendering falls back to brand. */
+html:not([data-scheme]) body::after {
+  content: 'Missing data-scheme="brand|green" on <html>';
+  position: fixed; bottom: 10px; left: 10px; z-index: 99999;
+  font: 500 11px var(--font-sans); color: var(--warning-fg);
+  background: var(--warning-subtle); border: 1px solid var(--warning);
+  padding: 5px 9px; border-radius: var(--radius-sm);
+}

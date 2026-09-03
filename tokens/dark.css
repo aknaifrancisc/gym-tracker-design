@@ -1,0 +1,34 @@
+/* Neutral aliases: dark theme. Scheme accents live in colors.css. */
+[data-theme="dark"] {
+  --bg: var(--neutral-950);
+  --bg-subtle: var(--neutral-900);
+  --surface: var(--neutral-875);
+  --surface-hover: rgba(255,255,255,0.045);
+  --surface-sunken: var(--neutral-850);
+  --border: #2c2a34;
+  --border-strong: #3a3744;
+  --text-1: #f4f1ea;
+  --text-2: #a09a90;
+  --text-3: #7d766c;
+  --text-inverse: var(--neutral-950);
+
+  --success: var(--gr-400);
+  --success-subtle: rgba(52,196,127,0.13);
+  --success-fg: var(--gr-400);
+  --warning: var(--amber-400);
+  --warning-subtle: rgba(227,169,59,0.13);
+  --warning-fg: var(--amber-400);
+  --danger: var(--clay-400);
+  --danger-subtle: rgba(217,112,79,0.13);
+  --danger-fg: var(--clay-400);
+
+  --chart-2: #45b8b8;
+  --chart-3: var(--amber-400);
+  --chart-4: #a98aeb;
+  --chart-5: var(--clay-400);
+
+  /* Dark relies on borders + glow, not shadow */
+  --shadow-sm: none;
+  --shadow-md: none;
+  --shadow-lg: 0 30px 70px -34px rgba(8,7,12,0.85);
+}

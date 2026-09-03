@@ -1,0 +1,122 @@
+<!-- @dsCard group="Gym Tracker Web" viewport="1440x900" subtitle="Redesigned Weight Loss — progress, macros split, weekly measurements" name="Weight loss" -->
+<!-- @startingPoint section="Screens" subtitle="Redesigned Weight Loss page" viewport="1440x900" -->
+<!DOCTYPE html><html><head>
+<link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<script src="../../ds-loader.js"></script>
+<style>body{margin:0;background:var(--bg)}</style>
+</head><body><div id="root"></div>
+<script type="text/babel-app">
+let Button, Card, Badge, Tabs, Avatar, Progress, SideNav, StatCard, ProgressRing, MacroBar, TrendChart;
+
+const ic = (n, s=16) => <i data-lucide={n} style={{width:s,height:s}}></i>;
+const chip = (n, grad) => <span style={{width:36,height:36,borderRadius:9,background:'var(--grad-'+grad+')',color:'#fff',display:'inline-flex',alignItems:'center',justifyContent:'center',flexShrink:0}}>{ic(n,18)}</span>;
+
+const measurements = [
+  {date:'Friday, Jun 6, 2025', kg:'104.8', dkg:'↓ 0.8', tone:'success',
+   vals:[['Arms L/R','49 / 49 cm','+1.0'],['Legs L/R','70 / 70 cm','+1.0'],['Chest','113 cm','−2.0'],['Waist','103 cm','+1.0']]},
+  {date:'Sunday, Jun 1, 2025', kg:'105.6', dkg:'↓ 0.6', tone:'success',
+   vals:[['Arms L/R','48 / 48 cm','±0'],['Legs L/R','69 / 69 cm','±0'],['Chest','115 cm','−1.0'],['Waist','102 cm','−1.0']]},
+  {date:'Sunday, May 25, 2025', kg:'106.2', dkg:'↓ 0.4', tone:'success',
+   vals:[['Arms L/R','48 / 48 cm','±0'],['Legs L/R','69 / 69 cm','+0.5'],['Chest','116 cm','−1.0'],['Waist','103 cm','−2.0']]},
+];
+
+function App(){
+  const [nav,setNav]=React.useState('weight');
+  const [range,setRange]=React.useState('6M');
+  React.useEffect(()=>{lucide.createIcons()});
+  return <div style={{display:'flex',minHeight:'100vh',fontFamily:'var(--font-sans)'}}>
+    <SideNav activeId={nav} onSelect={setNav} style={{position:'sticky',top:0,height:'100vh'}}
+      header={<a href="all-screens.html" style={{display:'block',padding:'4px 12px 16px'}}><img src="../../assets/Logo.svg" alt="Gym Tracker" style={{height:34,display:'block'}}/></a>}
+      items={[
+        {id:'dash',href:'dashboard.html',label:'Dashboard',icon:ic('layout-dashboard')},
+        {id:'personal',href:'index.html',label:'Personal info',icon:ic('heart-pulse')},
+        {id:'weight',href:'weight-loss.html',label:'Weight loss',icon:ic('scale')},
+        {id:'steps',href:'steps.html',label:'Steps',icon:ic('footprints')},
+        {id:'workouts',label:'Workouts',icon:ic('dumbbell'),open:false,children:[{id:'logs',href:'workout-logs.html',label:'Logs'},{id:'exercises',href:'exercises.html',label:'Exercises'}]},
+        {id:'macros',href:'macros-dashboard.html',label:'Macros tracker',icon:ic('utensils'),children:[{id:'meals',href:'daily-meals.html',label:'Daily meals'},{id:'recipes',href:'recipes.html',label:'Recipes'},{id:'ingredients',href:'ingredients.html',label:'Ingredients'}]}]}
+      footer={<div style={{display:'flex',alignItems:'center',gap:10,padding:'10px 12px',borderTop:'1px solid var(--border)'}}>
+        <Avatar name="John D" size={32}/>
+        <div style={{flex:1,minWidth:0}}><div style={{fontSize:13,fontWeight:500,color:'var(--text-1)'}}>John Doe</div><div style={{fontSize:11,color:'var(--text-3)',overflow:'hidden',textOverflow:'ellipsis'}}>john.doe@gymgoer.com</div></div>
+        <span style={{color:'var(--text-3)'}}>{ic('chevrons-up-down',14)}</span>
+      </div>}/>
+    <main style={{flex:1,minWidth:0,padding:'28px 32px',maxWidth:'var(--content-max)',margin:'0 auto',boxSizing:'border-box',width:'100%'}}>
+      <header style={{display:'flex',alignItems:'center',gap:16,marginBottom:24}}>
+        <div style={{flex:1}}>
+          <h1 style={{margin:0,fontSize:'var(--text-2xl)',fontWeight:700,color:'var(--text-1)',letterSpacing:'-0.01em'}}>Weight loss</h1>
+          <p style={{margin:'4px 0 0',fontSize:14,color:'var(--text-2)'}}>Track your weight loss progress and achievements.</p>
+        </div>
+        <Button variant="secondary" icon={ic('target')}>Set goal</Button>
+        <Button icon={ic('plus')}>Add weekly measurements</Button>
+      </header>
+
+      <div style={{display:'grid',gridTemplateColumns:'repeat(4, minmax(0, 1fr))',gap:16,marginBottom:16}}>
+        <StatCard gradient="blue" label="Current weight" value="104.8" unit="kg" delta="↓ 0.8 this week"/>
+        <StatCard gradient="violet" label="To goal (95 kg)" value="9.8" unit="kg" delta="~ 22 weeks" deltaTone="primary"/>
+        <StatCard gradient="green" label="Lost so far" value="6.2" unit="kg" delta="− 5.6 %"/>
+        <StatCard gradient="amber" label="Calorie budget" value="2,581" unit="kcal / day" delta="Deficit 297" deltaTone="warning"/>
+      </div>
+
+      <div style={{display:'grid',gridTemplateColumns:'minmax(0,1.5fr) minmax(0,1fr)',gap:16,marginBottom:24}}>
+        <Card title="Weight evolution" icon={chip('trending-down','blue')} action={<Tabs tabs={['3M','6M','All']} active={range} onChange={setRange}/>}>
+          <TrendChart data={[111,110.6,110.1,109.8,109.2,108.7,108.9,108.1,107.6,107.2,106.8,106.9,106.2,105.8,105.6,105.1,104.8]} height={130} showDots={true} xLabels={['Feb','Mar','Apr','May','Jun','Jul','Aug']}/>
+          <div style={{display:'flex',gap:16,marginTop:14,paddingTop:14,borderTop:'1px solid var(--border)'}}>
+            {[['Starting','111.0 kg'],['Current','104.8 kg'],['Avg / week','−0.45 kg'],['Best week','−1.1 kg']].map(([l,v])=>
+              <div key={l} style={{flex:1}}><div style={{fontSize:12,color:'var(--text-3)'}}>{l}</div><div style={{fontFamily:'var(--font-mono)',fontFeatureSettings:'var(--tnum)',fontSize:15,fontWeight:600,color:'var(--text-1)',marginTop:2}}>{v}</div></div>)}
+          </div>
+        </Card>
+        <div style={{display:'flex',flexDirection:'column',gap:16}}>
+          <Card title="Goal progress" icon={chip('target','green')}>
+            <div style={{display:'flex',alignItems:'center',gap:18}}>
+              <ProgressRing value={6.2} max={16} size={104} color="var(--success)" label="39%" sublabel="to goal"/>
+              <div style={{flex:1,display:'flex',flexDirection:'column',gap:8,fontSize:13}}>
+                {[['Goal weight','95.0 kg'],['Remaining','9.8 kg'],['Forecast','Jan 4, 2027']].map(([l,v])=>
+                  <div key={l}>
+                    <div style={{fontSize:12,color:'var(--text-2)'}}>{l}</div>
+                    <div style={{fontFamily:'var(--font-mono)',fontFeatureSettings:'var(--tnum)',fontWeight:600,fontSize:14,color:'var(--text-1)',marginTop:1}}>{v}</div>
+                  </div>)}
+              </div>
+            </div>
+          </Card>
+          <Card title="Macros split" icon={chip('utensils','amber')}>
+            <MacroBar segments={[{label:'Protein',value:150,display:'150 g'},{label:'Carbs',value:200,display:'200 g'},{label:'Fat',value:65,display:'65 g'}]}/>
+            <div style={{fontSize:12,color:'var(--text-3)',marginTop:10}}>Based on 2,581 kcal / day · 40 g fiber target</div>
+          </Card>
+        </div>
+      </div>
+
+      <div style={{display:'flex',alignItems:'center',gap:10,margin:'0 0 12px'}}>
+        <h2 style={{margin:0,fontSize:'var(--text-xl)',fontWeight:600,color:'var(--text-1)'}}>Weekly measurements</h2>
+        <Badge tone="primary">12 recorded</Badge>
+        <a href="#" style={{marginLeft:'auto',fontSize:13,fontWeight:500}}>View all</a>
+      </div>
+      <div style={{display:'grid',gridTemplateColumns:'repeat(3, minmax(0, 1fr))',gap:16,paddingBottom:40}}>
+        {measurements.map((m)=>(
+          <Card key={m.date} compact style={{padding:18}}>
+            <div style={{display:'flex',alignItems:'center',gap:10,marginBottom:14}}>
+              <span style={{fontSize:13,fontWeight:600,color:'var(--text-1)',flex:1}}>{m.date}</span>
+              <Badge tone={m.tone}>{m.dkg} kg</Badge>
+            </div>
+            <div style={{display:'flex',alignItems:'baseline',gap:6,marginBottom:14}}>
+              <span style={{fontFamily:'var(--font-mono)',fontFeatureSettings:'var(--tnum)',fontSize:'var(--text-stat)',fontWeight:600,color:'var(--text-1)'}}>{m.kg}</span>
+              <span style={{fontSize:13,color:'var(--text-3)'}}>kg</span>
+            </div>
+            <div style={{display:'flex',flexDirection:'column'}}>
+              {m.vals.map(([l,v,d])=>(
+                <div key={l} style={{display:'flex',alignItems:'center',gap:8,padding:'7px 0',borderTop:'1px solid var(--border)',fontSize:13}}>
+                  <span style={{color:'var(--text-2)',flex:1}}>{l}</span>
+                  <span style={{fontFamily:'var(--font-mono)',fontWeight:500,color:'var(--text-1)'}}>{v}</span>
+                  <span style={{fontFamily:'var(--font-mono)',fontSize:11,color:d.startsWith('−')?'var(--success-fg)':d==='±0'?'var(--text-3)':'var(--warning-fg)',width:34,textAlign:'right'}}>{d}</span>
+                </div>))}
+            </div>
+            <Button variant="secondary" size="sm" style={{width:'100%',justifyContent:'center',marginTop:12}}>Edit details</Button>
+          </Card>))}
+      </div>
+    </main>
+  </div>;
+}
+window.__dsReady.then(ns=>{({ Button, Card, Badge, Tabs, Avatar, Progress, SideNav, StatCard, ProgressRing, MacroBar, TrendChart }=ns);ReactDOM.createRoot(document.getElementById('root')).render(<App/>)});
+</script></body></html>

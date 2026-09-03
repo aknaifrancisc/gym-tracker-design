@@ -1,0 +1,1228 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  body{margin:0;background:#e4e1da;font-family:'Instrument Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+  a{color:#1a8f5a;text-decoration:none}
+  a:hover{color:#146c44}
+  @keyframes riseIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+  @keyframes pulseDot{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.9);opacity:.25}}
+  @keyframes glowBreath{0%,100%{opacity:.55}50%{opacity:.9}}
+</style>
+</helmet>
+
+<section style="padding:56px 56px 24px;display:flex;flex-direction:column;gap:20px">
+  <div style="display:flex;align-items:baseline;gap:16px">
+    <h1 style="margin:0;font-size:26px;font-weight:600;letter-spacing:-.03em;color:#1a1a18">Brand blue variation</h1>
+    <p style="margin:0;font-size:14px;color:#6e6b64;max-width:660px">The GymTracker logo blue <b>#2A69C8</b> swapped in for green — <a href="#4a">4a</a> light, <a href="#4b">4b</a> dark (lifted to #5B9BF5 for contrast). Amber secondary and layout untouched.</p>
+  </div>
+
+  <div style="display:flex;flex-wrap:wrap;gap:48px;align-items:flex-start">
+    <div id="4a" style="display:flex;flex-direction:column;gap:12px">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span style="font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:600;background:#1a1a18;color:#fff;padding:4px 9px;border-radius:6px">4a</span>
+        <span style="font-size:14px;font-weight:600;color:#1a1a18">Light + brand blue — same paper shell, #2A69C8 accent</span>
+      </div>
+      <div style="width:1360px;background:#efece6;border-radius:24px;padding:18px;box-shadow:0 24px 60px -30px rgba(26,26,24,.32)">
+        <div style="display:grid;grid-template-columns:62px minmax(0,1fr);gap:18px">
+          <nav style="position:relative;overflow:hidden;isolation:isolate;background:#fff;border:1px solid #eae6df;border-radius:18px;padding:14px 0;display:flex;flex-direction:column;align-items:center;gap:5px;height:fit-content">
+            <div style="position:absolute;top:-70px;left:-50px;width:170px;height:170px;width:250px;height:215px;background:radial-gradient(circle at 50% 50%,rgba(42,105,200,.13),rgba(42,105,200,0) 70%);pointer-events:none;z-index:-1"></div>
+            <div style="width:34px;height:34px;border-radius:11px;background:#2a69c8;color:#fff;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;margin-bottom:12px">G</div>
+            <sc-for list="{{ railL }}" as="r" hint-placeholder-count="7">
+              <div title="{{ r.name }}" style="width:36px;height:36px;border-radius:11px;display:flex;align-items:center;justify-content:center;background:{{ r.bg }};color:{{ r.fg }};cursor:pointer;transition:background .14s,color .14s" style-hover="background:#f3f1ec;color:#1a1a18">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="{{ r.d }}"></path></svg>
+              </div>
+            </sc-for>
+            <div style="height:14px"></div>
+            <div style="width:34px;height:34px;border-radius:50%;background:#ddd7cd"></div>
+          </nav>
+
+          <div style="min-width:0;display:flex;flex-direction:column;gap:14px">
+            <header style="display:flex;align-items:flex-end;gap:14px;padding:2px 2px 0">
+              <div style="flex:1;min-width:0">
+                <div style="font-size:13px;color:#8a867e">Good morning, Alex</div>
+                <h2 style="margin:2px 0 0;font-size:23px;font-weight:600;letter-spacing:-.03em;color:#1a1a18">Training at a glance</h2>
+              </div>
+              <div style="display:flex;align-items:center;gap:9px;background:#fff;border:1px solid #eae6df;border-radius:11px;padding:8px 13px;font-size:13px;color:#4a4740">
+                <i style="width:8px;height:8px;border-radius:50%;background:#2a69c8;animation:pulseDot 2.4s infinite"></i>Week 34 · cutting phase
+              </div>
+              <div style="display:flex;align-items:center;gap:8px;background:#fff;border:1px solid #eae6df;border-radius:11px;padding:8px 13px;font-size:13px;color:#8a867e;min-width:150px">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>Search…
+              </div>
+              <div style="display:flex;align-items:center;gap:7px;background:#1a1a18;color:#fff;border-radius:11px;padding:9px 15px;font-size:13px;font-weight:500;cursor:pointer;transition:transform .14s" style-hover="transform:translateY(-1px)">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg>Log workout
+              </div>
+            </header>
+
+            <div style="display:grid;grid-template-columns:minmax(0,1.28fr) minmax(0,1.05fr) minmax(0,.82fr);gap:14px">
+              <div style="position:relative;isolation:isolate;background:#fff;border:1px solid #eae6df;border-radius:18px;padding:18px 20px;overflow:hidden;animation:riseIn .5s both cubic-bezier(.2,0,0,1)">
+                <div style="position:absolute;top:-70px;right:-60px;width:230px;height:190px;background:radial-gradient(circle at 60% 40%,rgba(42,105,200,.20),rgba(42,105,200,0) 70%);animation:glowBreath 6s ease-in-out infinite"></div>
+                <div style="position:relative">
+                  <div style="display:inline-flex;align-items:center;gap:6px;font-size:12.5px;color:#2a69c8;font-weight:500">
+                    <i style="width:6px;height:6px;border-radius:50%;background:#2a69c8"></i>Training now
+                  </div>
+                  <div style="display:flex;align-items:baseline;gap:8px;margin-top:8px">
+                    <span style="font-family:'Space Grotesk',sans-serif;font-variant-numeric:tabular-nums;font-size:46px;font-weight:600;letter-spacing:-.045em;color:#1a1a18;line-height:1">{{ volA }}</span>
+                    <span style="font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:500;color:#c99a2e">tonnes</span>
+                  </div>
+                  <p style="margin:9px 0 0;font-size:12.5px;color:#8a867e">Lifted this month · 91% of your best block (46.8 t in June)</p>
+                  <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:16px;padding-top:14px;border-top:1px solid #f2efe9">
+                    <sc-for list="{{ heroStatsA }}" as="h" hint-placeholder-count="3">
+                      <div>
+                        <div style="display:flex;align-items:baseline;gap:5px">
+                          <span style="font-family:'Space Grotesk',sans-serif;font-variant-numeric:tabular-nums;font-size:19px;font-weight:600;letter-spacing:-.035em;color:#1a1a18">{{ h.value }}</span>
+                          <span style="font-family:'Space Grotesk',sans-serif;font-size:11px;color:#a8a49b">{{ h.unit }}</span>
+                        </div>
+                        <div style="font-size:11.5px;color:#8a867e;margin-top:2px">{{ h.label }}</div>
+                      </div>
+                    </sc-for>
+                  </div>
+                </div>
+              </div>
+
+              <div style="position:relative;overflow:hidden;isolation:isolate;background:#fff;border:1px solid #eae6df;border-radius:18px;padding:16px 18px 12px;animation:riseIn .5s 70ms both cubic-bezier(.2,0,0,1);display:flex;flex-direction:column">
+                <div style="position:absolute;bottom:-95px;left:-70px;width:250px;height:215px;background:radial-gradient(circle at 50% 50%,rgba(224,168,58,.16),rgba(224,168,58,0) 70%);pointer-events:none;z-index:-1"></div>
+                <div style="display:flex;align-items:center;gap:10px">
+                  <span style="font-size:13.5px;font-weight:600;color:#1a1a18;flex:1">Energy balance</span>
+                  <span style="font-size:11px;font-weight:500;color:#2a69c8;background:#eaf1fb;padding:4px 9px;border-radius:7px">Live</span>
+                </div>
+                <div style="display:flex;align-items:flex-end;gap:3px;height:104px;margin-top:14px">
+                  <sc-for list="{{ barsL }}" as="b" hint-placeholder-count="20">
+                    <div onMouseEnter="{{ b.enter }}" onMouseLeave="{{ leaveL }}" style="flex:1;min-width:0;height:100%;display:flex;flex-direction:column;justify-content:flex-end;gap:2px;position:relative;cursor:crosshair">
+                      <sc-if value="{{ b.on }}" hint-placeholder-val="{{ false }}">
+                        <div style="position:absolute;bottom:100%;left:50%;transform:translate(-50%,-6px);background:#1a1a18;color:#fff;border-radius:9px;padding:7px 10px;white-space:nowrap;z-index:5;animation:fadeIn .12s both;box-shadow:0 12px 26px -14px rgba(0,0,0,.55)">
+                          <div style="font-size:10.5px;color:#a8a49b">{{ b.day }}</div>
+                          <div style="font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:600;margin-top:1px">{{ b.tip }}</div>
+                        </div>
+                      </sc-if>
+                      <div style="flex:1;min-height:0;display:flex;flex-direction:column;justify-content:flex-end;gap:2px">
+                        <i style="display:block;width:100%;border-radius:3px;background:{{ b.burnFill }};height:{{ b.burn }}%;transition:height .55s cubic-bezier(.2,0,0,1),background .12s"></i>
+                        <i style="display:block;width:100%;border-radius:3px;background:{{ b.fill }};height:{{ b.h }}%;transition:height .55s cubic-bezier(.2,0,0,1),background .12s"></i>
+                      </div>
+                    </div>
+                  </sc-for>
+                </div>
+                <div style="display:flex;gap:3px;margin-top:6px">
+                  <sc-for list="{{ barsL }}" as="b" hint-placeholder-count="20">
+                    <span style="flex:1;text-align:center;font-family:'Space Grotesk',sans-serif;font-size:9px;color:#b4b0a7">{{ b.tick }}</span>
+                  </sc-for>
+                </div>
+                <div style="display:flex;justify-content:center;gap:16px;margin-top:8px;padding-top:10px;border-top:1px solid #f4f1eb">
+                  <span style="display:inline-flex;align-items:center;gap:6px;font-size:11.5px;color:#8a867e"><i style="width:8px;height:8px;border-radius:2px;background:#e0a83a;display:inline-block"></i>Intake</span>
+                  <span style="display:inline-flex;align-items:center;gap:6px;font-size:11.5px;color:#8a867e"><i style="width:8px;height:8px;border-radius:2px;background:#2a69c8;display:inline-block"></i>Burned</span>
+                </div>
+              </div>
+
+              <div style="position:relative;overflow:hidden;isolation:isolate;background:#fff;border:1px solid #eae6df;border-radius:18px;padding:16px 18px;animation:riseIn .5s 140ms both cubic-bezier(.2,0,0,1)">
+                <div style="position:absolute;top:-85px;right:-60px;width:250px;height:215px;background:radial-gradient(circle at 50% 50%,rgba(42,105,200,.15),rgba(42,105,200,0) 70%);pointer-events:none;z-index:-1"></div>
+                <div style="display:flex;align-items:center;gap:8px">
+                  <span style="font-size:13.5px;font-weight:600;color:#1a1a18;flex:1">Recovery</span>
+                  <span style="font-size:11px;font-weight:500;color:#8a6a1f;background:#fbf2df;padding:4px 9px;border-radius:7px">Fresh</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:12px;margin-top:10px">
+                  <div style="position:relative;flex-shrink:0">
+                    <svg width="104" height="104" viewBox="0 0 104 104">
+                      <circle cx="52" cy="52" r="42" fill="none" stroke="#f2efe9" stroke-width="11"></circle>
+                      <circle cx="52" cy="52" r="42" fill="none" stroke="#2a69c8" stroke-width="11" stroke-linecap="round" stroke-dasharray="264" stroke-dashoffset="{{ ringOffA }}" transform="rotate(-90 52 52)" style="transition:stroke-dashoffset 1.1s cubic-bezier(.2,0,0,1)"></circle>
+                    </svg>
+                    <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center">
+                      <span style="font-family:'Space Grotesk',sans-serif;font-variant-numeric:tabular-nums;font-size:23px;font-weight:600;letter-spacing:-.035em;color:#1a1a18;line-height:1">{{ recoveryA }}</span>
+                      <span style="font-size:10px;color:#a8a49b;margin-top:2px">ready</span>
+                    </div>
+                  </div>
+                  <div style="display:flex;flex-direction:column;gap:7px;flex:1;min-width:0">
+                    <sc-for list="{{ recStatsL }}" as="r" hint-placeholder-count="2">
+                      <div style="background:#f8f6f2;border-radius:11px;padding:9px 11px">
+                        <div style="display:flex;align-items:baseline;gap:5px">
+                          <span style="font-family:'Space Grotesk',sans-serif;font-variant-numeric:tabular-nums;font-size:16px;font-weight:600;letter-spacing:-.03em;color:{{ r.tone }}">{{ r.value }}</span>
+                          <span style="font-family:'Space Grotesk',sans-serif;font-size:10.5px;color:#a8a49b">{{ r.unit }}</span>
+                        </div>
+                        <div style="font-size:11px;color:#8a867e;margin-top:1px">{{ r.label }}</div>
+                      </div>
+                    </sc-for>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div style="display:grid;grid-template-columns:minmax(0,1.18fr) minmax(0,1fr);gap:14px">
+              <div style="position:relative;overflow:hidden;isolation:isolate;background:#fff;border:1px solid #eae6df;border-radius:18px;padding:16px 18px 18px">
+                <div style="position:absolute;top:-85px;left:-60px;width:250px;height:215px;background:radial-gradient(circle at 50% 50%,rgba(42,105,200,.11),rgba(42,105,200,0) 70%);pointer-events:none;z-index:-1"></div>
+                <div style="display:flex;align-items:center;gap:10px">
+                  <span style="font-size:13.5px;font-weight:600;color:#1a1a18;flex:1">Muscle groups</span>
+                  <span style="font-size:11.5px;color:#a8a49b">12 sessions · 6 groups</span>
+                </div>
+                <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin-top:14px">
+                  <sc-for list="{{ groupsL }}" as="g" hint-placeholder-count="8">
+                    <div style="background:{{ g.bg }};border-radius:13px;padding:11px 12px;position:relative;cursor:pointer;transition:transform .14s" style-hover="transform:translateY(-2px)">
+                      <i style="position:absolute;top:11px;right:11px;width:6px;height:6px;border-radius:50%;background:{{ g.dot }}"></i>
+                      <div style="font-size:11.5px;color:#8a867e">{{ g.name }}</div>
+                      <div style="font-family:'Space Grotesk',sans-serif;font-variant-numeric:tabular-nums;font-size:19px;font-weight:600;letter-spacing:-.035em;color:{{ g.tone }};margin-top:4px">{{ g.pct }}</div>
+                      <div style="font-family:'Space Grotesk',sans-serif;font-size:10.5px;color:#a8a49b">{{ g.sets }}</div>
+                    </div>
+                  </sc-for>
+                </div>
+                <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-top:9px">
+                  <sc-for list="{{ tallyL }}" as="t" hint-placeholder-count="3">
+                    <div style="background:{{ t.bg }};border-radius:13px;padding:11px;text-align:center">
+                      <div style="font-family:'Space Grotesk',sans-serif;font-variant-numeric:tabular-nums;font-size:18px;font-weight:600;color:{{ t.tone }};letter-spacing:-.03em">{{ t.value }}</div>
+                      <div style="font-size:11.5px;color:{{ t.tone }};opacity:.72;margin-top:2px">{{ t.label }}</div>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+
+              <div style="position:relative;overflow:hidden;isolation:isolate;background:#fff;border:1px solid #eae6df;border-radius:18px;padding:16px 18px">
+                <div style="position:absolute;bottom:-95px;right:-60px;width:250px;height:215px;background:radial-gradient(circle at 50% 50%,rgba(42,105,200,.13),rgba(42,105,200,0) 70%);pointer-events:none;z-index:-1"></div>
+                <div style="display:flex;align-items:center;gap:10px">
+                  <span style="font-size:13.5px;font-weight:600;color:#1a1a18;flex:1">Weight trend</span>
+                  <span style="display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:500;color:#2a69c8;background:#eaf1fb;padding:4px 9px;border-radius:7px">↓ 6.2 kg</span>
+                </div>
+                <div style="display:flex;align-items:baseline;gap:8px;margin-top:10px">
+                  <span style="font-family:'Space Grotesk',sans-serif;font-variant-numeric:tabular-nums;font-size:34px;font-weight:600;letter-spacing:-.04em;color:#1a1a18;line-height:1">{{ weightA }}</span>
+                  <span style="font-family:'Space Grotesk',sans-serif;font-size:13px;color:#a8a49b">kg · 9.8 to goal</span>
+                </div>
+                <div style="display:flex;align-items:flex-end;gap:6px;height:88px;margin-top:14px">
+                  <sc-for list="{{ monthsL }}" as="m" hint-placeholder-count="7">
+                    <div style="flex:1;min-width:0;display:flex;flex-direction:column;align-items:stretch;gap:6px;height:100%">
+                      <div style="flex:1;min-height:0;display:flex;align-items:flex-end">
+                        <i style="display:block;width:100%;border-radius:6px 6px 4px 4px;background:{{ m.fill }};height:{{ m.h }}%;transition:height .7s cubic-bezier(.2,0,0,1)"></i>
+                      </div>
+                      <span style="text-align:center;font-family:'Space Grotesk',sans-serif;font-size:10px;color:#b4b0a7">{{ m.label }}</span>
+                    </div>
+                  </sc-for>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:1px;margin-top:12px;padding-top:10px;border-top:1px solid #f4f1eb">
+                  <sc-for list="{{ breakdownL }}" as="b" hint-placeholder-count="3">
+                    <div style="display:flex;align-items:center;gap:9px;padding:7px 0">
+                      <span style="width:22px;height:22px;border-radius:7px;background:{{ b.bg }};color:{{ b.tone }};display:flex;align-items:center;justify-content:center;flex-shrink:0">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="{{ b.d }}"></path></svg>
+                      </span>
+                      <span style="font-size:12.5px;color:#4a4740;flex:1;min-width:0">{{ b.label }}</span>
+                      <span style="font-family:'Space Grotesk',sans-serif;font-variant-numeric:tabular-nums;font-size:13px;font-weight:600;color:{{ b.tone }}">{{ b.value }}</span>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+            </div>
+
+            <div style="display:grid;grid-template-columns:minmax(0,1.18fr) minmax(0,1fr);gap:14px">
+              <div style="position:relative;overflow:hidden;isolation:isolate;background:#fff;border:1px solid #eae6df;border-radius:18px;padding:16px 18px 6px">
+                <div style="position:absolute;top:-85px;right:-70px;width:250px;height:215px;background:radial-gradient(circle at 50% 50%,rgba(224,168,58,.12),rgba(224,168,58,0) 70%);pointer-events:none;z-index:-1"></div>
+                <div style="display:flex;align-items:center"><span style="font-size:13.5px;font-weight:600;color:#1a1a18;flex:1">Recent sessions</span><span style="font-size:12px;color:#a8a49b;cursor:pointer">View all</span></div>
+                <div style="display:grid;grid-template-columns:1.6fr .8fr .7fr .7fr .85fr;gap:12px;padding:13px 0 8px;border-bottom:1px solid #f2efe9">
+                  <sc-for list="{{ thA }}" as="h" hint-placeholder-count="5">
+                    <span style="font-size:11px;color:#a8a49b">{{ h }}</span>
+                  </sc-for>
+                </div>
+                <sc-for list="{{ rowsL }}" as="r" hint-placeholder-count="4">
+                  <div style="display:grid;grid-template-columns:1.6fr .8fr .7fr .7fr .85fr;gap:12px;align-items:center;padding:11px 0;border-bottom:1px solid #f7f5f0;transition:background .12s" style-hover="background:#fbfaf7">
+                    <div style="display:flex;align-items:center;gap:10px;min-width:0">
+                      <span style="width:30px;height:30px;border-radius:9px;background:{{ r.tint }};color:{{ r.ink }};display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:600;flex-shrink:0">{{ r.abbr }}</span>
+                      <div style="min-width:0">
+                        <div style="font-size:13px;font-weight:500;color:#1a1a18;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.name }}</div>
+                        <div style="font-size:11px;color:#a8a49b">{{ r.sub }}</div>
+                      </div>
+                    </div>
+                    <span style="font-size:12.5px;color:#6e6b64">{{ r.date }}</span>
+                    <span style="font-family:'Space Grotesk',sans-serif;font-variant-numeric:tabular-nums;font-size:13px;color:#1a1a18">{{ r.vol }}</span>
+                    <span style="font-family:'Space Grotesk',sans-serif;font-variant-numeric:tabular-nums;font-size:13px;color:#1a1a18">{{ r.dur }}</span>
+                    <span style="justify-self:start;font-size:11px;padding:4px 9px;border-radius:7px;background:{{ r.sBg }};color:{{ r.sFg }}">{{ r.status }}</span>
+                  </div>
+                </sc-for>
+              </div>
+
+              <div style="position:relative;overflow:hidden;isolation:isolate;background:#fff;border:1px solid #eae6df;border-radius:18px;padding:16px 18px">
+                <div style="position:absolute;bottom:-95px;left:-70px;width:250px;height:215px;background:radial-gradient(circle at 50% 50%,rgba(42,105,200,.12),rgba(42,105,200,0) 70%);pointer-events:none;z-index:-1"></div>
+                <div style="display:flex;align-items:center"><span style="font-size:13.5px;font-weight:600;color:#1a1a18;flex:1">Week ahead</span><span style="font-size:12px;color:#a8a49b;cursor:pointer">Plan</span></div>
+                <div style="display:flex;flex-direction:column;gap:6px;margin-top:12px">
+                  <sc-for list="{{ weekL }}" as="w" hint-placeholder-count="5">
+                    <div style="display:flex;align-items:center;gap:11px;padding:9px 11px;border-radius:12px;background:{{ w.bg }};cursor:pointer;transition:transform .14s" style-hover="transform:translateX(2px)">
+                      <span style="font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:600;color:#8a867e;width:28px;flex-shrink:0">{{ w.day }}</span>
+                      <span style="width:26px;height:26px;border-radius:8px;background:#fff;color:{{ w.tone }};display:flex;align-items:center;justify-content:center;flex-shrink:0">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="{{ w.d }}"></path></svg>
+                      </span>
+                      <span style="font-size:12.5px;color:#1a1a18;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ w.title }}</span>
+                      <div style="width:74px;height:5px;border-radius:3px;background:#f2efe9;overflow:hidden;flex-shrink:0">
+                        <i style="display:block;height:100%;border-radius:3px;background:{{ w.tone }};width:{{ w.pct }}%;transition:width .8s cubic-bezier(.2,0,0,1)"></i>
+                      </div>
+                      <span style="font-family:'Space Grotesk',sans-serif;font-variant-numeric:tabular-nums;font-size:11.5px;color:{{ w.tone }};width:34px;text-align:right">{{ w.read }}</span>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="4b" style="display:flex;flex-direction:column;gap:12px">
+    <div style="display:flex;align-items:center;gap:10px">
+      <span style="font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:600;background:#1a1a18;color:#fff;padding:4px 9px;border-radius:6px">4b</span>
+      <span style="font-size:14px;font-weight:600;color:#1a1a18">Dark + brand blue — charcoal shell, blue glow, #5B9BF5 accent</span>
+    </div>
+    <div style="width:1360px;background:#131217;border-radius:24px;padding:18px;box-shadow:0 30px 70px -34px rgba(8,7,12,.85)">
+      <div style="display:grid;grid-template-columns:62px minmax(0,1fr);gap:18px">
+        <nav style="position:relative;overflow:hidden;background:#1c1b21;border:1px solid #2c2a34;border-radius:18px;padding:14px 0;display:flex;flex-direction:column;align-items:center;gap:5px;height:fit-content">
+          <div style="position:absolute;top:-60px;left:-40px;width:160px;height:160px;background:radial-gradient(circle at 50% 50%,rgba(91,155,245,.20),rgba(91,155,245,0) 70%);pointer-events:none"></div>
+          <div style="position:relative;width:34px;height:34px;border-radius:11px;background:#5b9bf5;color:#0b1120;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;margin-bottom:12px">G</div>
+          <sc-for list="{{ railK }}" as="r" hint-placeholder-count="7">
+            <div title="{{ r.name }}" style="position:relative;width:36px;height:36px;border-radius:11px;display:flex;align-items:center;justify-content:center;background:{{ r.bg }};color:{{ r.fg }};cursor:pointer;transition:background .14s,color .14s" style-hover="background:rgba(255,255,255,.06);color:#f4f1ea">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="{{ r.d }}"></path></svg>
+            </div>
+          </sc-for>
+          <div style="height:14px"></div>
+          <div style="width:34px;height:34px;border-radius:50%;background:#312e39"></div>
+        </nav>
+
+        <div style="min-width:0;display:flex;flex-direction:column;gap:14px">
+          <header style="display:flex;align-items:flex-end;gap:14px;padding:2px 2px 0">
+            <div style="flex:1;min-width:0">
+              <div style="font-size:13px;color:#8e887e">Good evening, Alex</div>
+              <h2 style="margin:2px 0 0;font-size:23px;font-weight:600;letter-spacing:-.03em;color:#f4f1ea">Training at a glance</h2>
+            </div>
+            <div style="display:flex;align-items:center;gap:9px;background:#1c1b21;border:1px solid #2c2a34;border-radius:11px;padding:8px 13px;font-size:13px;color:#cfc9bf">
+              <i style="width:8px;height:8px;border-radius:50%;background:#5b9bf5;animation:pulseDot 2.4s infinite"></i>Week 34 · cutting phase
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;background:#1c1b21;border:1px solid #2c2a34;border-radius:11px;padding:8px 13px;font-size:13px;color:#7d766c;min-width:150px">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>Search…
+            </div>
+            <div style="display:flex;align-items:center;gap:7px;background:#5b9bf5;color:#0b1120;border-radius:11px;padding:9px 15px;font-size:13px;font-weight:600;cursor:pointer;transition:transform .14s" style-hover="transform:translateY(-1px)">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg>Log workout
+            </div>
+          </header>
+
+          <div style="display:grid;grid-template-columns:minmax(0,1.28fr) minmax(0,1.05fr) minmax(0,.82fr);gap:14px">
+            <div style="position:relative;background:#1c1b21;border:1px solid #2c2a34;border-radius:18px;padding:18px 20px;overflow:hidden;animation:riseIn .5s both cubic-bezier(.2,0,0,1)">
+              <div style="position:absolute;top:-90px;right:-70px;width:280px;height:230px;background:radial-gradient(circle at 62% 40%,rgba(91,155,245,.34),rgba(91,155,245,0) 70%);animation:glowBreath 6s ease-in-out infinite;pointer-events:none"></div>
+              <div style="position:relative">
+                <div style="display:inline-flex;align-items:center;gap:6px;font-size:12.5px;color:#5b9bf5;font-weight:500">
+                  <i style="width:6px;height:6px;border-radius:50%;background:#5b9bf5"></i>Training now
+                </div>
+                <div style="display:flex;align-items:baseline;gap:8px;margin-top:8px">
+                  <span style="font-family:'Space Grotesk',sans-serif;font-variant-numeric:tabular-nums;font-size:46px;font-weight:600;letter-spacing:-.045em;color:#f4f1ea;line-height:1">{{ volA }}</span>
+                  <span style="font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:500;color:#e3a93b">tonnes</span>
+                </div>
+                <p style="margin:9px 0 0;font-size:12.5px;color:#8e887e">Lifted this month · 91% of your best block (46.8 t in June)</p>
+                <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:16px;padding-top:14px;border-top:1px solid #26242e">
+                  <sc-for list="{{ heroStatsA }}" as="h" hint-placeholder-count="3">
+                    <div>
+                      <div style="display:flex;align-items:baseline;gap:5px">
+                        <span style="font-family:'Space Grotesk',sans-serif;font-variant-numeric:tabular-nums;font-size:19px;font-weight:600;letter-spacing:-.035em;color:#f4f1ea">{{ h.value }}</span>
+                        <span style="font-family:'Space Grotesk',sans-serif;font-size:11px;color:#7d766c">{{ h.unit }}</span>
+                      </div>
+                      <div style="font-size:11.5px;color:#8e887e;margin-top:2px">{{ h.label }}</div>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+            </div>
+
+            <div style="position:relative;overflow:hidden;background:#1c1b21;border:1px solid #2c2a34;border-radius:18px;padding:16px 18px 12px;animation:riseIn .5s 70ms both cubic-bezier(.2,0,0,1);display:flex;flex-direction:column">
+              <div style="position:absolute;bottom:-90px;left:-70px;width:250px;height:220px;background:radial-gradient(circle at 40% 60%,rgba(227,169,59,.22),rgba(227,169,59,0) 70%);pointer-events:none"></div>
+              <div style="position:relative;display:flex;align-items:center;gap:10px">
+                <span style="font-size:13.5px;font-weight:600;color:#f4f1ea;flex:1">Energy balance</span>
+                <span style="font-size:11px;font-weight:500;color:#5b9bf5;background:rgba(91,155,245,.13);padding:4px 9px;border-radius:7px">Live</span>
+              </div>
+              <div style="position:relative;display:flex;align-items:flex-end;gap:3px;height:104px;margin-top:14px">
+                <sc-for list="{{ barsK }}" as="b" hint-placeholder-count="20">
+                  <div onMouseEnter="{{ b.enter }}" onMouseLeave="{{ leaveK }}" style="flex:1;min-width:0;height:100%;display:flex;flex-direction:column;justify-content:flex-end;gap:2px;position:relative;cursor:crosshair">
+                    <sc-if value="{{ b.on }}" hint-placeholder-val="{{ false }}">
+                      <div style="position:absolute;bottom:100%;left:50%;transform:translate(-50%,-6px);background:#0d0c11;border:1px solid #2c2a34;color:#f4f1ea;border-radius:9px;padding:7px 10px;white-space:nowrap;z-index:5;animation:fadeIn .12s both;box-shadow:0 12px 26px -14px rgba(0,0,0,.8)">
+                        <div style="font-size:10.5px;color:#8e887e">{{ b.day }}</div>
+                        <div style="font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:600;margin-top:1px">{{ b.tip }}</div>
+                      </div>
+                    </sc-if>
+                    <div style="flex:1;min-height:0;display:flex;flex-direction:column;justify-content:flex-end;gap:2px">
+                      <i style="display:block;width:100%;border-radius:3px;background:{{ b.burnFill }};height:{{ b.burn }}%;transition:height .55s cubic-bezier(.2,0,0,1),background .12s"></i>
+                      <i style="display:block;width:100%;border-radius:3px;background:{{ b.fill }};height:{{ b.h }}%;transition:height .55s cubic-bezier(.2,0,0,1),background .12s"></i>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+              <div style="position:relative;display:flex;gap:3px;margin-top:6px">
+                <sc-for list="{{ barsK }}" as="b" hint-placeholder-count="20">
+                  <span style="flex:1;text-align:center;font-family:'Space Grotesk',sans-serif;font-size:9px;color:#6c665e">{{ b.tick }}</span>
+                </sc-for>
+              </div>
+              <div style="position:relative;display:flex;justify-content:center;gap:16px;margin-top:8px;padding-top:10px;border-top:1px solid #26242e">
+                <span style="display:inline-flex;align-items:center;gap:6px;font-size:11.5px;color:#8e887e"><i style="width:8px;height:8px;border-radius:2px;background:rgba(227,169,59,.62);display:inline-block"></i>Intake</span>
+                <span style="display:inline-flex;align-items:center;gap:6px;font-size:11.5px;color:#8e887e"><i style="width:8px;height:8px;border-radius:2px;background:#5b9bf5;display:inline-block"></i>Burned</span>
+              </div>
+            </div>
+
+            <div style="position:relative;overflow:hidden;background:#1c1b21;border:1px solid #2c2a34;border-radius:18px;padding:16px 18px;animation:riseIn .5s 140ms both cubic-bezier(.2,0,0,1)">
+              <div style="position:absolute;top:-80px;right:-60px;width:230px;height:210px;background:radial-gradient(circle at 60% 45%,rgba(91,155,245,.26),rgba(91,155,245,0) 70%);pointer-events:none"></div>
+              <div style="position:relative;display:flex;align-items:center;gap:8px">
+                <span style="font-size:13.5px;font-weight:600;color:#f4f1ea;flex:1">Recovery</span>
+                <span style="font-size:11px;font-weight:500;color:#e3a93b;background:rgba(227,169,59,.13);padding:4px 9px;border-radius:7px">Fresh</span>
+              </div>
+              <div style="position:relative;display:flex;align-items:center;gap:12px;margin-top:10px">
+                <div style="position:relative;flex-shrink:0">
+                  <svg width="104" height="104" viewBox="0 0 104 104">
+                    <circle cx="52" cy="52" r="42" fill="none" stroke="#2a2832" stroke-width="11"></circle>
+                    <circle cx="52" cy="52" r="42" fill="none" stroke="#5b9bf5" stroke-width="11" stroke-linecap="round" stroke-dasharray="264" stroke-dashoffset="{{ ringOffA }}" transform="rotate(-90 52 52)" style="transition:stroke-dashoffset 1.1s cubic-bezier(.2,0,0,1)"></circle>
+                  </svg>
+                  <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center">
+                    <span style="font-family:'Space Grotesk',sans-serif;font-variant-numeric:tabular-nums;font-size:23px;font-weight:600;letter-spacing:-.035em;color:#f4f1ea;line-height:1">{{ recoveryA }}</span>
+                    <span style="font-size:10px;color:#7d766c;margin-top:2px">ready</span>
+                  </div>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:7px;flex:1;min-width:0">
+                  <sc-for list="{{ recStatsK }}" as="r" hint-placeholder-count="2">
+                    <div style="background:#23222a;border-radius:11px;padding:9px 11px">
+                      <div style="display:flex;align-items:baseline;gap:5px">
+                        <span style="font-family:'Space Grotesk',sans-serif;font-variant-numeric:tabular-nums;font-size:16px;font-weight:600;letter-spacing:-.03em;color:{{ r.tone }}">{{ r.value }}</span>
+                        <span style="font-family:'Space Grotesk',sans-serif;font-size:10.5px;color:#7d766c">{{ r.unit }}</span>
+                      </div>
+                      <div style="font-size:11px;color:#8e887e;margin-top:1px">{{ r.label }}</div>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:minmax(0,1.18fr) minmax(0,1fr);gap:14px">
+            <div style="position:relative;overflow:hidden;background:#1c1b21;border:1px solid #2c2a34;border-radius:18px;padding:16px 18px 18px">
+              <div style="position:absolute;top:-80px;left:-60px;width:240px;height:210px;background:radial-gradient(circle at 45% 50%,rgba(91,155,245,.18),rgba(91,155,245,0) 70%);pointer-events:none"></div>
+              <div style="position:relative;display:flex;align-items:center;gap:10px">
+                <span style="font-size:13.5px;font-weight:600;color:#f4f1ea;flex:1">Muscle groups</span>
+                <span style="font-size:11.5px;color:#7d766c">12 sessions · 6 groups</span>
+              </div>
+              <div style="position:relative;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin-top:14px">
+                <sc-for list="{{ groupsK }}" as="g" hint-placeholder-count="8">
+                  <div style="background:{{ g.bg }};border-radius:13px;padding:11px 12px;position:relative;cursor:pointer;transition:transform .14s" style-hover="transform:translateY(-2px)">
+                    <i style="position:absolute;top:11px;right:11px;width:6px;height:6px;border-radius:50%;background:{{ g.dot }}"></i>
+                    <div style="font-size:11.5px;color:#8e887e">{{ g.name }}</div>
+                    <div style="font-family:'Space Grotesk',sans-serif;font-variant-numeric:tabular-nums;font-size:19px;font-weight:600;letter-spacing:-.035em;color:{{ g.tone }};margin-top:4px">{{ g.pct }}</div>
+                    <div style="font-family:'Space Grotesk',sans-serif;font-size:10.5px;color:#7d766c">{{ g.sets }}</div>
+                  </div>
+                </sc-for>
+              </div>
+              <div style="position:relative;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-top:9px">
+                <sc-for list="{{ tallyK }}" as="t" hint-placeholder-count="3">
+                  <div style="background:{{ t.bg }};border-radius:13px;padding:11px;text-align:center">
+                    <div style="font-family:'Space Grotesk',sans-serif;font-variant-numeric:tabular-nums;font-size:18px;font-weight:600;color:{{ t.tone }};letter-spacing:-.03em">{{ t.value }}</div>
+                    <div style="font-size:11.5px;color:{{ t.tone }};opacity:.72;margin-top:2px">{{ t.label }}</div>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+
+            <div style="position:relative;overflow:hidden;background:#1c1b21;border:1px solid #2c2a34;border-radius:18px;padding:16px 18px">
+              <div style="position:absolute;bottom:-90px;right:-60px;width:250px;height:220px;background:radial-gradient(circle at 55% 55%,rgba(91,155,245,.22),rgba(91,155,245,0) 70%);pointer-events:none"></div>
+              <div style="position:relative;display:flex;align-items:center;gap:10px">
+                <span style="font-size:13.5px;font-weight:600;color:#f4f1ea;flex:1">Weight trend</span>
+                <span style="display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:500;color:#5b9bf5;background:rgba(91,155,245,.13);padding:4px 9px;border-radius:7px">↓ 6.2 kg</span>
+              </div>
+              <div style="position:relative;display:flex;align-items:baseline;gap:8px;margin-top:10px">
+                <span style="font-family:'Space Grotesk',sans-serif;font-variant-numeric:tabular-nums;font-size:34px;font-weight:600;letter-spacing:-.04em;color:#f4f1ea;line-height:1">{{ weightA }}</span>
+                <span style="font-family:'Space Grotesk',sans-serif;font-size:13px;color:#7d766c">kg · 9.8 to goal</span>
+              </div>
+              <div style="position:relative;display:flex;align-items:flex-end;gap:6px;height:88px;margin-top:14px">
+                <sc-for list="{{ monthsK }}" as="m" hint-placeholder-count="7">
+                  <div style="flex:1;min-width:0;display:flex;flex-direction:column;align-items:stretch;gap:6px;height:100%">
+                    <div style="flex:1;min-height:0;display:flex;align-items:flex-end">
+                      <i style="display:block;width:100%;border-radius:6px 6px 4px 4px;background:{{ m.fill }};height:{{ m.h }}%;transition:height .7s cubic-bezier(.2,0,0,1)"></i>
+                    </div>
+                    <span style="text-align:center;font-family:'Space Grotesk',sans-serif;font-size:10px;color:#6c665e">{{ m.label }}</span>
+                  </div>
+                </sc-for>
+              </div>
+              <div style="position:relative;display:flex;flex-direction:column;gap:1px;margin-top:12px;padding-top:10px;border-top:1px solid #26242e">
+                <sc-for list="{{ breakdownK }}" as="b" hint-placeholder-count="3">
+                  <div style="display:flex;align-items:center;gap:9px;padding:7px 0">
+                    <span style="width:22px;height:22px;border-radius:7px;background:{{ b.bg }};color:{{ b.tone }};display:flex;align-items:center;justify-content:center;flex-shrink:0">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="{{ b.d }}"></path></svg>
+                    </span>
+                    <span style="font-size:12.5px;color:#cfc9bf;flex:1;min-width:0">{{ b.label }}</span>
+                    <span style="font-family:'Space Grotesk',sans-serif;font-variant-numeric:tabular-nums;font-size:13px;font-weight:600;color:{{ b.tone }}">{{ b.value }}</span>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:minmax(0,1.18fr) minmax(0,1fr);gap:14px">
+            <div style="position:relative;overflow:hidden;background:#1c1b21;border:1px solid #2c2a34;border-radius:18px;padding:16px 18px 6px">
+              <div style="position:absolute;top:-80px;right:-70px;width:250px;height:210px;background:radial-gradient(circle at 60% 45%,rgba(227,169,59,.16),rgba(227,169,59,0) 70%);pointer-events:none"></div>
+              <div style="position:relative;display:flex;align-items:center"><span style="font-size:13.5px;font-weight:600;color:#f4f1ea;flex:1">Recent sessions</span><span style="font-size:12px;color:#7d766c;cursor:pointer">View all</span></div>
+              <div style="position:relative;display:grid;grid-template-columns:1.6fr .8fr .7fr .7fr .85fr;gap:12px;padding:13px 0 8px;border-bottom:1px solid #26242e">
+                <sc-for list="{{ thA }}" as="h" hint-placeholder-count="5">
+                  <span style="font-size:11px;color:#7d766c">{{ h }}</span>
+                </sc-for>
+              </div>
+              <sc-for list="{{ rowsK }}" as="r" hint-placeholder-count="4">
+                <div style="position:relative;display:grid;grid-template-columns:1.6fr .8fr .7fr .7fr .85fr;gap:12px;align-items:center;padding:11px 0;border-bottom:1px solid #212028;transition:background .12s" style-hover="background:rgba(255,255,255,.03)">
+                  <div style="display:flex;align-items:center;gap:10px;min-width:0">
+                    <span style="width:30px;height:30px;border-radius:9px;background:{{ r.tint }};color:{{ r.ink }};display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:600;flex-shrink:0">{{ r.abbr }}</span>
+                    <div style="min-width:0">
+                      <div style="font-size:13px;font-weight:500;color:#f4f1ea;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.name }}</div>
+                      <div style="font-size:11px;color:#7d766c">{{ r.sub }}</div>
+                    </div>
+                  </div>
+                  <span style="font-size:12.5px;color:#a09a90">{{ r.date }}</span>
+                  <span style="font-family:'Space Grotesk',sans-serif;font-variant-numeric:tabular-nums;font-size:13px;color:#f4f1ea">{{ r.vol }}</span>
+                  <span style="font-family:'Space Grotesk',sans-serif;font-variant-numeric:tabular-nums;font-size:13px;color:#f4f1ea">{{ r.dur }}</span>
+                  <span style="justify-self:start;font-size:11px;padding:4px 9px;border-radius:7px;background:{{ r.sBg }};color:{{ r.sFg }}">{{ r.status }}</span>
+                </div>
+              </sc-for>
+            </div>
+
+            <div style="position:relative;overflow:hidden;background:#1c1b21;border:1px solid #2c2a34;border-radius:18px;padding:16px 18px">
+              <div style="position:absolute;bottom:-90px;left:-70px;width:240px;height:220px;background:radial-gradient(circle at 45% 55%,rgba(91,155,245,.20),rgba(91,155,245,0) 70%);pointer-events:none"></div>
+              <div style="position:relative;display:flex;align-items:center"><span style="font-size:13.5px;font-weight:600;color:#f4f1ea;flex:1">Week ahead</span><span style="font-size:12px;color:#7d766c;cursor:pointer">Plan</span></div>
+              <div style="position:relative;display:flex;flex-direction:column;gap:6px;margin-top:12px">
+                <sc-for list="{{ weekK }}" as="w" hint-placeholder-count="5">
+                  <div style="display:flex;align-items:center;gap:11px;padding:9px 11px;border-radius:12px;background:{{ w.bg }};cursor:pointer;transition:transform .14s" style-hover="transform:translateX(2px)">
+                    <span style="font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:600;color:#8e887e;width:28px;flex-shrink:0">{{ w.day }}</span>
+                    <span style="width:26px;height:26px;border-radius:8px;background:rgba(255,255,255,.06);color:{{ w.tone }};display:flex;align-items:center;justify-content:center;flex-shrink:0">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="{{ w.d }}"></path></svg>
+                    </span>
+                    <span style="font-size:12.5px;color:#f4f1ea;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ w.title }}</span>
+                    <div style="width:74px;height:5px;border-radius:3px;background:#2a2832;overflow:hidden;flex-shrink:0">
+                      <i style="display:block;height:100%;border-radius:3px;background:{{ w.tone }};width:{{ w.pct }}%;transition:width .8s cubic-bezier(.2,0,0,1)"></i>
+                    </div>
+                    <span style="font-family:'Space Grotesk',sans-serif;font-variant-numeric:tabular-nums;font-size:11.5px;color:{{ w.tone }};width:34px;text-align:right">{{ w.read }}</span>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="padding:32px 56px 24px;display:flex;flex-direction:column;gap:20px">
+  <div style="display:flex;align-items:baseline;gap:16px">
+    <h1 style="margin:0;font-size:26px;font-weight:600;letter-spacing:-.03em;color:#1a1a18">Dark theme for 2a</h1>
+    <p style="margin:0;font-size:14px;color:#6e6b64;max-width:640px"><a href="#3a">3a</a> — the 2a layout on a warm-charcoal shell, with the same corner glow gradients on every widget.</p>
+  </div>
+
+  <div id="3a" style="display:flex;flex-direction:column;gap:12px">
+    <div style="display:flex;align-items:center;gap:10px">
+      <span style="font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:600;background:#1a1a18;color:#fff;padding:4px 9px;border-radius:6px">3a</span>
+      <span style="font-size:14px;font-weight:600;color:#1a1a18">Warm dark — charcoal shell, corner-glow widgets, one green accent</span>
+    </div>
+    <div style="width:1360px;background:#131217;border-radius:24px;padding:18px;box-shadow:0 30px 70px -34px rgba(8,7,12,.85)">
+      <div style="display:grid;grid-template-columns:62px minmax(0,1fr);gap:18px">
+        <nav style="position:relative;overflow:hidden;background:#1c1b21;border:1px solid #2c2a34;border-radius:18px;padding:14px 0;display:flex;flex-direction:column;align-items:center;gap:5px;height:fit-content">
+          <div style="position:absolute;top:-60px;left:-40px;width:160px;height:160px;background:radial-gradient(circle at 50% 50%,rgba(52,196,127,.20),rgba(52,196,127,0) 70%);pointer-events:none"></div>
+          <div style="position:relative;width:34px;height:34px;border-radius:11px;background:#34c47f;color:#0f1a14;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;margin-bottom:12px">G</div>
+          <sc-for list="{{ railD }}" as="r" hint-placeholder-count="7">
+            <div title="{{ r.name }}" style="position:relative;width:36px;height:36px;border-radius:11px;display:flex;align-items:center;justify-content:center;background:{{ r.bg }};color:{{ r.fg }};cursor:pointer;transition:background .14s,color .14s" style-hover="background:rgba(255,255,255,.06);color:#f4f1ea">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="{{ r.d }}"></path></svg>
+            </div>
+          </sc-for>
+          <div style="height:14px"></div>
+          <div style="width:34px;height:34px;border-radius:50%;background:#312e39"></div>
+        </nav>
+
+        <div style="min-width:0;display:flex;flex-direction:column;gap:14px">
+          <header style="display:flex;align-items:flex-end;gap:14px;padding:2px 2px 0">
+            <div style="flex:1;min-width:0">
+              <div style="font-size:13px;color:#8e887e">Good evening, Alex</div>
+              <h2 style="margin:2px 0 0;font-size:23px;font-weight:600;letter-spacing:-.03em;color:#f4f1ea">Training at a glance</h2>
+            </div>
+            <div style="display:flex;align-items:center;gap:9px;background:#1c1b21;border:1px solid #2c2a34;border-radius:11px;padding:8px 13px;font-size:13px;color:#cfc9bf">
+              <i style="width:8px;height:8px;border-radius:50%;background:#34c47f;animation:pulseDot 2.4s infinite"></i>Week 34 · cutting phase
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;background:#1c1b21;border:1px solid #2c2a34;border-radius:11px;padding:8px 13px;font-size:13px;color:#7d766c;min-width:150px">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>Search…
+            </div>
+            <div style="display:flex;align-items:center;gap:7px;background:#34c47f;color:#0f1a14;border-radius:11px;padding:9px 15px;font-size:13px;font-weight:600;cursor:pointer;transition:transform .14s" style-hover="transform:translateY(-1px)">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg>Log workout
+            </div>
+          </header>
+
+          <div style="display:grid;grid-template-columns:minmax(0,1.28fr) minmax(0,1.05fr) minmax(0,.82fr);gap:14px">
+            <div style="position:relative;background:#1c1b21;border:1px solid #2c2a34;border-radius:18px;padding:18px 20px;overflow:hidden;animation:riseIn .5s both cubic-bezier(.2,0,0,1)">
+              <div style="position:absolute;top:-90px;right:-70px;width:280px;height:230px;background:radial-gradient(circle at 62% 40%,rgba(52,196,127,.34),rgba(52,196,127,0) 70%);animation:glowBreath 6s ease-in-out infinite;pointer-events:none"></div>
+              <div style="position:relative">
+                <div style="display:inline-flex;align-items:center;gap:6px;font-size:12.5px;color:#34c47f;font-weight:500">
+                  <i style="width:6px;height:6px;border-radius:50%;background:#34c47f"></i>Training now
+                </div>
+                <div style="display:flex;align-items:baseline;gap:8px;margin-top:8px">
+                  <span style="font-family:'Space Grotesk',sans-serif;font-variant-numeric:tabular-nums;font-size:46px;font-weight:600;letter-spacing:-.045em;color:#f4f1ea;line-height:1">{{ volA }}</span>
+                  <span style="font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:500;color:#e3a93b">tonnes</span>
+                </div>
+                <p style="margin:9px 0 0;font-size:12.5px;color:#8e887e">Lifted this month · 91% of your best block (46.8 t in June)</p>
+                <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:16px;padding-top:14px;border-top:1px solid #26242e">
+                  <sc-for list="{{ heroStatsA }}" as="h" hint-placeholder-count="3">
+                    <div>
+                      <div style="display:flex;align-items:baseline;gap:5px">
+                        <span style="font-family:'Space Grotesk',sans-serif;font-variant-numeric:tabular-nums;font-size:19px;font-weight:600;letter-spacing:-.035em;color:#f4f1ea">{{ h.value }}</span>
+                        <span style="font-family:'Space Grotesk',sans-serif;font-size:11px;color:#7d766c">{{ h.unit }}</span>
+                      </div>
+                      <div style="font-size:11.5px;color:#8e887e;margin-top:2px">{{ h.label }}</div>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+            </div>
+
+            <div style="position:relative;overflow:hidden;background:#1c1b21;border:1px solid #2c2a34;border-radius:18px;padding:16px 18px 12px;animation:riseIn .5s 70ms both cubic-bezier(.2,0,0,1);display:flex;flex-direction:column">
+              <div style="position:absolute;bottom:-90px;left:-70px;width:250px;height:220px;background:radial-gradient(circle at 40% 60%,rgba(227,169,59,.22),rgba(227,169,59,0) 70%);pointer-events:none"></div>
+              <div style="position:relative;display:flex;align-items:center;gap:10px">
+                <span style="font-size:13.5px;font-weight:600;color:#f4f1ea;flex:1">Energy balance</span>
+                <span style="font-size:11px;font-weight:500;color:#34c47f;background:rgba(52,196,127,.13);padding:4px 9px;border-radius:7px">Live</span>
+              </div>
+              <div style="position:relative;display:flex;align-items:flex-end;gap:3px;height:104px;margin-top:14px">
+                <sc-for list="{{ barsD }}" as="b" hint-placeholder-count="20">
+                  <div onMouseEnter="{{ b.enter }}" onMouseLeave="{{ leaveD }}" style="flex:1;min-width:0;height:100%;display:flex;flex-direction:column;justify-content:flex-end;gap:2px;position:relative;cursor:crosshair">
+                    <sc-if value="{{ b.on }}" hint-placeholder-val="{{ false }}">
+                      <div style="position:absolute;bottom:100%;left:50%;transform:translate(-50%,-6px);background:#0d0c11;border:1px solid #2c2a34;color:#f4f1ea;border-radius:9px;padding:7px 10px;white-space:nowrap;z-index:5;animation:fadeIn .12s both;box-shadow:0 12px 26px -14px rgba(0,0,0,.8)">
+                        <div style="font-size:10.5px;color:#8e887e">{{ b.day }}</div>
+                        <div style="font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:600;margin-top:1px">{{ b.tip }}</div>
+                      </div>
+                    </sc-if>
+                    <div style="flex:1;min-height:0;display:flex;flex-direction:column;justify-content:flex-end;gap:2px">
+                      <i style="display:block;width:100%;border-radius:3px;background:{{ b.burnFill }};height:{{ b.burn }}%;transition:height .55s cubic-bezier(.2,0,0,1),background .12s"></i>
+                      <i style="display:block;width:100%;border-radius:3px;background:{{ b.fill }};height:{{ b.h }}%;transition:height .55s cubic-bezier(.2,0,0,1),background .12s"></i>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+              <div style="position:relative;display:flex;gap:3px;margin-top:6px">
+                <sc-for list="{{ barsD }}" as="b" hint-placeholder-count="20">
+                  <span style="flex:1;text-align:center;font-family:'Space Grotesk',sans-serif;font-size:9px;color:#6c665e">{{ b.tick }}</span>
+                </sc-for>
+              </div>
+              <div style="position:relative;display:flex;justify-content:center;gap:16px;margin-top:8px;padding-top:10px;border-top:1px solid #26242e">
+                <span style="display:inline-flex;align-items:center;gap:6px;font-size:11.5px;color:#8e887e"><i style="width:8px;height:8px;border-radius:2px;background:rgba(227,169,59,.62);display:inline-block"></i>Intake</span>
+                <span style="display:inline-flex;align-items:center;gap:6px;font-size:11.5px;color:#8e887e"><i style="width:8px;height:8px;border-radius:2px;background:#34c47f;display:inline-block"></i>Burned</span>
+              </div>
+            </div>
+
+            <div style="position:relative;overflow:hidden;background:#1c1b21;border:1px solid #2c2a34;border-radius:18px;padding:16px 18px;animation:riseIn .5s 140ms both cubic-bezier(.2,0,0,1)">
+              <div style="position:absolute;top:-80px;right:-60px;width:230px;height:210px;background:radial-gradient(circle at 60% 45%,rgba(52,196,127,.26),rgba(52,196,127,0) 70%);pointer-events:none"></div>
+              <div style="position:relative;display:flex;align-items:center;gap:8px">
+                <span style="font-size:13.5px;font-weight:600;color:#f4f1ea;flex:1">Recovery</span>
+                <span style="font-size:11px;font-weight:500;color:#e3a93b;background:rgba(227,169,59,.13);padding:4px 9px;border-radius:7px">Fresh</span>
+              </div>
+              <div style="position:relative;display:flex;align-items:center;gap:12px;margin-top:10px">
+                <div style="position:relative;flex-shrink:0">
+                  <svg width="104" height="104" viewBox="0 0 104 104">
+                    <circle cx="52" cy="52" r="42" fill="none" stroke="#2a2832" stroke-width="11"></circle>
+                    <circle cx="52" cy="52" r="42" fill="none" stroke="#34c47f" stroke-width="11" stroke-linecap="round" stroke-dasharray="264" stroke-dashoffset="{{ ringOffA }}" transform="rotate(-90 52 52)" style="transition:stroke-dashoffset 1.1s cubic-bezier(.2,0,0,1)"></circle>
+                  </svg>
+                  <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center">
+                    <span style="font-family:'Space Grotesk',sans-serif;font-variant-numeric:tabular-nums;font-size:23px;font-weight:600;letter-spacing:-.035em;color:#f4f1ea;line-height:1">{{ recoveryA }}</span>
+                    <span style="font-size:10px;color:#7d766c;margin-top:2px">ready</span>
+                  </div>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:7px;flex:1;min-width:0">
+                  <sc-for list="{{ recStatsD }}" as="r" hint-placeholder-count="2">
+                    <div style="background:#23222a;border-radius:11px;padding:9px 11px">
+                      <div style="display:flex;align-items:baseline;gap:5px">
+                        <span style="font-family:'Space Grotesk',sans-serif;font-variant-numeric:tabular-nums;font-size:16px;font-weight:600;letter-spacing:-.03em;color:{{ r.tone }}">{{ r.value }}</span>
+                        <span style="font-family:'Space Grotesk',sans-serif;font-size:10.5px;color:#7d766c">{{ r.unit }}</span>
+                      </div>
+                      <div style="font-size:11px;color:#8e887e;margin-top:1px">{{ r.label }}</div>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:minmax(0,1.18fr) minmax(0,1fr);gap:14px">
+            <div style="position:relative;overflow:hidden;background:#1c1b21;border:1px solid #2c2a34;border-radius:18px;padding:16px 18px 18px">
+              <div style="position:absolute;top:-80px;left:-60px;width:240px;height:210px;background:radial-gradient(circle at 45% 50%,rgba(52,196,127,.18),rgba(52,196,127,0) 70%);pointer-events:none"></div>
+              <div style="position:relative;display:flex;align-items:center;gap:10px">
+                <span style="font-size:13.5px;font-weight:600;color:#f4f1ea;flex:1">Muscle groups</span>
+                <span style="font-size:11.5px;color:#7d766c">12 sessions · 6 groups</span>
+              </div>
+              <div style="position:relative;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin-top:14px">
+                <sc-for list="{{ groupsD }}" as="g" hint-placeholder-count="8">
+                  <div style="background:{{ g.bg }};border-radius:13px;padding:11px 12px;position:relative;cursor:pointer;transition:transform .14s" style-hover="transform:translateY(-2px)">
+                    <i style="position:absolute;top:11px;right:11px;width:6px;height:6px;border-radius:50%;background:{{ g.dot }}"></i>
+                    <div style="font-size:11.5px;color:#8e887e">{{ g.name }}</div>
+                    <div style="font-family:'Space Grotesk',sans-serif;font-variant-numeric:tabular-nums;font-size:19px;font-weight:600;letter-spacing:-.035em;color:{{ g.tone }};margin-top:4px">{{ g.pct }}</div>
+                    <div style="font-family:'Space Grotesk',sans-serif;font-size:10.5px;color:#7d766c">{{ g.sets }}</div>
+                  </div>
+                </sc-for>
+              </div>
+              <div style="position:relative;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-top:9px">
+                <sc-for list="{{ tallyD }}" as="t" hint-placeholder-count="3">
+                  <div style="background:{{ t.bg }};border-radius:13px;padding:11px;text-align:center">
+                    <div style="font-family:'Space Grotesk',sans-serif;font-variant-numeric:tabular-nums;font-size:18px;font-weight:600;color:{{ t.tone }};letter-spacing:-.03em">{{ t.value }}</div>
+                    <div style="font-size:11.5px;color:{{ t.tone }};opacity:.72;margin-top:2px">{{ t.label }}</div>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+
+            <div style="position:relative;overflow:hidden;background:#1c1b21;border:1px solid #2c2a34;border-radius:18px;padding:16px 18px">
+              <div style="position:absolute;bottom:-90px;right:-60px;width:250px;height:220px;background:radial-gradient(circle at 55% 55%,rgba(52,196,127,.22),rgba(52,196,127,0) 70%);pointer-events:none"></div>
+              <div style="position:relative;display:flex;align-items:center;gap:10px">
+                <span style="font-size:13.5px;font-weight:600;color:#f4f1ea;flex:1">Weight trend</span>
+                <span style="display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:500;color:#34c47f;background:rgba(52,196,127,.13);padding:4px 9px;border-radius:7px">↓ 6.2 kg</span>
+              </div>
+              <div style="position:relative;display:flex;align-items:baseline;gap:8px;margin-top:10px">
+                <span style="font-family:'Space Grotesk',sans-serif;font-variant-numeric:tabular-nums;font-size:34px;font-weight:600;letter-spacing:-.04em;color:#f4f1ea;line-height:1">{{ weightA }}</span>
+                <span style="font-family:'Space Grotesk',sans-serif;font-size:13px;color:#7d766c">kg · 9.8 to goal</span>
+              </div>
+              <div style="position:relative;display:flex;align-items:flex-end;gap:6px;height:88px;margin-top:14px">
+                <sc-for list="{{ monthsD }}" as="m" hint-placeholder-count="7">
+                  <div style="flex:1;min-width:0;display:flex;flex-direction:column;align-items:stretch;gap:6px;height:100%">
+                    <div style="flex:1;min-height:0;display:flex;align-items:flex-end">
+                      <i style="display:block;width:100%;border-radius:6px 6px 4px 4px;background:{{ m.fill }};height:{{ m.h }}%;transition:height .7s cubic-bezier(.2,0,0,1)"></i>
+                    </div>
+                    <span style="text-align:center;font-family:'Space Grotesk',sans-serif;font-size:10px;color:#6c665e">{{ m.label }}</span>
+                  </div>
+                </sc-for>
+              </div>
+              <div style="position:relative;display:flex;flex-direction:column;gap:1px;margin-top:12px;padding-top:10px;border-top:1px solid #26242e">
+                <sc-for list="{{ breakdownD }}" as="b" hint-placeholder-count="3">
+                  <div style="display:flex;align-items:center;gap:9px;padding:7px 0">
+                    <span style="width:22px;height:22px;border-radius:7px;background:{{ b.bg }};color:{{ b.tone }};display:flex;align-items:center;justify-content:center;flex-shrink:0">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="{{ b.d }}"></path></svg>
+                    </span>
+                    <span style="font-size:12.5px;color:#cfc9bf;flex:1;min-width:0">{{ b.label }}</span>
+                    <span style="font-family:'Space Grotesk',sans-serif;font-variant-numeric:tabular-nums;font-size:13px;font-weight:600;color:{{ b.tone }}">{{ b.value }}</span>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:minmax(0,1.18fr) minmax(0,1fr);gap:14px">
+            <div style="position:relative;overflow:hidden;background:#1c1b21;border:1px solid #2c2a34;border-radius:18px;padding:16px 18px 6px">
+              <div style="position:absolute;top:-80px;right:-70px;width:250px;height:210px;background:radial-gradient(circle at 60% 45%,rgba(227,169,59,.16),rgba(227,169,59,0) 70%);pointer-events:none"></div>
+              <div style="position:relative;display:flex;align-items:center"><span style="font-size:13.5px;font-weight:600;color:#f4f1ea;flex:1">Recent sessions</span><span style="font-size:12px;color:#7d766c;cursor:pointer">View all</span></div>
+              <div style="position:relative;display:grid;grid-template-columns:1.6fr .8fr .7fr .7fr .85fr;gap:12px;padding:13px 0 8px;border-bottom:1px solid #26242e">
+                <sc-for list="{{ thA }}" as="h" hint-placeholder-count="5">
+                  <span style="font-size:11px;color:#7d766c">{{ h }}</span>
+                </sc-for>
+              </div>
+              <sc-for list="{{ rowsD }}" as="r" hint-placeholder-count="4">
+                <div style="position:relative;display:grid;grid-template-columns:1.6fr .8fr .7fr .7fr .85fr;gap:12px;align-items:center;padding:11px 0;border-bottom:1px solid #212028;transition:background .12s" style-hover="background:rgba(255,255,255,.03)">
+                  <div style="display:flex;align-items:center;gap:10px;min-width:0">
+                    <span style="width:30px;height:30px;border-radius:9px;background:{{ r.tint }};color:{{ r.ink }};display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:600;flex-shrink:0">{{ r.abbr }}</span>
+                    <div style="min-width:0">
+                      <div style="font-size:13px;font-weight:500;color:#f4f1ea;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.name }}</div>
+                      <div style="font-size:11px;color:#7d766c">{{ r.sub }}</div>
+                    </div>
+                  </div>
+                  <span style="font-size:12.5px;color:#a09a90">{{ r.date }}</span>
+                  <span style="font-family:'Space Grotesk',sans-serif;font-variant-numeric:tabular-nums;font-size:13px;color:#f4f1ea">{{ r.vol }}</span>
+                  <span style="font-family:'Space Grotesk',sans-serif;font-variant-numeric:tabular-nums;font-size:13px;color:#f4f1ea">{{ r.dur }}</span>
+                  <span style="justify-self:start;font-size:11px;padding:4px 9px;border-radius:7px;background:{{ r.sBg }};color:{{ r.sFg }}">{{ r.status }}</span>
+                </div>
+              </sc-for>
+            </div>
+
+            <div style="position:relative;overflow:hidden;background:#1c1b21;border:1px solid #2c2a34;border-radius:18px;padding:16px 18px">
+              <div style="position:absolute;bottom:-90px;left:-70px;width:240px;height:220px;background:radial-gradient(circle at 45% 55%,rgba(52,196,127,.20),rgba(52,196,127,0) 70%);pointer-events:none"></div>
+              <div style="position:relative;display:flex;align-items:center"><span style="font-size:13.5px;font-weight:600;color:#f4f1ea;flex:1">Week ahead</span><span style="font-size:12px;color:#7d766c;cursor:pointer">Plan</span></div>
+              <div style="position:relative;display:flex;flex-direction:column;gap:6px;margin-top:12px">
+                <sc-for list="{{ weekD }}" as="w" hint-placeholder-count="5">
+                  <div style="display:flex;align-items:center;gap:11px;padding:9px 11px;border-radius:12px;background:{{ w.bg }};cursor:pointer;transition:transform .14s" style-hover="transform:translateX(2px)">
+                    <span style="font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:600;color:#8e887e;width:28px;flex-shrink:0">{{ w.day }}</span>
+                    <span style="width:26px;height:26px;border-radius:8px;background:rgba(255,255,255,.06);color:{{ w.tone }};display:flex;align-items:center;justify-content:center;flex-shrink:0">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="{{ w.d }}"></path></svg>
+                    </span>
+                    <span style="font-size:12.5px;color:#f4f1ea;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ w.title }}</span>
+                    <div style="width:74px;height:5px;border-radius:3px;background:#2a2832;overflow:hidden;flex-shrink:0">
+                      <i style="display:block;height:100%;border-radius:3px;background:{{ w.tone }};width:{{ w.pct }}%;transition:width .8s cubic-bezier(.2,0,0,1)"></i>
+                    </div>
+                    <span style="font-family:'Space Grotesk',sans-serif;font-variant-numeric:tabular-nums;font-size:11.5px;color:{{ w.tone }};width:34px;text-align:right">{{ w.read }}</span>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="padding:32px 56px 96px;display:flex;flex-direction:column;gap:48px">
+  <div style="display:flex;align-items:baseline;gap:16px">
+    <h1 style="margin:0;font-size:26px;font-weight:600;letter-spacing:-.03em;color:#1a1a18">Dashboard directions</h1>
+    <p style="margin:0;font-size:14px;color:#6e6b64;max-width:640px">Instrument Sans for interface, Space Grotesk for numerals. <a href="#2a">2a</a> warm light with a single green accent and corner-glow widgets.</p>
+  </div>
+
+  <div style="display:flex;flex-wrap:wrap;gap:48px;align-items:flex-start">
+
+    <!-- ============ 2a  WARM LIGHT ============ -->
+    <div id="2a" style="display:flex;flex-direction:column;gap:12px">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span style="font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:600;background:#1a1a18;color:#fff;padding:4px 9px;border-radius:6px">2a</span>
+        <span style="font-size:14px;font-weight:600;color:#1a1a18">Warm light — off-white paper, white cards, one green accent</span>
+      </div>
+      <div style="width:1360px;background:#efece6;border-radius:24px;padding:18px;box-shadow:0 24px 60px -30px rgba(26,26,24,.32)">
+        <div style="display:grid;grid-template-columns:62px minmax(0,1fr);gap:18px">
+          <nav style="position:relative;overflow:hidden;isolation:isolate;background:#fff;border:1px solid #eae6df;border-radius:18px;padding:14px 0;display:flex;flex-direction:column;align-items:center;gap:5px;height:fit-content">
+            <div style="position:absolute;top:-70px;left:-50px;width:170px;height:170px;width:250px;height:215px;background:radial-gradient(circle at 50% 50%,rgba(26,143,90,.13),rgba(26,143,90,0) 70%);pointer-events:none;z-index:-1"></div>
+            <div style="width:34px;height:34px;border-radius:11px;background:#1a8f5a;color:#fff;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;margin-bottom:12px">G</div>
+            <sc-for list="{{ railA }}" as="r" hint-placeholder-count="7">
+              <div title="{{ r.name }}" style="width:36px;height:36px;border-radius:11px;display:flex;align-items:center;justify-content:center;background:{{ r.bg }};color:{{ r.fg }};cursor:pointer;transition:background .14s,color .14s" style-hover="background:#f3f1ec;color:#1a1a18">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="{{ r.d }}"></path></svg>
+              </div>
+            </sc-for>
+            <div style="height:14px"></div>
+            <div style="width:34px;height:34px;border-radius:50%;background:#ddd7cd"></div>
+          </nav>
+
+          <div style="min-width:0;display:flex;flex-direction:column;gap:14px">
+            <header style="display:flex;align-items:flex-end;gap:14px;padding:2px 2px 0">
+              <div style="flex:1;min-width:0">
+                <div style="font-size:13px;color:#8a867e">Good morning, Alex</div>
+                <h2 style="margin:2px 0 0;font-size:23px;font-weight:600;letter-spacing:-.03em;color:#1a1a18">Training at a glance</h2>
+              </div>
+              <div style="display:flex;align-items:center;gap:9px;background:#fff;border:1px solid #eae6df;border-radius:11px;padding:8px 13px;font-size:13px;color:#4a4740">
+                <i style="width:8px;height:8px;border-radius:50%;background:#1a8f5a;animation:pulseDot 2.4s infinite"></i>Week 34 · cutting phase
+              </div>
+              <div style="display:flex;align-items:center;gap:8px;background:#fff;border:1px solid #eae6df;border-radius:11px;padding:8px 13px;font-size:13px;color:#8a867e;min-width:150px">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>Search…
+              </div>
+              <div style="display:flex;align-items:center;gap:7px;background:#1a1a18;color:#fff;border-radius:11px;padding:9px 15px;font-size:13px;font-weight:500;cursor:pointer;transition:transform .14s" style-hover="transform:translateY(-1px)">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg>Log workout
+              </div>
+            </header>
+
+            <div style="display:grid;grid-template-columns:minmax(0,1.28fr) minmax(0,1.05fr) minmax(0,.82fr);gap:14px">
+              <div style="position:relative;isolation:isolate;background:#fff;border:1px solid #eae6df;border-radius:18px;padding:18px 20px;overflow:hidden;animation:riseIn .5s both cubic-bezier(.2,0,0,1)">
+                <div style="position:absolute;top:-70px;right:-60px;width:230px;height:190px;background:radial-gradient(circle at 60% 40%,rgba(26,143,90,.20),rgba(26,143,90,0) 70%);animation:glowBreath 6s ease-in-out infinite"></div>
+                <div style="position:relative">
+                  <div style="display:inline-flex;align-items:center;gap:6px;font-size:12.5px;color:#1a8f5a;font-weight:500">
+                    <i style="width:6px;height:6px;border-radius:50%;background:#1a8f5a"></i>Training now
+                  </div>
+                  <div style="display:flex;align-items:baseline;gap:8px;margin-top:8px">
+                    <span style="font-family:'Space Grotesk',sans-serif;font-variant-numeric:tabular-nums;font-size:46px;font-weight:600;letter-spacing:-.045em;color:#1a1a18;line-height:1">{{ volA }}</span>
+                    <span style="font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:500;color:#c99a2e">tonnes</span>
+                  </div>
+                  <p style="margin:9px 0 0;font-size:12.5px;color:#8a867e">Lifted this month · 91% of your best block (46.8 t in June)</p>
+                  <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:16px;padding-top:14px;border-top:1px solid #f2efe9">
+                    <sc-for list="{{ heroStatsA }}" as="h" hint-placeholder-count="3">
+                      <div>
+                        <div style="display:flex;align-items:baseline;gap:5px">
+                          <span style="font-family:'Space Grotesk',sans-serif;font-variant-numeric:tabular-nums;font-size:19px;font-weight:600;letter-spacing:-.035em;color:#1a1a18">{{ h.value }}</span>
+                          <span style="font-family:'Space Grotesk',sans-serif;font-size:11px;color:#a8a49b">{{ h.unit }}</span>
+                        </div>
+                        <div style="font-size:11.5px;color:#8a867e;margin-top:2px">{{ h.label }}</div>
+                      </div>
+                    </sc-for>
+                  </div>
+                </div>
+              </div>
+
+              <div style="position:relative;overflow:hidden;isolation:isolate;background:#fff;border:1px solid #eae6df;border-radius:18px;padding:16px 18px 12px;animation:riseIn .5s 70ms both cubic-bezier(.2,0,0,1);display:flex;flex-direction:column">
+                <div style="position:absolute;bottom:-95px;left:-70px;width:250px;height:215px;background:radial-gradient(circle at 50% 50%,rgba(224,168,58,.16),rgba(224,168,58,0) 70%);pointer-events:none;z-index:-1"></div>
+                <div style="display:flex;align-items:center;gap:10px">
+                  <span style="font-size:13.5px;font-weight:600;color:#1a1a18;flex:1">Energy balance</span>
+                  <span style="font-size:11px;font-weight:500;color:#1a8f5a;background:#e9f4ee;padding:4px 9px;border-radius:7px">Live</span>
+                </div>
+                <div style="display:flex;align-items:flex-end;gap:3px;height:104px;margin-top:14px">
+                  <sc-for list="{{ barsA }}" as="b" hint-placeholder-count="20">
+                    <div onMouseEnter="{{ b.enter }}" onMouseLeave="{{ leaveA }}" style="flex:1;min-width:0;height:100%;display:flex;flex-direction:column;justify-content:flex-end;gap:2px;position:relative;cursor:crosshair">
+                      <sc-if value="{{ b.on }}" hint-placeholder-val="{{ false }}">
+                        <div style="position:absolute;bottom:100%;left:50%;transform:translate(-50%,-6px);background:#1a1a18;color:#fff;border-radius:9px;padding:7px 10px;white-space:nowrap;z-index:5;animation:fadeIn .12s both;box-shadow:0 12px 26px -14px rgba(0,0,0,.55)">
+                          <div style="font-size:10.5px;color:#a8a49b">{{ b.day }}</div>
+                          <div style="font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:600;margin-top:1px">{{ b.tip }}</div>
+                        </div>
+                      </sc-if>
+                      <div style="flex:1;min-height:0;display:flex;flex-direction:column;justify-content:flex-end;gap:2px">
+                        <i style="display:block;width:100%;border-radius:3px;background:{{ b.burnFill }};height:{{ b.burn }}%;transition:height .55s cubic-bezier(.2,0,0,1),background .12s"></i>
+                        <i style="display:block;width:100%;border-radius:3px;background:{{ b.fill }};height:{{ b.h }}%;transition:height .55s cubic-bezier(.2,0,0,1),background .12s"></i>
+                      </div>
+                    </div>
+                  </sc-for>
+                </div>
+                <div style="display:flex;gap:3px;margin-top:6px">
+                  <sc-for list="{{ barsA }}" as="b" hint-placeholder-count="20">
+                    <span style="flex:1;text-align:center;font-family:'Space Grotesk',sans-serif;font-size:9px;color:#b4b0a7">{{ b.tick }}</span>
+                  </sc-for>
+                </div>
+                <div style="display:flex;justify-content:center;gap:16px;margin-top:8px;padding-top:10px;border-top:1px solid #f4f1eb">
+                  <span style="display:inline-flex;align-items:center;gap:6px;font-size:11.5px;color:#8a867e"><i style="width:8px;height:8px;border-radius:2px;background:#e0a83a;display:inline-block"></i>Intake</span>
+                  <span style="display:inline-flex;align-items:center;gap:6px;font-size:11.5px;color:#8a867e"><i style="width:8px;height:8px;border-radius:2px;background:#1a8f5a;display:inline-block"></i>Burned</span>
+                </div>
+              </div>
+
+              <div style="position:relative;overflow:hidden;isolation:isolate;background:#fff;border:1px solid #eae6df;border-radius:18px;padding:16px 18px;animation:riseIn .5s 140ms both cubic-bezier(.2,0,0,1)">
+                <div style="position:absolute;top:-85px;right:-60px;width:250px;height:215px;background:radial-gradient(circle at 50% 50%,rgba(26,143,90,.15),rgba(26,143,90,0) 70%);pointer-events:none;z-index:-1"></div>
+                <div style="display:flex;align-items:center;gap:8px">
+                  <span style="font-size:13.5px;font-weight:600;color:#1a1a18;flex:1">Recovery</span>
+                  <span style="font-size:11px;font-weight:500;color:#8a6a1f;background:#fbf2df;padding:4px 9px;border-radius:7px">Fresh</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:12px;margin-top:10px">
+                  <div style="position:relative;flex-shrink:0">
+                    <svg width="104" height="104" viewBox="0 0 104 104">
+                      <circle cx="52" cy="52" r="42" fill="none" stroke="#f2efe9" stroke-width="11"></circle>
+                      <circle cx="52" cy="52" r="42" fill="none" stroke="#1a8f5a" stroke-width="11" stroke-linecap="round" stroke-dasharray="264" stroke-dashoffset="{{ ringOffA }}" transform="rotate(-90 52 52)" style="transition:stroke-dashoffset 1.1s cubic-bezier(.2,0,0,1)"></circle>
+                    </svg>
+                    <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center">
+                      <span style="font-family:'Space Grotesk',sans-serif;font-variant-numeric:tabular-nums;font-size:23px;font-weight:600;letter-spacing:-.035em;color:#1a1a18;line-height:1">{{ recoveryA }}</span>
+                      <span style="font-size:10px;color:#a8a49b;margin-top:2px">ready</span>
+                    </div>
+                  </div>
+                  <div style="display:flex;flex-direction:column;gap:7px;flex:1;min-width:0">
+                    <sc-for list="{{ recStatsA }}" as="r" hint-placeholder-count="2">
+                      <div style="background:#f8f6f2;border-radius:11px;padding:9px 11px">
+                        <div style="display:flex;align-items:baseline;gap:5px">
+                          <span style="font-family:'Space Grotesk',sans-serif;font-variant-numeric:tabular-nums;font-size:16px;font-weight:600;letter-spacing:-.03em;color:{{ r.tone }}">{{ r.value }}</span>
+                          <span style="font-family:'Space Grotesk',sans-serif;font-size:10.5px;color:#a8a49b">{{ r.unit }}</span>
+                        </div>
+                        <div style="font-size:11px;color:#8a867e;margin-top:1px">{{ r.label }}</div>
+                      </div>
+                    </sc-for>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div style="display:grid;grid-template-columns:minmax(0,1.18fr) minmax(0,1fr);gap:14px">
+              <div style="position:relative;overflow:hidden;isolation:isolate;background:#fff;border:1px solid #eae6df;border-radius:18px;padding:16px 18px 18px">
+                <div style="position:absolute;top:-85px;left:-60px;width:250px;height:215px;background:radial-gradient(circle at 50% 50%,rgba(26,143,90,.11),rgba(26,143,90,0) 70%);pointer-events:none;z-index:-1"></div>
+                <div style="display:flex;align-items:center;gap:10px">
+                  <span style="font-size:13.5px;font-weight:600;color:#1a1a18;flex:1">Muscle groups</span>
+                  <span style="font-size:11.5px;color:#a8a49b">12 sessions · 6 groups</span>
+                </div>
+                <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin-top:14px">
+                  <sc-for list="{{ groupsA }}" as="g" hint-placeholder-count="8">
+                    <div style="background:{{ g.bg }};border-radius:13px;padding:11px 12px;position:relative;cursor:pointer;transition:transform .14s" style-hover="transform:translateY(-2px)">
+                      <i style="position:absolute;top:11px;right:11px;width:6px;height:6px;border-radius:50%;background:{{ g.dot }}"></i>
+                      <div style="font-size:11.5px;color:#8a867e">{{ g.name }}</div>
+                      <div style="font-family:'Space Grotesk',sans-serif;font-variant-numeric:tabular-nums;font-size:19px;font-weight:600;letter-spacing:-.035em;color:{{ g.tone }};margin-top:4px">{{ g.pct }}</div>
+                      <div style="font-family:'Space Grotesk',sans-serif;font-size:10.5px;color:#a8a49b">{{ g.sets }}</div>
+                    </div>
+                  </sc-for>
+                </div>
+                <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-top:9px">
+                  <sc-for list="{{ tallyA }}" as="t" hint-placeholder-count="3">
+                    <div style="background:{{ t.bg }};border-radius:13px;padding:11px;text-align:center">
+                      <div style="font-family:'Space Grotesk',sans-serif;font-variant-numeric:tabular-nums;font-size:18px;font-weight:600;color:{{ t.tone }};letter-spacing:-.03em">{{ t.value }}</div>
+                      <div style="font-size:11.5px;color:{{ t.tone }};opacity:.72;margin-top:2px">{{ t.label }}</div>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+
+              <div style="position:relative;overflow:hidden;isolation:isolate;background:#fff;border:1px solid #eae6df;border-radius:18px;padding:16px 18px">
+                <div style="position:absolute;bottom:-95px;right:-60px;width:250px;height:215px;background:radial-gradient(circle at 50% 50%,rgba(26,143,90,.13),rgba(26,143,90,0) 70%);pointer-events:none;z-index:-1"></div>
+                <div style="display:flex;align-items:center;gap:10px">
+                  <span style="font-size:13.5px;font-weight:600;color:#1a1a18;flex:1">Weight trend</span>
+                  <span style="display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:500;color:#1a8f5a;background:#e9f4ee;padding:4px 9px;border-radius:7px">↓ 6.2 kg</span>
+                </div>
+                <div style="display:flex;align-items:baseline;gap:8px;margin-top:10px">
+                  <span style="font-family:'Space Grotesk',sans-serif;font-variant-numeric:tabular-nums;font-size:34px;font-weight:600;letter-spacing:-.04em;color:#1a1a18;line-height:1">{{ weightA }}</span>
+                  <span style="font-family:'Space Grotesk',sans-serif;font-size:13px;color:#a8a49b">kg · 9.8 to goal</span>
+                </div>
+                <div style="display:flex;align-items:flex-end;gap:6px;height:88px;margin-top:14px">
+                  <sc-for list="{{ monthsA }}" as="m" hint-placeholder-count="7">
+                    <div style="flex:1;min-width:0;display:flex;flex-direction:column;align-items:stretch;gap:6px;height:100%">
+                      <div style="flex:1;min-height:0;display:flex;align-items:flex-end">
+                        <i style="display:block;width:100%;border-radius:6px 6px 4px 4px;background:{{ m.fill }};height:{{ m.h }}%;transition:height .7s cubic-bezier(.2,0,0,1)"></i>
+                      </div>
+                      <span style="text-align:center;font-family:'Space Grotesk',sans-serif;font-size:10px;color:#b4b0a7">{{ m.label }}</span>
+                    </div>
+                  </sc-for>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:1px;margin-top:12px;padding-top:10px;border-top:1px solid #f4f1eb">
+                  <sc-for list="{{ breakdownA }}" as="b" hint-placeholder-count="3">
+                    <div style="display:flex;align-items:center;gap:9px;padding:7px 0">
+                      <span style="width:22px;height:22px;border-radius:7px;background:{{ b.bg }};color:{{ b.tone }};display:flex;align-items:center;justify-content:center;flex-shrink:0">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="{{ b.d }}"></path></svg>
+                      </span>
+                      <span style="font-size:12.5px;color:#4a4740;flex:1;min-width:0">{{ b.label }}</span>
+                      <span style="font-family:'Space Grotesk',sans-serif;font-variant-numeric:tabular-nums;font-size:13px;font-weight:600;color:{{ b.tone }}">{{ b.value }}</span>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+            </div>
+
+            <div style="display:grid;grid-template-columns:minmax(0,1.18fr) minmax(0,1fr);gap:14px">
+              <div style="position:relative;overflow:hidden;isolation:isolate;background:#fff;border:1px solid #eae6df;border-radius:18px;padding:16px 18px 6px">
+                <div style="position:absolute;top:-85px;right:-70px;width:250px;height:215px;background:radial-gradient(circle at 50% 50%,rgba(224,168,58,.12),rgba(224,168,58,0) 70%);pointer-events:none;z-index:-1"></div>
+                <div style="display:flex;align-items:center"><span style="font-size:13.5px;font-weight:600;color:#1a1a18;flex:1">Recent sessions</span><span style="font-size:12px;color:#a8a49b;cursor:pointer">View all</span></div>
+                <div style="display:grid;grid-template-columns:1.6fr .8fr .7fr .7fr .85fr;gap:12px;padding:13px 0 8px;border-bottom:1px solid #f2efe9">
+                  <sc-for list="{{ thA }}" as="h" hint-placeholder-count="5">
+                    <span style="font-size:11px;color:#a8a49b">{{ h }}</span>
+                  </sc-for>
+                </div>
+                <sc-for list="{{ rowsA }}" as="r" hint-placeholder-count="4">
+                  <div style="display:grid;grid-template-columns:1.6fr .8fr .7fr .7fr .85fr;gap:12px;align-items:center;padding:11px 0;border-bottom:1px solid #f7f5f0;transition:background .12s" style-hover="background:#fbfaf7">
+                    <div style="display:flex;align-items:center;gap:10px;min-width:0">
+                      <span style="width:30px;height:30px;border-radius:9px;background:{{ r.tint }};color:{{ r.ink }};display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:600;flex-shrink:0">{{ r.abbr }}</span>
+                      <div style="min-width:0">
+                        <div style="font-size:13px;font-weight:500;color:#1a1a18;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.name }}</div>
+                        <div style="font-size:11px;color:#a8a49b">{{ r.sub }}</div>
+                      </div>
+                    </div>
+                    <span style="font-size:12.5px;color:#6e6b64">{{ r.date }}</span>
+                    <span style="font-family:'Space Grotesk',sans-serif;font-variant-numeric:tabular-nums;font-size:13px;color:#1a1a18">{{ r.vol }}</span>
+                    <span style="font-family:'Space Grotesk',sans-serif;font-variant-numeric:tabular-nums;font-size:13px;color:#1a1a18">{{ r.dur }}</span>
+                    <span style="justify-self:start;font-size:11px;padding:4px 9px;border-radius:7px;background:{{ r.sBg }};color:{{ r.sFg }}">{{ r.status }}</span>
+                  </div>
+                </sc-for>
+              </div>
+
+              <div style="position:relative;overflow:hidden;isolation:isolate;background:#fff;border:1px solid #eae6df;border-radius:18px;padding:16px 18px">
+                <div style="position:absolute;bottom:-95px;left:-70px;width:250px;height:215px;background:radial-gradient(circle at 50% 50%,rgba(26,143,90,.12),rgba(26,143,90,0) 70%);pointer-events:none;z-index:-1"></div>
+                <div style="display:flex;align-items:center"><span style="font-size:13.5px;font-weight:600;color:#1a1a18;flex:1">Week ahead</span><span style="font-size:12px;color:#a8a49b;cursor:pointer">Plan</span></div>
+                <div style="display:flex;flex-direction:column;gap:6px;margin-top:12px">
+                  <sc-for list="{{ weekA }}" as="w" hint-placeholder-count="5">
+                    <div style="display:flex;align-items:center;gap:11px;padding:9px 11px;border-radius:12px;background:{{ w.bg }};cursor:pointer;transition:transform .14s" style-hover="transform:translateX(2px)">
+                      <span style="font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:600;color:#8a867e;width:28px;flex-shrink:0">{{ w.day }}</span>
+                      <span style="width:26px;height:26px;border-radius:8px;background:#fff;color:{{ w.tone }};display:flex;align-items:center;justify-content:center;flex-shrink:0">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="{{ w.d }}"></path></svg>
+                      </span>
+                      <span style="font-size:12.5px;color:#1a1a18;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ w.title }}</span>
+                      <div style="width:74px;height:5px;border-radius:3px;background:#f2efe9;overflow:hidden;flex-shrink:0">
+                        <i style="display:block;height:100%;border-radius:3px;background:{{ w.tone }};width:{{ w.pct }}%;transition:width .8s cubic-bezier(.2,0,0,1)"></i>
+                      </div>
+                      <span style="font-family:'Space Grotesk',sans-serif;font-variant-numeric:tabular-nums;font-size:11.5px;color:{{ w.tone }};width:34px;text-align:right">{{ w.read }}</span>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+      </div>
+</section>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{}">
+const P = {
+  home:'M3 10.5 12 3l9 7.5V21H3z', scale:'M12 3v4M4 7h16l-2 6H6zM8 21h8', shoe:'M4 17h16M4 17v-3l5-6 3 2 4-1 4 4v4',
+  dumb:'M6 8v8M18 8v8M4 10v4M20 10v4M8 12h8', bowl:'M4 11h16a8 8 0 0 1-16 0zM8 11V7a4 4 0 0 1 8 0v4',
+  chart:'M4 20V9M10 20V4M16 20v-7M22 20H2', spark:'M13 2 4 14h6l-1 8 9-12h-6z',
+  heart:'M12 20s-7-4.3-7-9.5A4 4 0 0 1 12 7a4 4 0 0 1 7 3.5C19 15.7 12 20 12 20z',
+  flame:'M12 21c4 0 6-2.6 6-6 0-4-4-5-4-9-3 1-4 3.5-4 5.5C10 9 8 8 8 5c-1.4 2-2 4-2 6.5C6 17 8 21 12 21z',
+  clock:'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 8v4l3 2', drop:'M12 3c3.5 4.5 5 7 5 9.5A5 5 0 0 1 7 12.5C7 10 8.5 7.5 12 3z',
+  moon:'M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z', doc:'M6 3h8l4 4v14H6zM14 3v4h4',
+  cog:'M12 9a3 3 0 1 0 0 6 3 3 0 0 0 0-6zM12 3v2M12 19v2M5 12H3M21 12h-2M6.4 6.4 5 5M19 19l-1.4-1.4M6.4 17.6 5 19M19 5l-1.4 1.4',
+  book:'M4 5h7v15H4zM13 5h7v15h-7z', bell:'M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9'
+};
+const money = n => n.toLocaleString('en-US');
+
+class Component extends DCLogic {
+  state = { t: 0, hoverA: null, hoverD: null, hoverL: null, hoverK: null };
+
+  componentDidMount() {
+    const t0 = performance.now(), dur = 1050;
+    const step = () => {
+      const p = Math.min(1, (performance.now() - t0) / dur);
+      this.setState({ t: 1 - Math.pow(1 - p, 3) });
+      if (p < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }
+
+  renderVals() {
+    const t = this.state.t, S = this.state;
+
+    /* ---------------- 2a ---------------- */
+    const railA = [
+      { name:'Overview', d:P.home, on:true }, { name:'Weight', d:P.scale }, { name:'Steps', d:P.shoe },
+      { name:'Workouts', d:P.dumb }, { name:'Macros', d:P.bowl }, { name:'Reports', d:P.chart }, { name:'Settings', d:P.cog }
+    ].map(r => ({ ...r, bg: r.on ? '#e9f4ee' : 'transparent', fg: r.on ? '#1a8f5a' : '#a8a49b' }));
+
+    const heroStatsA = [
+      { raw:18, unit:'sessions', label:'Completed', dec:0 },
+      { raw:58, unit:'min', label:'Avg length', dec:0 },
+      { raw:4.2, unit:'/ week', label:'Frequency', dec:1 }
+    ].map(h => ({ ...h, value: h.dec ? (h.raw * t).toFixed(1) : Math.round(h.raw * t) }));
+
+    const intake = [2180,2410,1980,2240,2050,2600,2480,2120,1940,2300,2180,2050,2420,2260,1990,2140,2380,2050,1900,2214];
+    const burn   = [ 380, 520, 260, 610, 340, 180, 430, 560, 300, 470, 620, 250, 390, 540, 280, 460, 350, 600, 230, 412];
+    const maxA = Math.max(...intake.map((v, i) => v + burn[i])) * 1.04;
+    const barsA = intake.map((v, i) => ({
+      day: 'Aug ' + (i + 1), tick: (i % 4 === 0 || i === 19) ? String(i + 1) : '',
+      h: ((v / maxA) * 100 * t).toFixed(1), burn: ((burn[i] / maxA) * 100 * t).toFixed(1),
+      fill: S.hoverA === i ? '#c98f22' : '#f0cd83', burnFill: S.hoverA === i ? '#127a4b' : '#1a8f5a',
+      on: S.hoverA === i, tip: money(v) + ' in · ' + burn[i] + ' out',
+      enter: () => this.setState({ hoverA: i })
+    }));
+
+    const groupsA = [
+      { name:'Chest', pct:94, sets:'22 sets', ok:1 }, { name:'Back', pct:92, sets:'26 sets', ok:1 },
+      { name:'Legs', pct:96, sets:'30 sets', ok:1 }, { name:'Shoulders', pct:78, sets:'14 sets', ok:0 },
+      { name:'Biceps', pct:93, sets:'18 sets', ok:1 }, { name:'Triceps', pct:88, sets:'16 sets', ok:1 },
+      { name:'Core', pct:62, sets:'9 sets', ok:-1 }, { name:'Calves', pct:90, sets:'12 sets', ok:1 }
+    ].map(g => ({
+      ...g, pct: Math.round(g.pct * t) + '%',
+      bg: g.ok === 1 ? '#f2f8f4' : g.ok === 0 ? '#fdf6e8' : '#fbeeea',
+      tone: g.ok === 1 ? '#1a8f5a' : g.ok === 0 ? '#b5872a' : '#c25a44',
+      dot: g.ok === 1 ? '#1a8f5a' : g.ok === 0 ? '#e0a83a' : '#c25a44'
+    }));
+
+    const tallyA = [
+      { value: Math.round(6 * t), label:'On target', bg:'#f2f8f4', tone:'#1a8f5a' },
+      { value: Math.round(1 * t), label:'Behind', bg:'#fdf6e8', tone:'#b5872a' },
+      { value: Math.round(1 * t), label:'Neglected', bg:'#fbeeea', tone:'#c25a44' }
+    ];
+
+    const wMonths = [111.0,109.4,108.1,106.6,105.2,103.4,101.6];
+    const monthsA = ['Feb','Mar','Apr','May','Jun','Jul','Aug'].map((label, i) => ({
+      label, h: (((wMonths[i] - 96) / 17) * 100 * t).toFixed(1),
+      fill: i === 6 ? '#1a8f5a' : 'rgba(26,143,90,' + (0.16 + i * 0.09).toFixed(2) + ')'
+    }));
+
+    const breakdownA = [
+      { label:'Fat mass lost', value:'−5.1 kg', tone:'#1a8f5a', bg:'#e9f4ee', d:P.flame },
+      { label:'Lean mass kept', value:'76.4 kg', tone:'#b5872a', bg:'#fbf2df', d:P.dumb },
+      { label:'Avg weekly rate', value:'−0.45 kg', tone:'#1a8f5a', bg:'#e9f4ee', d:P.chart }
+    ];
+
+    const rowsA = [
+      { abbr:'PU', name:'Push · chest & triceps', sub:'8 exercises', date:'Aug 19', vol:'6.2 t', dur:'58 m', status:'Completed', tint:'#e9f4ee', ink:'#1a8f5a', sBg:'#e9f4ee', sFg:'#1a7a4f' },
+      { abbr:'LG', name:'Legs · squat focus', sub:'6 exercises', date:'Aug 17', vol:'9.8 t', dur:'71 m', status:'Completed', tint:'#e9f4ee', ink:'#1a8f5a', sBg:'#e9f4ee', sFg:'#1a7a4f' },
+      { abbr:'PL', name:'Pull · back & biceps', sub:'7 exercises', date:'Aug 16', vol:'5.4 t', dur:'52 m', status:'Partial', tint:'#fbf2df', ink:'#b5872a', sBg:'#fbf2df', sFg:'#8a6a1f' },
+      { abbr:'CD', name:'Cardio · zone 2', sub:'Treadmill', date:'Aug 15', vol:'—', dur:'42 m', status:'Completed', tint:'#f3f1ec', ink:'#6e6b64', sBg:'#e9f4ee', sFg:'#1a7a4f' }
+    ];
+
+    const weekA = [
+      { day:'MON', title:'Push · bench block', d:P.dumb, tone:'#1a8f5a', pctN:100, read:'done', bg:'#f8f6f2' },
+      { day:'TUE', title:'Zone 2 · 40 min', d:P.heart, tone:'#1a8f5a', pctN:100, read:'done', bg:'#f8f6f2' },
+      { day:'WED', title:'Legs · deadlift', d:P.dumb, tone:'#b5872a', pctN:62, read:'62%', bg:'#fdf9f0' },
+      { day:'THU', title:'Pull · rows', d:P.dumb, tone:'#a8a49b', pctN:0, read:'—', bg:'#f8f6f2' },
+      { day:'FRI', title:'Mobility & core', d:P.clock, tone:'#a8a49b', pctN:0, read:'—', bg:'#f8f6f2' }
+    ].map(w => ({ ...w, pct: (w.pctN * t).toFixed(1) }));
+
+    /* ---------------- 3a  dark tokens ---------------- */
+    const D = { card:'#1c1b21', alt:'#23222a', border:'#2c2a34', hair:'#26242e', ink:'#f4f1ea',
+      muted:'#8e887e', faint:'#6c665e', green:'#34c47f', amber:'#e3a93b', clay:'#d9704f' };
+    const railD = [
+      { name:'Overview', d:P.home, on:true }, { name:'Weight', d:P.scale }, { name:'Steps', d:P.shoe },
+      { name:'Workouts', d:P.dumb }, { name:'Macros', d:P.bowl }, { name:'Reports', d:P.chart }, { name:'Settings', d:P.cog }
+    ].map(r => ({ ...r, bg: r.on ? 'rgba(52,196,127,.14)' : 'transparent', fg: r.on ? D.green : '#797369' }));
+
+    const barsD = intake.map((v, i) => ({
+      day: 'Aug ' + (i + 1), tick: (i % 4 === 0 || i === 19) ? String(i + 1) : '',
+      h: ((v / maxA) * 100 * t).toFixed(1), burn: ((burn[i] / maxA) * 100 * t).toFixed(1),
+      fill: S.hoverD === i ? '#f0bd5c' : 'rgba(227,169,59,.62)', burnFill: S.hoverD === i ? '#4ade9a' : D.green,
+      on: S.hoverD === i, tip: money(v) + ' in · ' + burn[i] + ' out',
+      enter: () => this.setState({ hoverD: i })
+    }));
+
+    const groupsD = [
+      { name:'Chest', pct:94, sets:'22 sets', ok:1 }, { name:'Back', pct:92, sets:'26 sets', ok:1 },
+      { name:'Legs', pct:96, sets:'30 sets', ok:1 }, { name:'Shoulders', pct:78, sets:'14 sets', ok:0 },
+      { name:'Biceps', pct:93, sets:'18 sets', ok:1 }, { name:'Triceps', pct:88, sets:'16 sets', ok:1 },
+      { name:'Core', pct:62, sets:'9 sets', ok:-1 }, { name:'Calves', pct:90, sets:'12 sets', ok:1 }
+    ].map(g => ({
+      ...g, pct: Math.round(g.pct * t) + '%',
+      bg: g.ok === 1 ? 'rgba(52,196,127,.10)' : g.ok === 0 ? 'rgba(227,169,59,.11)' : 'rgba(217,112,79,.11)',
+      tone: g.ok === 1 ? D.green : g.ok === 0 ? D.amber : D.clay,
+      dot: g.ok === 1 ? D.green : g.ok === 0 ? D.amber : D.clay
+    }));
+
+    const tallyD = [
+      { value: Math.round(6 * t), label:'On target', bg:'rgba(52,196,127,.10)', tone:D.green },
+      { value: Math.round(1 * t), label:'Behind', bg:'rgba(227,169,59,.11)', tone:D.amber },
+      { value: Math.round(1 * t), label:'Neglected', bg:'rgba(217,112,79,.11)', tone:D.clay }
+    ];
+
+    const monthsD = ['Feb','Mar','Apr','May','Jun','Jul','Aug'].map((label, i) => ({
+      label, h: (((wMonths[i] - 96) / 17) * 100 * t).toFixed(1),
+      fill: i === 6 ? D.green : 'rgba(52,196,127,' + (0.14 + i * 0.08).toFixed(2) + ')'
+    }));
+
+    const breakdownD = [
+      { label:'Fat mass lost', value:'−5.1 kg', tone:D.green, bg:'rgba(52,196,127,.13)', d:P.flame },
+      { label:'Lean mass kept', value:'76.4 kg', tone:D.amber, bg:'rgba(227,169,59,.13)', d:P.dumb },
+      { label:'Avg weekly rate', value:'−0.45 kg', tone:D.green, bg:'rgba(52,196,127,.13)', d:P.chart }
+    ];
+
+    const rowsD = [
+      { abbr:'PU', name:'Push · chest & triceps', sub:'8 exercises', date:'Aug 19', vol:'6.2 t', dur:'58 m', status:'Completed', tint:'rgba(52,196,127,.13)', ink:D.green, sBg:'rgba(52,196,127,.13)', sFg:D.green },
+      { abbr:'LG', name:'Legs · squat focus', sub:'6 exercises', date:'Aug 17', vol:'9.8 t', dur:'71 m', status:'Completed', tint:'rgba(52,196,127,.13)', ink:D.green, sBg:'rgba(52,196,127,.13)', sFg:D.green },
+      { abbr:'PL', name:'Pull · back & biceps', sub:'7 exercises', date:'Aug 16', vol:'5.4 t', dur:'52 m', status:'Partial', tint:'rgba(227,169,59,.13)', ink:D.amber, sBg:'rgba(227,169,59,.13)', sFg:D.amber },
+      { abbr:'CD', name:'Cardio · zone 2', sub:'Treadmill', date:'Aug 15', vol:'—', dur:'42 m', status:'Completed', tint:'rgba(255,255,255,.06)', ink:'#a9a29a', sBg:'rgba(52,196,127,.13)', sFg:D.green }
+    ];
+
+    const weekD = [
+      { day:'MON', title:'Push · bench block', d:P.dumb, tone:D.green, pctN:100, read:'done', bg:'rgba(255,255,255,.035)' },
+      { day:'TUE', title:'Zone 2 · 40 min', d:P.heart, tone:D.green, pctN:100, read:'done', bg:'rgba(255,255,255,.035)' },
+      { day:'WED', title:'Legs · deadlift', d:P.dumb, tone:D.amber, pctN:62, read:'62%', bg:'rgba(227,169,59,.08)' },
+      { day:'THU', title:'Pull · rows', d:P.dumb, tone:'#7d766c', pctN:0, read:'—', bg:'rgba(255,255,255,.035)' },
+      { day:'FRI', title:'Mobility & core', d:P.clock, tone:'#7d766c', pctN:0, read:'—', bg:'rgba(255,255,255,.035)' }
+    ].map(w => ({ ...w, pct: (w.pctN * t).toFixed(1) }));
+
+    const recStatsD = [
+      { value:(7.4 * t).toFixed(1), unit:'h', label:'Sleep last night', tone:D.green },
+      { value:Math.round(54 * t), unit:'bpm', label:'Resting heart rate', tone:D.amber }
+    ];
+
+
+    const recStatsA0 = [
+      { value:(7.4 * t).toFixed(1), unit:'h', label:'Sleep last night', tone:'#1a8f5a' },
+      { value:Math.round(54 * t), unit:'bpm', label:'Resting heart rate', tone:'#b5872a' }
+    ];
+
+    /* ---------------- brand-blue recolour ---------------- */
+    const swapL = [['#1a8f5a','#2a69c8'],['#127a4b','#1f4f99'],['#e9f4ee','#eaf1fb'],['#f2f8f4','#f1f5fd'],['#1a7a4f','#23539e'],['rgba(26,143,90,','rgba(42,105,200,']];
+    const swapK = [['#34c47f','#5b9bf5'],['#4ade9a','#87b8ff'],['rgba(52,196,127,','rgba(91,155,245,']];
+    const swap = (v, m) => { if (typeof v !== 'string') return v; for (const [a, b] of m) v = v.split(a).join(b); return v; };
+    const recolor = (arr, m, hoverKey) => arr.map((o, i) => {
+      const n = {}; for (const k in o) n[k] = swap(o[k], m);
+      if (hoverKey) n.enter = () => this.setState({ [hoverKey]: i });
+      return n;
+    });
+    const railL = recolor(railA, swapL), groupsL = recolor(groupsA, swapL), tallyL = recolor(tallyA, swapL),
+      monthsL = recolor(monthsA, swapL), breakdownL = recolor(breakdownA, swapL), rowsL = recolor(rowsA, swapL),
+      weekL = recolor(weekA, swapL), recStatsL = recolor(recStatsA0, swapL);
+    const barsL = intake.map((v, i) => ({
+      day: 'Aug ' + (i + 1), tick: (i % 4 === 0 || i === 19) ? String(i + 1) : '',
+      h: ((v / maxA) * 100 * t).toFixed(1), burn: ((burn[i] / maxA) * 100 * t).toFixed(1),
+      fill: S.hoverL === i ? '#c98f22' : '#f0cd83', burnFill: S.hoverL === i ? '#1f4f99' : '#2a69c8',
+      on: S.hoverL === i, tip: money(v) + ' in · ' + burn[i] + ' out', enter: () => this.setState({ hoverL: i })
+    }));
+    const railK = recolor(railD, swapK), groupsK = recolor(groupsD, swapK), tallyK = recolor(tallyD, swapK),
+      monthsK = recolor(monthsD, swapK), breakdownK = recolor(breakdownD, swapK), rowsK = recolor(rowsD, swapK),
+      weekK = recolor(weekD, swapK), recStatsK = recolor(recStatsD, swapK);
+    const barsK = intake.map((v, i) => ({
+      day: 'Aug ' + (i + 1), tick: (i % 4 === 0 || i === 19) ? String(i + 1) : '',
+      h: ((v / maxA) * 100 * t).toFixed(1), burn: ((burn[i] / maxA) * 100 * t).toFixed(1),
+      fill: S.hoverK === i ? '#f0bd5c' : 'rgba(227,169,59,.62)', burnFill: S.hoverK === i ? '#87b8ff' : '#5b9bf5',
+      on: S.hoverK === i, tip: money(v) + ' in · ' + burn[i] + ' out', enter: () => this.setState({ hoverK: i })
+    }));
+
+    return {
+      /* 2a */ railA, heroStatsA, barsA, groupsA, tallyA, monthsA, breakdownA, rowsA, weekA,
+      leaveA: () => this.setState({ hoverA: null }),
+      thA: ['Session','Date','Volume','Time','Status'],
+      volA: (42.6 * t).toFixed(2),
+      recoveryA: Math.round(88 * t) + '%',
+      ringOffA: (264 - 264 * 0.88 * t).toFixed(1),
+      recStatsA: recStatsA0,
+      weightA: (101.6 * t).toFixed(1),
+      /* 3a */ railD, barsD, groupsD, tallyD, monthsD, breakdownD, rowsD, weekD, recStatsD,
+      leaveD: () => this.setState({ hoverD: null }),
+
+      /* 4a */ railL, barsL, groupsL, tallyL, monthsL, breakdownL, rowsL, weekL, recStatsL,
+      leaveL: () => this.setState({ hoverL: null }),
+      /* 4b */ railK, barsK, groupsK, tallyK, monthsK, breakdownK, rowsK, weekK, recStatsK,
+      leaveK: () => this.setState({ hoverK: null })
+    };
+  }
+}
+
+</script>
+</body>
+</html>

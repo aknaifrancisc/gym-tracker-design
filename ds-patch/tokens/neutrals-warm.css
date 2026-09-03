@@ -1,0 +1,42 @@
+/* ============================================================================
+   OPTIONAL — warm neutral remap.
+
+   The system ships slightly cool neutrals (--ink-050 #F4F6F8). The approved
+   dashboard direction sits on warm paper instead: off-white canvas, white
+   cards, warm hairlines, and a warm charcoal dark shell. This file remaps the
+   ink ramp in place — nothing else changes, because every surface, text and
+   border alias already resolves through it.
+
+   Import AFTER schemes.css. Delete the import to go back to cool neutrals.
+   Do not "fix" a screen by hard-coding warm hexes; flip this file instead.
+   ============================================================================ */
+:root{
+  --ink-000:#FFFFFF;
+  --ink-025:#FBFAF7;
+  --ink-050:#F8F6F2;
+  --ink-100:#F2EFE9;
+  --ink-200:#EAE6DF;
+  --ink-300:#DDD7CD;
+  --ink-400:#B4B0A7;
+  --ink-500:#8E887E;
+  --ink-600:#6E6B64;
+  --ink-700:#4A4740;
+  --ink-800:#26242E;
+  --ink-900:#1E1E1E;   /* logo plate black — unchanged, it is a brand value */
+  --ink-950:#131217;
+
+  --surface-page:#EFECE6;   /* warm paper canvas */
+}
+[data-theme="dark"], .theme-dark{
+  --surface-page:var(--ink-950);
+  --surface-card:#1C1B21;
+  --surface-raised:#23222A;
+  --surface-sunken:#17161B;
+  --border-subtle:#26242E;
+  --border-default:#2C2A34;
+  --border-strong:#3A3744;
+  --text-heading:#F4F1EA;
+  --text-body:#D9D4CB;
+  --text-muted:#A09A90;
+  --text-subtle:#7D766C;
+}

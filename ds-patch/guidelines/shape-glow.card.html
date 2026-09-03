@@ -1,0 +1,26 @@
+<!-- @dsCard group="Shape" viewport="700x260" name="Corner glow" subtitle="The one documented gradient — a single bloom per data widget" -->
+<!doctype html><html lang="en"><head><meta charset="utf-8"><link rel="stylesheet" href="../styles.css">
+<style>
+body{margin:0;padding:16px 20px;background:var(--surface-card);color:var(--text-body)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.wrap{background:var(--surface-page);border-radius:var(--radius-card);padding:12px}
+.lbl{font:var(--text-eyebrow);letter-spacing:var(--ls-caps);text-transform:uppercase;color:var(--text-muted)}
+.met{font:var(--text-metric-lg);color:var(--text-heading);font-variant-numeric:tabular-nums;letter-spacing:var(--ls-tighter);margin-top:6px}
+.unit{font:var(--text-caption);color:var(--text-muted)}
+</style></head><body>
+<div class="grid">
+  <div class="wrap" data-scheme="brand">
+    <div class="gt-card gt-card--glow-tr" style="padding:var(--pad-card)"><span class="gt-glow"></span>
+      <span class="lbl">Training load</span><div class="met">42.6 <span class="unit">t</span></div>
+      <p style="font:var(--text-caption);color:var(--text-muted);margin:8px 0 0">primary tint · top-right</p>
+    </div>
+  </div>
+  <div class="wrap theme-dark" data-scheme="brand">
+    <div class="gt-card gt-card--glow-bl-accent" style="padding:var(--pad-card)"><span class="gt-glow"></span>
+      <span class="lbl">Energy balance</span><div class="met">1 842 <span class="unit">kcal</span></div>
+      <p style="font:var(--text-caption);color:var(--text-muted);margin:8px 0 0">accent tint · bottom-left</p>
+    </div>
+  </div>
+</div>
+<p style="font:var(--text-caption);color:var(--text-muted);margin:12px 0 0">Add <code>gt-card--glow-{tl|tr|bl|br}</code> (or <code>-accent</code>) plus a <code>&lt;span class="gt-glow"&gt;</code> first child — or <code>&lt;Card glow="tr"&gt;</code>. One per card, alternate corners across a grid, never behind a table or a paragraph, dashboard and marketing only.</p>
+</body></html>

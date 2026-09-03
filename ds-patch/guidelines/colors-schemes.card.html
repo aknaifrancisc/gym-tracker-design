@@ -1,0 +1,34 @@
+<!-- @dsCard group="Colors" viewport="700x300" name="Accent schemes" subtitle="_brand (logo blue) and _green — data-scheme on <html>, light and dark" -->
+<!doctype html><html lang="en"><head><meta charset="utf-8"><link rel="stylesheet" href="../styles.css">
+<style>
+body{margin:0;padding:16px 20px;background:var(--surface-card);color:var(--text-body)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.cell{background:var(--surface-page);border:var(--border-width) solid var(--border-subtle);border-radius:var(--radius-card);padding:12px}
+.sel{font:var(--text-data);color:var(--text-muted)}
+.sw{display:flex;gap:6px;margin-top:9px}
+.sw div{flex:1;height:30px;border-radius:var(--radius-sm);border:var(--border-width) solid var(--border-subtle)}
+.row{display:flex;align-items:center;gap:8px;margin-top:10px}
+.btn{background:var(--primary);color:var(--primary-fg);border-radius:var(--radius-pill);padding:7px 14px;font:var(--text-label)}
+.bdg{background:var(--surface-brand-subtle);color:var(--text-brand);border-radius:var(--radius-pill);padding:4px 10px;font:var(--text-eyebrow);letter-spacing:var(--ls-caps);text-transform:uppercase}
+.met{font:var(--text-metric-sm);color:var(--text-heading);font-variant-numeric:tabular-nums;letter-spacing:var(--ls-tighter)}
+</style></head><body>
+<div class="grid">
+  <div class="cell" data-scheme="brand"><span class="sel">data-scheme="brand"</span>
+    <div class="sw"><div style="background:var(--primary)"></div><div style="background:var(--primary-hover)"></div><div style="background:var(--surface-brand-subtle)"></div></div>
+    <div class="row"><span class="btn">Start workout</span><span class="bdg">Live</span><span class="met">42.6</span></div>
+  </div>
+  <div class="cell theme-dark" data-scheme="brand"><span class="sel">data-scheme="brand" · dark</span>
+    <div class="sw"><div style="background:var(--primary)"></div><div style="background:var(--primary-hover)"></div><div style="background:var(--surface-brand-subtle)"></div></div>
+    <div class="row"><span class="btn">Start workout</span><span class="bdg">Live</span><span class="met">42.6</span></div>
+  </div>
+  <div class="cell" data-scheme="green"><span class="sel">data-scheme="green"</span>
+    <div class="sw"><div style="background:var(--primary)"></div><div style="background:var(--primary-hover)"></div><div style="background:var(--surface-brand-subtle)"></div></div>
+    <div class="row"><span class="btn">Start workout</span><span class="bdg">Live</span><span class="met">42.6</span></div>
+  </div>
+  <div class="cell theme-dark" data-scheme="green"><span class="sel">data-scheme="green" · dark</span>
+    <div class="sw"><div style="background:var(--primary)"></div><div style="background:var(--primary-hover)"></div><div style="background:var(--surface-brand-subtle)"></div></div>
+    <div class="row"><span class="btn">Start workout</span><span class="bdg">Live</span><span class="met">42.6</span></div>
+  </div>
+</div>
+<p style="font:var(--text-caption);color:var(--text-muted);margin:12px 0 0">Components read <code>--primary*</code> and the <code>--*-brand</code> aliases, never <code>--blue-*</code> or <code>--leaf-*</code>. Status colours never move: green-as-accent still does not mean "good".</p>
+</body></html>

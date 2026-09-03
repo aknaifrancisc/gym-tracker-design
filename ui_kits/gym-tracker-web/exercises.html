@@ -1,0 +1,193 @@
+<!-- @dsCard group="Gym Tracker Web" viewport="1440x900" subtitle="Redesigned Exercise library — media cards, difficulty, filters" name="Exercises" -->
+<!-- @startingPoint section="Screens" subtitle="Redesigned Exercise library page" viewport="1440x900" -->
+<!DOCTYPE html><html><head>
+<link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<script src="../../image-slot.js"></script>
+<script src="../../ds-loader.js"></script>
+<style>body{margin:0;background:var(--bg)}</style>
+</head><body><div id="root"></div>
+<script type="text/babel-app">
+let Button, IconButton, Card, Badge, Tabs, Avatar, SideNav, Input, Select;
+
+const ic = (n, s=16) => <i data-lucide={n} style={{width:s,height:s}}></i>;
+
+function App(){
+  const [nav,setNav]=React.useState('exercises');
+  const [page,setPage]=React.useState(1);
+  React.useEffect(()=>{lucide.createIcons()});
+  return <div style={{display:'flex',minHeight:'100vh',fontFamily:'var(--font-sans)'}}>
+    <SideNav activeId={nav} onSelect={setNav} style={{position:'sticky',top:0,height:'100vh'}}
+      header={<a href="all-screens.html" style={{display:'block',padding:'4px 12px 16px'}}><img src="../../assets/Logo.svg" alt="Gym Tracker" style={{height:34,display:'block'}}/></a>}
+      items={[
+        {id:'dash',href:'dashboard.html',label:'Dashboard',icon:ic('layout-dashboard')},
+        {id:'personal',href:'index.html',label:'Personal info',icon:ic('heart-pulse')},
+        {id:'weight',href:'weight-loss.html',label:'Weight loss',icon:ic('scale')},
+        {id:'steps',href:'steps.html',label:'Steps',icon:ic('footprints')},
+        {id:'workouts',label:'Workouts',icon:ic('dumbbell'),children:[{id:'logs',href:'workout-logs.html',label:'Logs'},{id:'exercises',href:'exercises.html',label:'Exercises'}]},
+        {id:'macros',href:'macros-dashboard.html',label:'Macros tracker',icon:ic('utensils'),children:[{id:'meals',href:'daily-meals.html',label:'Daily meals'},{id:'recipes',href:'recipes.html',label:'Recipes'},{id:'ingredients',href:'ingredients.html',label:'Ingredients'}]}]}
+      footer={<div style={{display:'flex',alignItems:'center',gap:10,padding:'10px 12px',borderTop:'1px solid var(--border)'}}>
+        <Avatar name="John D" size={32}/>
+        <div style={{flex:1,minWidth:0}}><div style={{fontSize:13,fontWeight:500,color:'var(--text-1)'}}>John Doe</div><div style={{fontSize:11,color:'var(--text-3)',overflow:'hidden',textOverflow:'ellipsis'}}>john.doe@gymgoer.com</div></div>
+        <span style={{color:'var(--text-3)'}}>{ic('chevrons-up-down',14)}</span>
+      </div>}/>
+    <main style={{flex:1,minWidth:0,padding:'28px 32px',maxWidth:'var(--content-max)',margin:'0 auto',boxSizing:'border-box',width:'100%'}}>
+      <header style={{display:'flex',alignItems:'center',gap:16,marginBottom:20}}>
+        <div style={{flex:1}}>
+          <h1 style={{margin:0,fontSize:'var(--text-2xl)',fontWeight:700,color:'var(--text-1)',letterSpacing:'-0.01em'}}>Exercise library</h1>
+          <p style={{margin:'4px 0 0',fontSize:14,color:'var(--text-2)'}}>Browse and manage your exercise library · 68 exercises, 12 global, 0 personal.</p>
+        </div>
+        <Button icon={ic('plus')}>Add exercise</Button>
+      </header>
+
+      <div style={{display:'flex',gap:12,alignItems:'center',marginBottom:20}}>
+        <Input placeholder="Search exercises…" style={{flex:1}}/>
+        <Select options={['All muscles','Chest','Back','Legs','Shoulders','Biceps','Triceps']} style={{width:150}}/>
+        <Select options={['All equipment','Barbell','Dumbbell','Cable','Machine','Bodyweight']} style={{width:160}}/>
+        <Select options={['All difficulties','Easy','Moderate','Intermediate','Hard']} style={{width:150}}/>
+      </div>
+
+      <div style={{display:'grid',gridTemplateColumns:'repeat(3, minmax(0, 1fr))',gap:16,marginBottom:20}}>
+        <Card key="Arnold Shoulder Press" interactive compact style={{padding:0,overflow:'hidden'}}>
+          <div style={{position:'relative',height:180,background:'var(--wash-blue)',color:'var(--text-3)'}}>
+            <image-slot id="ex-0" shape="rect" placeholder="Arnold Shoulder Press — demo image"></image-slot>
+            <span style={{position:'absolute',top:10,left:10,pointerEvents:'none'}}><Badge tone="warning">Intermediate</Badge></span>
+            <span style={{position:'absolute',top:10,right:10,pointerEvents:'none'}}><Badge tone="primary">Global</Badge></span>
+          </div>
+          <div style={{padding:'14px 16px 16px'}}>
+            <div style={{fontSize:15,fontWeight:600,color:'var(--text-1)',marginBottom:10}}>Arnold Shoulder Press</div>
+            <div style={{display:'flex',gap:8,flexWrap:'wrap'}}>
+              <span style={{display:'inline-flex',alignItems:'center',gap:5,fontSize:12,fontWeight:500,color:'var(--text-2)',background:'var(--surface-sunken)',borderRadius:999,padding:'4px 10px'}}>{ic('crosshair',12)} Shoulders</span>
+              <span style={{display:'inline-flex',alignItems:'center',gap:5,fontSize:12,fontWeight:500,color:'var(--text-2)',background:'var(--surface-sunken)',borderRadius:999,padding:'4px 10px'}}>{ic('cog',12)} Dumbbell</span>
+            </div>
+          </div>
+        </Card>
+        <Card key="Barbell Bench Press" interactive compact style={{padding:0,overflow:'hidden'}}>
+          <div style={{position:'relative',height:180,background:'var(--wash-violet)',color:'var(--text-3)'}}>
+            <image-slot id="ex-1" shape="rect" placeholder="Barbell Bench Press — demo image"></image-slot>
+            <span style={{position:'absolute',top:10,left:10,pointerEvents:'none'}}><Badge tone="danger">Hard</Badge></span>
+            <span style={{position:'absolute',top:10,right:10,pointerEvents:'none'}}><Badge tone="primary">Global</Badge></span>
+          </div>
+          <div style={{padding:'14px 16px 16px'}}>
+            <div style={{fontSize:15,fontWeight:600,color:'var(--text-1)',marginBottom:10}}>Barbell Bench Press</div>
+            <div style={{display:'flex',gap:8,flexWrap:'wrap'}}>
+              <span style={{display:'inline-flex',alignItems:'center',gap:5,fontSize:12,fontWeight:500,color:'var(--text-2)',background:'var(--surface-sunken)',borderRadius:999,padding:'4px 10px'}}>{ic('crosshair',12)} Chest</span>
+              <span style={{display:'inline-flex',alignItems:'center',gap:5,fontSize:12,fontWeight:500,color:'var(--text-2)',background:'var(--surface-sunken)',borderRadius:999,padding:'4px 10px'}}>{ic('cog',12)} Barbell</span>
+            </div>
+          </div>
+        </Card>
+        <Card key="Barbell Decline Bench Press" interactive compact style={{padding:0,overflow:'hidden'}}>
+          <div style={{position:'relative',height:180,background:'var(--wash-teal)',color:'var(--text-3)'}}>
+            <image-slot id="ex-2" shape="rect" placeholder="Barbell Decline Bench Press — demo image"></image-slot>
+            <span style={{position:'absolute',top:10,left:10,pointerEvents:'none'}}><Badge tone="warning">Moderate</Badge></span>
+            <span style={{position:'absolute',top:10,right:10,pointerEvents:'none'}}><Badge tone="primary">Global</Badge></span>
+          </div>
+          <div style={{padding:'14px 16px 16px'}}>
+            <div style={{fontSize:15,fontWeight:600,color:'var(--text-1)',marginBottom:10}}>Barbell Decline Bench Press</div>
+            <div style={{display:'flex',gap:8,flexWrap:'wrap'}}>
+              <span style={{display:'inline-flex',alignItems:'center',gap:5,fontSize:12,fontWeight:500,color:'var(--text-2)',background:'var(--surface-sunken)',borderRadius:999,padding:'4px 10px'}}>{ic('crosshair',12)} Chest</span>
+              <span style={{display:'inline-flex',alignItems:'center',gap:5,fontSize:12,fontWeight:500,color:'var(--text-2)',background:'var(--surface-sunken)',borderRadius:999,padding:'4px 10px'}}>{ic('cog',12)} Barbell</span>
+            </div>
+          </div>
+        </Card>
+        <Card key="Barbell Incline Bench Press" interactive compact style={{padding:0,overflow:'hidden'}}>
+          <div style={{position:'relative',height:180,background:'var(--wash-green)',color:'var(--text-3)'}}>
+            <image-slot id="ex-3" shape="rect" placeholder="Barbell Incline Bench Press — demo image"></image-slot>
+            <span style={{position:'absolute',top:10,left:10,pointerEvents:'none'}}><Badge tone="warning">Moderate</Badge></span>
+            <span style={{position:'absolute',top:10,right:10,pointerEvents:'none'}}><Badge tone="primary">Global</Badge></span>
+          </div>
+          <div style={{padding:'14px 16px 16px'}}>
+            <div style={{fontSize:15,fontWeight:600,color:'var(--text-1)',marginBottom:10}}>Barbell Incline Bench Press</div>
+            <div style={{display:'flex',gap:8,flexWrap:'wrap'}}>
+              <span style={{display:'inline-flex',alignItems:'center',gap:5,fontSize:12,fontWeight:500,color:'var(--text-2)',background:'var(--surface-sunken)',borderRadius:999,padding:'4px 10px'}}>{ic('crosshair',12)} Chest</span>
+              <span style={{display:'inline-flex',alignItems:'center',gap:5,fontSize:12,fontWeight:500,color:'var(--text-2)',background:'var(--surface-sunken)',borderRadius:999,padding:'4px 10px'}}>{ic('cog',12)} Barbell</span>
+            </div>
+          </div>
+        </Card>
+        <Card key="Barbell Squats" interactive compact style={{padding:0,overflow:'hidden'}}>
+          <div style={{position:'relative',height:180,background:'var(--wash-amber)',color:'var(--text-3)'}}>
+            <image-slot id="ex-4" shape="rect" placeholder="Barbell Squats — demo image"></image-slot>
+            <span style={{position:'absolute',top:10,left:10,pointerEvents:'none'}}><Badge tone="danger">Hard</Badge></span>
+            <span style={{position:'absolute',top:10,right:10,pointerEvents:'none'}}><Badge tone="primary">Global</Badge></span>
+          </div>
+          <div style={{padding:'14px 16px 16px'}}>
+            <div style={{fontSize:15,fontWeight:600,color:'var(--text-1)',marginBottom:10}}>Barbell Squats</div>
+            <div style={{display:'flex',gap:8,flexWrap:'wrap'}}>
+              <span style={{display:'inline-flex',alignItems:'center',gap:5,fontSize:12,fontWeight:500,color:'var(--text-2)',background:'var(--surface-sunken)',borderRadius:999,padding:'4px 10px'}}>{ic('crosshair',12)} Legs</span>
+              <span style={{display:'inline-flex',alignItems:'center',gap:5,fontSize:12,fontWeight:500,color:'var(--text-2)',background:'var(--surface-sunken)',borderRadius:999,padding:'4px 10px'}}>{ic('cog',12)} Barbell</span>
+            </div>
+          </div>
+        </Card>
+        <Card key="Behind-the-back Cable Curls" interactive compact style={{padding:0,overflow:'hidden'}}>
+          <div style={{position:'relative',height:180,background:'var(--wash-blue)',color:'var(--text-3)'}}>
+            <image-slot id="ex-5" shape="rect" placeholder="Behind-the-back Cable Curls — demo image"></image-slot>
+            <span style={{position:'absolute',top:10,left:10,pointerEvents:'none'}}><Badge tone="success">Easy</Badge></span>
+            <span style={{position:'absolute',top:10,right:10,pointerEvents:'none'}}><Badge tone="primary">Global</Badge></span>
+          </div>
+          <div style={{padding:'14px 16px 16px'}}>
+            <div style={{fontSize:15,fontWeight:600,color:'var(--text-1)',marginBottom:10}}>Behind-the-back Cable Curls</div>
+            <div style={{display:'flex',gap:8,flexWrap:'wrap'}}>
+              <span style={{display:'inline-flex',alignItems:'center',gap:5,fontSize:12,fontWeight:500,color:'var(--text-2)',background:'var(--surface-sunken)',borderRadius:999,padding:'4px 10px'}}>{ic('crosshair',12)} Biceps</span>
+              <span style={{display:'inline-flex',alignItems:'center',gap:5,fontSize:12,fontWeight:500,color:'var(--text-2)',background:'var(--surface-sunken)',borderRadius:999,padding:'4px 10px'}}>{ic('cog',12)} Cable</span>
+            </div>
+          </div>
+        </Card>
+        <Card key="Bent Over Straight Arm Pulldown" interactive compact style={{padding:0,overflow:'hidden'}}>
+          <div style={{position:'relative',height:180,background:'var(--wash-violet)',color:'var(--text-3)'}}>
+            <image-slot id="ex-6" shape="rect" placeholder="Bent Over Straight Arm Pulldown — demo image"></image-slot>
+            <span style={{position:'absolute',top:10,left:10,pointerEvents:'none'}}><Badge tone="success">Easy</Badge></span>
+            <span style={{position:'absolute',top:10,right:10,pointerEvents:'none'}}><Badge tone="primary">Global</Badge></span>
+          </div>
+          <div style={{padding:'14px 16px 16px'}}>
+            <div style={{fontSize:15,fontWeight:600,color:'var(--text-1)',marginBottom:10}}>Bent Over Straight Arm Pulldown</div>
+            <div style={{display:'flex',gap:8,flexWrap:'wrap'}}>
+              <span style={{display:'inline-flex',alignItems:'center',gap:5,fontSize:12,fontWeight:500,color:'var(--text-2)',background:'var(--surface-sunken)',borderRadius:999,padding:'4px 10px'}}>{ic('crosshair',12)} Back</span>
+              <span style={{display:'inline-flex',alignItems:'center',gap:5,fontSize:12,fontWeight:500,color:'var(--text-2)',background:'var(--surface-sunken)',borderRadius:999,padding:'4px 10px'}}>{ic('cog',12)} Cable</span>
+            </div>
+          </div>
+        </Card>
+        <Card key="Cable Crossover" interactive compact style={{padding:0,overflow:'hidden'}}>
+          <div style={{position:'relative',height:180,background:'var(--wash-teal)',color:'var(--text-3)'}}>
+            <image-slot id="ex-7" shape="rect" placeholder="Cable Crossover — demo image"></image-slot>
+            <span style={{position:'absolute',top:10,left:10,pointerEvents:'none'}}><Badge tone="success">Easy</Badge></span>
+            <span style={{position:'absolute',top:10,right:10,pointerEvents:'none'}}><Badge tone="primary">Global</Badge></span>
+          </div>
+          <div style={{padding:'14px 16px 16px'}}>
+            <div style={{fontSize:15,fontWeight:600,color:'var(--text-1)',marginBottom:10}}>Cable Crossover</div>
+            <div style={{display:'flex',gap:8,flexWrap:'wrap'}}>
+              <span style={{display:'inline-flex',alignItems:'center',gap:5,fontSize:12,fontWeight:500,color:'var(--text-2)',background:'var(--surface-sunken)',borderRadius:999,padding:'4px 10px'}}>{ic('crosshair',12)} Chest</span>
+              <span style={{display:'inline-flex',alignItems:'center',gap:5,fontSize:12,fontWeight:500,color:'var(--text-2)',background:'var(--surface-sunken)',borderRadius:999,padding:'4px 10px'}}>{ic('cog',12)} Cable</span>
+            </div>
+          </div>
+        </Card>
+        <Card key="Chest Press" interactive compact style={{padding:0,overflow:'hidden'}}>
+          <div style={{position:'relative',height:180,background:'var(--wash-green)',color:'var(--text-3)'}}>
+            <image-slot id="ex-8" shape="rect" placeholder="Chest Press — demo image"></image-slot>
+            <span style={{position:'absolute',top:10,left:10,pointerEvents:'none'}}><Badge tone="success">Easy</Badge></span>
+            <span style={{position:'absolute',top:10,right:10,pointerEvents:'none'}}><Badge tone="primary">Global</Badge></span>
+          </div>
+          <div style={{padding:'14px 16px 16px'}}>
+            <div style={{fontSize:15,fontWeight:600,color:'var(--text-1)',marginBottom:10}}>Chest Press</div>
+            <div style={{display:'flex',gap:8,flexWrap:'wrap'}}>
+              <span style={{display:'inline-flex',alignItems:'center',gap:5,fontSize:12,fontWeight:500,color:'var(--text-2)',background:'var(--surface-sunken)',borderRadius:999,padding:'4px 10px'}}>{ic('crosshair',12)} Chest</span>
+              <span style={{display:'inline-flex',alignItems:'center',gap:5,fontSize:12,fontWeight:500,color:'var(--text-2)',background:'var(--surface-sunken)',borderRadius:999,padding:'4px 10px'}}>{ic('cog',12)} Machine</span>
+            </div>
+          </div>
+        </Card>
+      </div>
+
+      <div style={{display:'flex',alignItems:'center',gap:12,paddingBottom:40}}>
+        <Select options={['12 per page','24 per page','48 per page']} style={{width:130}}/>
+        <span style={{flex:1}}></span>
+        <Button variant="secondary" size="sm" icon={ic('arrow-left',14)}></Button>
+        {[1,2,3,'…',6].map((p,i)=><Button key={i} variant={p===page?'primary':'ghost'} size="sm" onClick={()=>typeof p==='number'&&setPage(p)}>{p}</Button>)}
+        <Button variant="secondary" size="sm" icon={ic('arrow-right',14)}></Button>
+      </div>
+    </main>
+  </div>;
+}
+window.__dsReady.then(ns=>{({ Button, IconButton, Card, Badge, Tabs, Avatar, SideNav, Input, Select }=ns);ReactDOM.createRoot(document.getElementById('root')).render(<App/>)});
+</script></body></html>

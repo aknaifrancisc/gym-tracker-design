@@ -1,0 +1,33 @@
+<!-- @dsCard group="Components" viewport="700x300" subtitle="Button, IconButton, Input, Select, Checkbox, Radio, Switch" name="Forms" -->
+<!DOCTYPE html><html data-scheme="brand" data-theme="light"><head><link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<script src="../../ds-loader.js"></script>
+<style>body{margin:0;padding:16px;background:var(--bg)}</style></head><body><div id="root"></div>
+<script type="text/babel-app">
+let Button, IconButton, Input, Select, Checkbox, Radio, Switch;
+function Demo(){
+  const [c,setC]=React.useState(true),[s,setS]=React.useState(true),[r,setR]=React.useState('kg');
+  React.useEffect(()=>{lucide.createIcons()});
+  return <div style={{display:'flex',flexDirection:'column',gap:16,fontFamily:'var(--font-sans)'}}>
+    <div style={{display:'flex',gap:10,alignItems:'center',flexWrap:'wrap'}}>
+      <Button>Save changes</Button><Button variant="secondary">Add goal</Button><Button variant="ghost">Cancel</Button><Button variant="danger">Delete</Button><Button disabled>Disabled</Button>
+      <Button size="sm" variant="secondary">Small</Button><IconButton label="Settings" variant="outline"><i data-lucide="settings" style={{width:16,height:16}}></i></IconButton>
+    </div>
+    <div style={{display:'flex',gap:12,alignItems:'flex-end',flexWrap:'wrap'}}>
+      <Input label="Target weight" unit="kg" placeholder="0.0" style={{width:160}}/>
+      <Input label="Email" error="Enter a valid email" defaultValue="john.doe@" style={{width:180}}/>
+      <Select label="Activity level" options={['Sedentary','Light','Moderate','Active']} style={{width:150}}/>
+    </div>
+    <div style={{display:'flex',gap:20,alignItems:'center',flexWrap:'wrap'}}>
+      <Checkbox label="Include warm-ups" checked={c} onChange={e=>setC(e.target.checked)}/>
+      <Radio name="u" label="Kilograms" checked={r==='kg'} onChange={()=>setR('kg')}/>
+      <Radio name="u" label="Pounds" checked={r==='lb'} onChange={()=>setR('lb')}/>
+      <Switch label="Weekly summary" checked={s} onChange={e=>setS(e.target.checked)}/>
+    </div>
+  </div>;
+}
+window.__dsReady.then(ns=>{({ Button, IconButton, Input, Select, Checkbox, Radio, Switch }=ns);ReactDOM.createRoot(document.getElementById('root')).render(<Demo/>)});
+</script></body></html>

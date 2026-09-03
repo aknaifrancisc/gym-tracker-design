@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/gym-tracker-design-system-42e631ff-e31a-4d3e-8495-62b3190c9d4a/styles.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@0.454.0/dist/umd/lucide.min.js"></script>
+<script src="_ds/gym-tracker-design-system-42e631ff-e31a-4d3e-8495-62b3190c9d4a/_ds_bundle.js"></script>
+<script src="anim-engine.js"></script>
+<script src="slot-images.js"></script>
+<style>
+  body{margin:0;background:#e4e1da;font-family:'Manrope',system-ui,sans-serif;-webkit-font-smoothing:antialiased;
+    --accent:#2a69c8;--accent-deep:#1f56a8;--accent-tint:#eaf1fb;--glow:rgba(42,105,200,.20);--glow-soft:rgba(42,105,200,.13)}
+  a{color:var(--accent);text-decoration:none}
+  a:hover{color:var(--accent-deep);text-decoration:underline;text-underline-offset:3px}
+  image-slot[data-compact]::part(empty){color:transparent!important}
+  @keyframes riseIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+  @keyframes glowBreath{0%,100%{opacity:.6}50%{opacity:1}}
+  @keyframes tipIn{from{opacity:0;transform:translate(-4px,-50%)}to{opacity:1;transform:translate(0,-50%)}}
+  @media (prefers-reduced-motion:reduce){
+    @keyframes riseIn{from{opacity:0}to{opacity:1}}
+    @keyframes glowBreath{0%,100%{opacity:.8}}
+  }
+</style>
+</helmet>
+
+<template id="__bundler_thumbnail" data-bg-color="#17161c">
+  <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><rect width="100" height="100" fill="#17161c"></rect><rect x="30" y="30" width="12" height="40" rx="3" fill="#2a69c8"></rect><rect x="46" y="30" width="24" height="16" rx="3" fill="#e0a83a"></rect><rect x="46" y="50" width="24" height="20" rx="3" fill="#f4f1ea"></rect></svg>
+</template>
+
+<div style="width:100%;min-width:1440px;max-width:1920px;margin:0 auto;background:#efece6;display:grid;grid-template-columns:auto minmax(0,1fr);font-family:'Manrope',sans-serif;color:#1a1a18">
+
+  <div style="padding:18px 0 18px 18px;display:flex;align-items:flex-start">
+  <aside style="position:sticky;top:18px;isolation:isolate;overflow:visible;width:{{ railW }};height:calc(100vh - 36px);min-height:760px;background:#fff;border:1px solid #eae6df;border-radius:22px;box-shadow:0 18px 40px -28px rgba(26,26,24,.5);padding:16px 12px 14px;display:flex;flex-direction:column;gap:14px;transition:width .28s cubic-bezier(.2,0,0,1)">
+    <span style="position:absolute;inset:0;overflow:hidden;border-radius:22px;pointer-events:none;z-index:-1">
+      <span style="position:absolute;top:-90px;left:-70px;width:260px;height:220px;background:radial-gradient(circle at 50% 50%,var(--glow-soft),transparent 70%)"></span>
+    </span>
+
+    <div style="display:flex;align-items:center;gap:8px;height:34px;padding:0 4px;flex:none">
+      <sc-if value="{{ railExpanded }}" hint-placeholder-val="{{ true }}">
+        <img src="assets/logo-mono-ink.svg" alt="Gym Tracker" style="display:block;height:24px;width:auto;flex:none">
+      </sc-if>
+      <sc-if value="{{ railCollapsed }}" hint-placeholder-val="{{ false }}">
+        <img src="assets/logo-mark.svg" alt="Gym Tracker" style="display:block;height:26px;width:26px;flex:none;margin:0 auto">
+      </sc-if>
+      <span style="flex:{{ railLabelFlex }}"></span>
+      <span onClick="{{ toggleRail }}" style="width:28px;height:28px;flex:none;border-radius:9px;color:#8a867e;display:{{ railToggleDisplay }};align-items:center;justify-content:center;cursor:pointer;transition:background .16s,color .16s" style-hover="background:#f3f1ec;color:#1a1a18">
+        <span style="display:flex;transform:rotate({{ railChevRot }});transition:transform .28s cubic-bezier(.2,0,0,1)">
+          <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="chevrons-left" size="16" stroke-width="1.9" hint-size="16px,16px"></x-import>
+        </span>
+      </span>
+    </div>
+
+    <sc-if value="{{ railCollapsed }}" hint-placeholder-val="{{ false }}">
+      <div onClick="{{ toggleRail }}" style="flex:none;height:34px;border-radius:11px;border:1px dashed #e4e1da;color:#8a867e;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .16s,border-color .16s" style-hover="background:#f7f5f1;border-color:#c4bfb4">
+        <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="chevrons-right" size="16" stroke-width="1.9" hint-size="16px,16px"></x-import>
+      </div>
+    </sc-if>
+
+    <nav style="display:flex;flex-direction:column;gap:3px;flex:none">
+      <sc-for list="{{ nav }}" as="n" hint-placeholder-count="6">
+        <div onClick="{{ n.go }}" onMouseEnter="{{ n.enter }}" onMouseLeave="{{ railLeave }}" style="position:relative;display:flex;align-items:center;justify-content:{{ railJustify }};gap:11px;height:42px;padding:0 {{ railPadX }};border-radius:12px;background:{{ n.bg }};color:{{ n.fg }};font-size:13.5px;font-weight:{{ n.weight }};cursor:pointer;transition:background .16s,color .16s,transform .16s" style-hover="background:#f3f1ec;color:#1a1a18;transform:translateX(2px)">
+          <i style="position:absolute;left:0;top:50%;width:3px;height:{{ n.barH }};margin-top:{{ n.barOff }};border-radius:0 3px 3px 0;background:var(--accent);transition:height .26s cubic-bezier(.2,0,0,1),margin-top .26s cubic-bezier(.2,0,0,1)"></i>
+          <span style="display:flex;flex:none">
+            <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="{{ n.icon }}" size="18" stroke-width="1.8" hint-size="18px,18px"></x-import>
+          </span>
+          <span style="flex:{{ railLabelFlex }};min-width:0;overflow:hidden;white-space:nowrap;text-align:left;opacity:{{ railLabelOp }};transform:translateX({{ railLabelX }});transition:opacity .2s,transform .24s">{{ n.name }}</span>
+          <sc-if value="{{ n.tip }}" hint-placeholder-val="{{ false }}">
+            <span style="position:absolute;left:100%;top:50%;margin-left:12px;transform:translateY(-50%);background:#17161c;color:#fff;font-size:12px;font-weight:600;white-space:nowrap;border-radius:9px;padding:7px 11px;z-index:9;box-shadow:0 12px 26px -14px rgba(0,0,0,.55);animation:tipIn .16s both cubic-bezier(.2,0,0,1)">{{ n.name }}</span>
+          </sc-if>
+        </div>
+        <sc-if value="{{ n.showSubs }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:2px;margin:1px 0 3px 25px;padding-left:12px;border-left:1px solid #f2efe9;overflow:hidden">
+            <sc-for list="{{ n.subs }}" as="s" hint-placeholder-count="2">
+              <div onClick="{{ s.go }}" style="padding:7px 10px;border-radius:9px;font-size:12.5px;font-weight:{{ s.weight }};color:{{ s.fg }};background:{{ s.bg }};white-space:nowrap;cursor:pointer;transition:background .16s,color .16s" style-hover="background:#f3f1ec;color:#1a1a18">{{ s.name }}</div>
+            </sc-for>
+          </div>
+        </sc-if>
+      </sc-for>
+    </nav>
+
+    <div style="flex:1"></div>
+
+    <sc-if value="{{ railExpanded }}" hint-placeholder-val="{{ true }}">
+    <div style="position:relative;isolation:isolate;overflow:hidden;background:#17161c;border-radius:16px;padding:15px 15px 14px;color:#fff">
+      <span style="position:absolute;top:-80px;right:-60px;width:230px;height:200px;pointer-events:none;z-index:-1;background:radial-gradient(circle at 50% 50%,var(--glow),transparent 70%);animation:glowBreath 6s ease-in-out infinite"></span>
+      <div style="display:flex;align-items:center;gap:7px;font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--accent-tint)">
+        <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="sparkles" size="14" stroke-width="1.8" hint-size="14px,14px"></x-import>
+        AI coach
+      </div>
+      <p style="margin:9px 0 0;font-size:13px;line-height:1.45;color:#d8d4cc">Let the coach write descriptions and cues for your own movements.</p>
+      <div style="display:flex;flex-direction:column;gap:7px;margin-top:13px;padding-top:12px;border-top:1px solid rgba(255,255,255,.09)">
+        <sc-for list="{{ plans }}" as="p" hint-placeholder-count="2">
+          <div style="display:flex;align-items:baseline;gap:8px">
+            <span style="flex:1;font-size:12.5px;font-weight:600;color:#fff">{{ p.name }}</span>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#a8a49b">{{ p.price }}</span>
+          </div>
+        </sc-for>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:center;gap:7px;margin-top:13px;background:var(--accent);color:#fff;border-radius:10px;padding:9px 12px;font-size:13px;font-weight:600;cursor:pointer;transition:transform .14s" style-hover="transform:translateY(-1px)">
+        Upgrade
+        <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="arrow-right" size="14" hint-size="14px,14px"></x-import>
+      </div>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ railCollapsed }}" hint-placeholder-val="{{ false }}">
+      <div style="position:relative;isolation:isolate;overflow:hidden;flex:none;height:44px;border-radius:14px;background:#17161c;color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer">
+        <span style="position:absolute;inset:-40% -60% auto auto;width:150px;height:130px;pointer-events:none;z-index:-1;background:radial-gradient(circle at 50% 50%,var(--glow),transparent 70%);animation:glowBreath 6s ease-in-out infinite"></span>
+        <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="sparkles" size="18" stroke-width="1.9" hint-size="18px,18px"></x-import>
+      </div>
+    </sc-if>
+
+    <div style="display:flex;align-items:center;justify-content:{{ railJustify }};gap:10px;flex:none;border-top:1px solid #f2efe9;padding-top:14px">
+      <div style="position:relative;width:34px;height:34px;flex:none">
+        <span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#b4b0a7;pointer-events:none;z-index:0">
+          <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="user" size="16" stroke-width="1.8" hint-size="16px,16px"></x-import>
+        </span>
+        <x-import component-from-global-scope="image-slot" from="./image-slot.js" id="gt-ex-side-avatar" shape="circle" data-compact="" placeholder="" style="position:relative;z-index:1;width:34px;height:34px" hint-size="34px,34px"></x-import>
+      </div>
+      <span style="flex:{{ railLabelFlex }};min-width:0;overflow:hidden;opacity:{{ railLabelOp }};transition:opacity .2s">
+        <span style="display:block;font-size:13px;font-weight:600;color:#1a1a18;white-space:nowrap">John Doe</span>
+        <span style="display:block;font-size:11.5px;color:#a8a49b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">john.doe@gymgoer.com</span>
+      </span>
+      <sc-if value="{{ railExpanded }}" hint-placeholder-val="{{ true }}">
+        <span style="color:#b4b0a7;display:flex">
+          <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="chevrons-up-down" size="14" hint-size="14px,14px"></x-import>
+        </span>
+      </sc-if>
+    </div>
+  </aside>
+  </div>
+
+  <main style="min-width:0;display:flex;flex-direction:column">
+    <div style="display:flex;align-items:center;gap:14px;padding:18px 32px 0;font-size:12.5px;color:#a8a49b">
+      <div style="display:flex;align-items:center;gap:7px;min-width:0">
+        <span>Training</span>
+        <span style="color:#d2cec6">/</span>
+        <span>Workouts</span>
+        <span style="color:#d2cec6">/</span>
+        <span style="color:#4a4740;font-weight:600">Exercise library</span>
+      </div>
+      <div style="flex:1"></div>
+      <div style="display:flex;align-items:center;gap:14px;font-size:12.5px;color:#8a867e">
+        <span style="display:inline-flex;align-items:center;gap:6px;color:var(--accent-deep);font-weight:600;cursor:pointer" style-hover="opacity:.75">
+          <span style="width:5px;height:5px;border-radius:50%;background:var(--accent)"></span>
+          Free plan
+        </span>
+        <span style="width:1px;height:12px;background:#e4e1da"></span>
+        <span style="cursor:pointer" style-hover="color:#1a1a18">Contact</span>
+        <span style="cursor:pointer" style-hover="color:#1a1a18">About us</span>
+        <span style="display:inline-flex;align-items:center;gap:5px;cursor:pointer" style-hover="color:#1a1a18">
+          <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="globe" size="14" stroke-width="1.8" hint-size="14px,14px"></x-import>
+          EN
+        </span>
+      </div>
+    </div>
+
+    <div style="padding:14px 32px 40px;display:flex;flex-direction:column;gap:20px">
+
+      <header style="display:flex;align-items:flex-end;gap:24px;animation:riseIn .42s cubic-bezier(.23,1,.32,1) 0ms both">
+        <div style="flex:1;min-width:0">
+          <h1 style="margin:0;font-family:'Outfit',sans-serif;font-size:30px;font-weight:600;letter-spacing:-.035em">Exercise library</h1>
+          <p style="margin:5px 0 0;font-size:13.5px;color:#8a867e">68 movements to pull into a session — 12 global, 0 of your own.</p>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px">
+          <div style="display:flex;align-items:center;gap:8px;background:#fff;border:1px solid #eae6df;border-radius:11px;padding:10px 14px;font-size:13px;font-weight:600;color:#1a1a18;cursor:pointer;transition:background .14s,border-color .14s" style-hover="background:#f7f5f1;border-color:#d8d2c6">
+            <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="sliders-horizontal" size="15" stroke-width="1.9" hint-size="15px,15px"></x-import>
+            Filters
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;background:var(--accent);color:#fff;border-radius:11px;padding:10px 15px;font-size:13px;font-weight:600;cursor:pointer;box-shadow:0 6px 16px -8px rgba(0,0,0,.35);transition:transform .14s" style-hover="transform:translateY(-1px)">
+            <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="plus" size="15" stroke-width="1.9" hint-size="15px,15px"></x-import>
+            Add exercise
+          </div>
+        </div>
+      </header>
+
+      <section style="display:flex;align-items:center;gap:12px;animation:riseIn .42s cubic-bezier(.23,1,.32,1) 100ms both">
+        <div style="flex:1;min-width:0;display:flex;align-items:center;gap:10px;background:#fff;border:1px solid #eae6df;border-radius:13px;padding:11px 14px">
+          <span style="color:#b4b0a7;display:flex;flex:none">
+            <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="search" size="16" stroke-width="1.9" hint-size="16px,16px"></x-import>
+          </span>
+          <span style="flex:1;font-size:13.5px;color:#a8a49b">Search by name, muscle or equipment</span>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#b4b0a7;border:1px solid #eae6df;border-radius:6px;padding:2px 6px">⌘K</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:3px;background:#e7e3dc;border-radius:12px;padding:3px;flex:none">
+          <sc-for list="{{ scopes }}" as="s" hint-placeholder-count="3">
+            <div onClick="{{ s.pick }}" style="display:flex;align-items:center;gap:7px;padding:8px 13px;border-radius:10px;font-size:12.5px;font-weight:600;color:{{ s.fg }};background:{{ s.bg }};box-shadow:{{ s.shadow }};cursor:pointer;transition:background .16s,color .16s,box-shadow .16s">
+              {{ s.name }}
+              <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#a8a49b">{{ s.count }}</span>
+            </div>
+          </sc-for>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;background:#fff;border:1px solid #eae6df;border-radius:12px;padding:10px 13px;font-size:12.5px;font-weight:600;color:#4a4740;cursor:pointer;flex:none" style-hover="border-color:#d8d2c6">
+          <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="arrow-up-down" size="14" stroke-width="1.9" hint-size="14px,14px"></x-import>
+          A – Z
+        </div>
+      </section>
+
+      <section style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;animation:riseIn .42s cubic-bezier(.23,1,.32,1) 180ms both">
+        <sc-for list="{{ muscles }}" as="m" hint-placeholder-count="8">
+          <div onClick="{{ m.pick }}" style="display:flex;align-items:center;gap:7px;background:{{ m.bg }};border:1px solid {{ m.border }};color:{{ m.fg }};border-radius:999px;padding:7px 13px;font-size:12.5px;font-weight:{{ m.weight }};cursor:pointer;transition:background .16s,border-color .16s,color .16s" style-hover="border-color:#c4bfb4">
+            <span style="width:6px;height:6px;border-radius:50%;background:{{ m.dot }}"></span>
+            {{ m.name }}
+            <span style="font-family:'JetBrains Mono',monospace;font-size:11px;opacity:.65">{{ m.count }}</span>
+          </div>
+        </sc-for>
+      </section>
+
+      <section style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;animation:riseIn .42s cubic-bezier(.23,1,.32,1) 260ms both">
+        <sc-for list="{{ cards }}" as="c" hint-placeholder-count="12">
+          <div style="position:relative;isolation:isolate;overflow:hidden;background:#fff;border:1px solid #eae6df;border-radius:20px;animation:{{ c.anim }};display:flex;flex-direction:column;cursor:pointer;transition:transform .18s cubic-bezier(.2,0,0,1),box-shadow .18s,border-color .18s" style-hover="transform:translateY(-2px);box-shadow:0 16px 32px -22px rgba(26,26,24,.5);border-color:#d8d2c6">
+            <span style="position:absolute;top:-70px;right:-50px;width:210px;height:180px;pointer-events:none;z-index:-1;background:radial-gradient(circle at 50% 50%,{{ c.glow }},transparent 70%)"></span>
+
+            <div style="position:relative;height:186px;background:#f3f1ec;border-bottom:1px solid #f2efe9">
+              <span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#cfcabf;pointer-events:none;z-index:0">
+                <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="{{ c.icon }}" size="34" stroke-width="1.4" hint-size="34px,34px"></x-import>
+              </span>
+              <x-import component-from-global-scope="image-slot" from="./image-slot.js" id="{{ c.photoId }}" data-compact="" placeholder="" style="position:absolute;inset:0;z-index:1;width:100%;height:100%" hint-size="100%,186px"></x-import>
+              <div style="position:absolute;top:12px;left:12px;right:12px;display:flex;align-items:center;gap:8px;z-index:2;pointer-events:none">
+                <span style="display:inline-flex;align-items:center;gap:6px;background:{{ c.levelBg }};color:{{ c.levelFg }};border-radius:999px;padding:5px 10px;font-size:10.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;backdrop-filter:blur(6px)">
+                  <span style="width:5px;height:5px;border-radius:50%;background:{{ c.levelFg }}"></span>
+                  {{ c.level }}
+                </span>
+                <span style="flex:1"></span>
+                <span style="background:rgba(255,255,255,.9);color:#4a4740;border-radius:999px;padding:5px 10px;font-size:10.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;backdrop-filter:blur(6px)">{{ c.scope }}</span>
+              </div>
+            </div>
+
+            <div style="padding:14px 16px 15px;display:flex;flex-direction:column;gap:11px;flex:1">
+              <div style="display:flex;align-items:flex-start;gap:10px">
+                <h3 style="margin:0;flex:1;min-width:0;font-family:'Outfit',sans-serif;font-size:16.5px;font-weight:600;letter-spacing:-.02em;line-height:1.25;text-wrap:pretty">{{ c.name }}</h3>
+                <span style="color:#c4bfb4;display:flex;flex:none;margin-top:2px" style-hover="color:var(--accent)">
+                  <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="bookmark" size="15" stroke-width="1.8" hint-size="15px,15px"></x-import>
+                </span>
+              </div>
+              <div style="display:flex;align-items:center;gap:7px;flex-wrap:wrap">
+                <span style="display:inline-flex;align-items:center;gap:6px;background:{{ c.muscleBg }};color:{{ c.muscleFg }};border-radius:8px;padding:5px 9px;font-size:11.5px;font-weight:600">
+                  <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="target" size="12" stroke-width="2" hint-size="12px,12px"></x-import>
+                  {{ c.muscle }}
+                </span>
+                <span style="display:inline-flex;align-items:center;gap:6px;background:#f3f1ec;color:#6e6b64;border-radius:8px;padding:5px 9px;font-size:11.5px;font-weight:600">
+                  <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="{{ c.equipIcon }}" size="12" stroke-width="2" hint-size="12px,12px"></x-import>
+                  {{ c.equip }}
+                </span>
+              </div>
+              <div style="display:flex;align-items:center;gap:10px;margin-top:auto;padding-top:11px;border-top:1px solid #f2efe9;font-size:11.5px;color:#a8a49b">
+                <span style="display:inline-flex;align-items:center;gap:5px">
+                  <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="history" size="12" stroke-width="1.9" hint-size="12px,12px"></x-import>
+                  {{ c.last }}
+                </span>
+                <span style="flex:1"></span>
+                <span style="font-family:'JetBrains Mono',monospace;color:#6e6b64">{{ c.logged }}</span>
+                <span>logged</span>
+              </div>
+            </div>
+          </div>
+        </sc-for>
+      </section>
+
+      <sc-if value="{{ isEmpty }}" hint-placeholder-val="{{ false }}">
+        <section style="position:relative;isolation:isolate;overflow:hidden;background:#fff;border:1px solid #eae6df;border-radius:20px;padding:44px 32px;display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center">
+          <span style="position:absolute;top:-80px;right:-50px;width:230px;height:200px;pointer-events:none;z-index:-1;background:radial-gradient(circle at 50% 50%,var(--glow-soft),transparent 70%)"></span>
+          <span style="width:46px;height:46px;border-radius:14px;background:var(--accent-tint);color:var(--accent-deep);display:flex;align-items:center;justify-content:center">
+            <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="dumbbell" size="21" stroke-width="1.9" hint-size="21px,21px"></x-import>
+          </span>
+          <h3 style="margin:0;font-family:'Outfit',sans-serif;font-size:18px;font-weight:600;letter-spacing:-.025em">{{ emptyTitle }}</h3>
+          <p style="margin:0;font-size:13.5px;color:#8a867e;max-width:420px;text-wrap:pretty">{{ emptyBody }}</p>
+          <div style="display:flex;align-items:center;gap:9px;margin-top:6px">
+            <div style="display:flex;align-items:center;gap:8px;background:var(--accent);color:#fff;border-radius:11px;padding:10px 15px;font-size:13px;font-weight:600;cursor:pointer;box-shadow:0 6px 16px -8px rgba(0,0,0,.35);transition:transform .14s" style-hover="transform:translateY(-1px)">
+              <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="plus" size="15" stroke-width="1.9" hint-size="15px,15px"></x-import>
+              Add exercise
+            </div>
+            <div onClick="{{ clearFilters }}" style="display:flex;align-items:center;gap:8px;background:#fff;border:1px solid #eae6df;border-radius:11px;padding:10px 14px;font-size:13px;font-weight:600;color:#1a1a18;cursor:pointer;transition:background .14s,border-color .14s" style-hover="background:#f7f5f1;border-color:#d8d2c6">
+              Show all exercises
+            </div>
+          </div>
+        </section>
+      </sc-if>
+
+      <sc-if value="{{ hasCards }}" hint-placeholder-val="{{ true }}">
+      <section style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #eae6df;border-radius:16px;padding:12px 16px;animation:riseIn .42s cubic-bezier(.23,1,.32,1) 400ms both">
+        <div style="display:flex;align-items:center;gap:9px;font-size:12.5px;color:#8a867e">
+          <span>Showing</span>
+          <span style="display:inline-flex;align-items:center;gap:7px;border:1px solid #eae6df;border-radius:9px;padding:6px 10px;font-size:12.5px;font-weight:600;color:#1a1a18;cursor:pointer" style-hover="border-color:#d8d2c6">
+            12 per page
+            <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="chevron-down" size="12" hint-size="12px,12px"></x-import>
+          </span>
+          <span>of 68 exercises</span>
+        </div>
+        <div style="flex:1"></div>
+        <div style="display:flex;align-items:center;gap:5px">
+          <span style="width:32px;height:32px;border-radius:9px;border:1px solid #eae6df;color:#c4bfb4;display:flex;align-items:center;justify-content:center;cursor:not-allowed">
+            <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="arrow-left" size="14" stroke-width="1.9" hint-size="14px,14px"></x-import>
+          </span>
+          <sc-for list="{{ pages }}" as="p" hint-placeholder-count="5">
+            <span onClick="{{ p.pick }}" style="min-width:32px;height:32px;padding:0 8px;border-radius:9px;background:{{ p.bg }};color:{{ p.fg }};border:1px solid {{ p.border }};font-size:12.5px;font-weight:600;font-family:'JetBrains Mono',monospace;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .14s,color .14s">{{ p.label }}</span>
+          </sc-for>
+          <span style="width:32px;height:32px;border-radius:9px;border:1px solid #eae6df;color:#4a4740;display:flex;align-items:center;justify-content:center;cursor:pointer" style-hover="background:#f7f5f1">
+            <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="arrow-right" size="14" stroke-width="1.9" hint-size="14px,14px"></x-import>
+          </span>
+        </div>
+      </section>
+      </sc-if>
+
+      <footer style="display:flex;align-items:center;gap:18px;padding-top:8px;font-size:12px;color:#a8a49b;animation:riseIn .42s cubic-bezier(.23,1,.32,1) 470ms both">
+        <span>© 2026 Gym Tracker</span>
+        <div style="flex:1"></div>
+        <a href="#privacy">Privacy policy</a>
+        <a href="#terms">Terms of use</a>
+      </footer>
+    </div>
+  </main>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;accent&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#2A69C8&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;options&quot;:[&quot;#2A69C8&quot;,&quot;#1A8F5A&quot;,&quot;#1E1E1E&quot;],&quot;section&quot;:&quot;Theme&quot;},&quot;glow&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Theme&quot;},&quot;loadMs&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:300,&quot;min&quot;:0,&quot;max&quot;:2600,&quot;step&quot;:100,&quot;unit&quot;:&quot;ms&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Loading&quot;}}">
+class Component extends DCLogic {
+  state = { scope: 'All', muscle: 'All', page: 1, railCollapsed: false, railHover: null, loaded: true, now: 0 };
+
+  railItem(n, subActive){
+    const rc = this.state.railCollapsed, on = !!n.active;
+    return { name:n.name, icon:n.icon, go: () => GTNav.go(n.name),
+      enter: () => this.setState({ railHover: n.name }),
+      tip: rc && this.state.railHover === n.name,
+      bg: on ? 'var(--accent-tint)' : 'transparent',
+      fg: on ? 'var(--accent-deep)' : '#4a4740',
+      weight: on ? 600 : 500,
+      barH: on ? '20px' : '0px',
+      barOff: on ? '-10px' : '0px',
+      showSubs: !rc && !!n.subs && on,
+      subs: (n.subs || []).map(s => ({ name:s, go: () => GTNav.go(s),
+        weight: s === subActive ? 600 : 500,
+        fg: s === subActive ? 'var(--accent-deep)' : '#8a867e',
+        bg: s === subActive ? 'var(--accent-tint)' : 'transparent' })) };
+  }
+
+  railVals(){
+    const rc = this.state.railCollapsed;
+    return {
+      railW: rc ? '76px' : '248px',
+      railExpanded: !rc,
+      railCollapsed: rc,
+      railLabelOp: rc ? 0 : 1,
+      railLabelX: rc ? '-6px' : '0px',
+      railLabelFlex: rc ? '0 0 0px' : '1 1 auto',
+      railJustify: rc ? 'center' : 'flex-start',
+      railPadX: rc ? '0px' : '11px',
+      railChevRot: rc ? '180deg' : '0deg',
+      railToggleDisplay: rc ? 'none' : 'flex',
+      toggleRail: () => this.setState(s => ({ railCollapsed: !s.railCollapsed })),
+      railLeave: () => this.setState({ railHover: null })
+    };
+  }
+
+  componentDidMount(){ this.applyTheme(); this.waitForLucide(); GTAnim.boot(this); }
+  componentDidUpdate(prev){
+    if(prev.accent !== this.props.accent || prev.glow !== this.props.glow) this.applyTheme();
+  }
+  componentWillUnmount(){ if(this._t) clearInterval(this._t); GTAnim.stop(this); }
+
+  waitForLucide(){
+    const ok = () => typeof window !== 'undefined' && window.lucide && window.lucide.icons;
+    if(ok()) return;
+    this._t = setInterval(() => {
+      if(ok()){ clearInterval(this._t); this._t = null; this.forceUpdate(); }
+    }, 120);
+  }
+
+  applyTheme(){
+    const accent = this.props.accent ?? '#2A69C8';
+    const map = {
+      '#2A69C8': ['#1f56a8', '#eaf1fb', '42,105,200'],
+      '#1A8F5A': ['#146c44', '#e8f4ee', '26,143,90'],
+      '#1E1E1E': ['#000000', '#f0eeea', '30,30,30']
+    };
+    const [deep, tint, rgb] = map[accent.toUpperCase()] || map['#2A69C8'];
+    const on = this.props.glow ?? true;
+    const s = document.body.style;
+    s.setProperty('--accent', accent);
+    s.setProperty('--accent-deep', deep);
+    s.setProperty('--accent-tint', tint);
+    s.setProperty('--glow', on ? `rgba(${rgb},.20)` : 'transparent');
+    s.setProperty('--glow-soft', on ? `rgba(${rgb},.13)` : 'transparent');
+  }
+
+  anim(ms){ return GTAnim.anim(ms); }
+  prog(d, dur){ return GTAnim.prog(this, d, dur); }
+  roll(v, p){ return GTAnim.roll(v, p); }
+  reload(){ GTAnim.reload(this); }
+
+  renderVals(){
+    const L = this.props.loadMs ?? 900;
+    const A = ms => this.anim(ms);
+    const P = (shell, extra) => this.prog(shell + L + (extra || 0));
+    const G = (shell, extra) => (P(shell, extra) > 0 ? 1 : 0);
+    const R = (v, shell, extra) => this.roll(v, P(shell, extra));
+    const LEVEL = {
+      Easy:      ['#e8f4ee', '#146c44'],
+      Moderate:  ['#fdf1de', '#8a5a0a'],
+      Advanced:  ['#f6ecfa', '#6b3a86'],
+      Hard:      ['#fbeceb', '#a8352a']
+    };
+    const MUSCLE = {
+      Chest:     ['#fbeceb', '#a8352a', '#c0432f'],
+      Shoulders: ['#eaf1fb', '#1f56a8', '#2a69c8'],
+      Back:      ['#e9f2f2', '#136a68', '#1a8f8c'],
+      Legs:      ['#fdf1de', '#8a5a0a', '#c98a1e'],
+      Biceps:    ['#f6ecfa', '#6b3a86', '#8b52ad'],
+      Core:      ['#f0eeea', '#4a4740', '#8a867e']
+    };
+    const EQUIP = { Barbell:'dumbbell', Dumbbell:'dumbbell', Cable:'cable', Machine:'cog' };
+
+    // name, muscle, equipment, level, scope, times logged, last used
+    const raw = [
+      ['Arnold shoulder press','Shoulders','Dumbbell','Moderate','Global',14,'3 days ago'],
+      ['Barbell bench press','Chest','Barbell','Hard','Global',38,'2 days ago'],
+      ['Barbell decline bench press','Chest','Barbell','Moderate','Global',9,'2 weeks ago'],
+      ['Barbell incline bench press','Chest','Barbell','Moderate','Global',21,'5 days ago'],
+      ['Barbell squats','Legs','Barbell','Hard','Global',31,'6 days ago'],
+      ['Behind-the-back cable curls','Biceps','Cable','Easy','Global',6,'3 weeks ago'],
+      ['Behind-the-back cable raise','Shoulders','Cable','Easy','Global',4,'a month ago'],
+      ['Bent over straight-arm pulldown','Back','Cable','Easy','Global',17,'4 days ago'],
+      ['Bent over cable row','Back','Cable','Moderate','Global',12,'9 days ago'],
+      ['Cable crossover','Chest','Cable','Easy','Global',19,'2 days ago'],
+      ['Cable rope upright rows','Shoulders','Cable','Easy','Global',8,'12 days ago'],
+      ['Chest press machine','Chest','Machine','Easy','Global',11,'a week ago']
+    ];
+
+    const countBy = (arr, i, v) => arr.filter(r => r[i] === v).length;
+
+    const scope = this.state.scope;
+    const scopes = [
+      { name:'All', count: raw.length },
+      { name:'Global', count: countBy(raw, 4, 'Global') },
+      { name:'Personal', count: 0 }
+    ].map(s => {
+      const on = scope === s.name;
+      return { ...s, pick: () => this.setState({ scope: s.name }),
+        bg: on ? '#fff' : 'transparent', fg: on ? '#1a1a18' : '#8a867e',
+        shadow: on ? '0 2px 8px -4px rgba(26,26,24,.28)' : 'none' };
+    });
+
+    const active = this.state.muscle;
+    const muscleNames = ['All','Chest','Shoulders','Back','Legs','Biceps','Core'];
+    const muscles = muscleNames.map(name => {
+      const on = active === name;
+      const tone = MUSCLE[name] || ['#eaf1fb', '#1f56a8', '#2a69c8'];
+      return { name,
+        count: name === 'All' ? raw.length : countBy(raw, 1, name),
+        pick: () => this.setState({ muscle: name }),
+        bg: on ? tone[0] : '#fff',
+        border: on ? 'transparent' : '#eae6df',
+        fg: on ? tone[1] : '#6e6b64',
+        weight: on ? 700 : 500,
+        dot: on ? tone[2] : '#d2cec6' };
+    });
+
+    const shown = raw.filter(r =>
+      (scope === 'All' || r[4] === scope) &&
+      (active === 'All' || r[1] === active));
+
+    const cards = shown.map((r, i) => {
+      const [name, muscle, equip, level, sc, logged, last] = r;
+      const lv = LEVEL[level] || LEVEL.Easy;
+      const ms = MUSCLE[muscle] || MUSCLE.Core;
+      return { name, muscle, equip, level, logged, last,
+        scope: sc,
+        photoId: 'gt-ex-' + (raw.indexOf(r) + 1),
+        icon: EQUIP[equip] || 'dumbbell',
+        equipIcon: EQUIP[equip] || 'dumbbell',
+        levelBg: lv[0], levelFg: lv[1],
+        muscleBg: ms[0], muscleFg: ms[1],
+        glow: i % 4 === 0 ? 'var(--glow-soft)' : 'transparent' };
+    });
+
+    const page = this.state.page;
+    const pages = [1,2,3,4,5,6].map(p => {
+      const on = page === p;
+      return { label: String(p), pick: () => this.setState({ page: p }),
+        bg: on ? 'var(--accent)' : '#fff',
+        fg: on ? '#fff' : '#4a4740',
+        border: on ? 'var(--accent)' : '#eae6df' };
+    });
+
+    const nav = [
+      { name:'Dashboard', icon:'layout-dashboard' },
+      { name:'Personal info', icon:'heart-pulse' },
+      { name:'Weight loss', icon:'trending-down' },
+      { name:'Steps', icon:'footprints' },
+      { name:'Workouts', icon:'dumbbell', active:true, subs:['Logs','Exercises'] },
+      { name:'Macros tracker', icon:'utensils' }
+    ].map(n => this.railItem(n, 'Exercises'));
+
+    return {
+      nav,
+      ...this.railVals(),
+      plans: [{ name:'PRO Limited · 20 ops', price:'€9.99/mo' }, { name:'PRO Unlimited · 500 ops', price:'€29.99/mo' }],
+      scopes, muscles, pages,
+      cards: cards.map((c, i) => ({ ...c, anim: A(280 + i * 40), logged: R(String(c.logged), 260, i * 40) })),
+      hasCards: cards.length > 0,
+      isEmpty: cards.length === 0,
+      emptyTitle: scope === 'Personal' ? 'No personal exercises yet' : 'Nothing matches those filters',
+      emptyBody: scope === 'Personal'
+        ? 'Add your own movement and it will show up here alongside the global library.'
+        : 'No ' + active.toLowerCase() + ' movements in this scope. Add one, or widen the filter.',
+      clearFilters: () => this.setState({ scope: 'All', muscle: 'All' })
+    };
+  }
+}
+
+</script>
+</body>
+</html>

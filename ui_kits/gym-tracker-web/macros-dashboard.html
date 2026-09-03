@@ -1,0 +1,138 @@
+<!-- @dsCard group="Gym Tracker Web" viewport="1440x1000" subtitle="Redesigned Macros dashboard — hero, macro rings, daily flow" name="Macros dashboard" -->
+<!-- @startingPoint section="Screens" subtitle="Redesigned Macros dashboard page" viewport="1440x1000" -->
+<!DOCTYPE html><html><head>
+<link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<script src="../../ds-loader.js"></script>
+<style>body{margin:0;background:var(--bg)}</style>
+</head><body><div id="root"></div>
+<script type="text/babel-app">
+let Button, IconButton, Card, Badge, Tabs, Avatar, SideNav, StatCard, ProgressRing, MacroBar, TrendChart;
+
+const ic = (n, s=16) => <i data-lucide={n} style={{width:s,height:s}}></i>;
+const chip = (n, grad) => <span style={{width:34,height:34,borderRadius:9,background:'var(--grad-'+grad+')',color:'#fff',display:'inline-flex',alignItems:'center',justifyContent:'center',flexShrink:0}}>{ic(n,16)}</span>;
+
+const meals = [{"t":"08:00 AM","name":"Breakfast","icon":"sunrise","kcal":520,"items":"Oats, banana, whey protein","done":true},{"t":"12:30 PM","name":"Lunch","icon":"sun","kcal":680,"items":"Chicken, rice, broccoli","done":true},{"t":"03:00 PM","name":"Snack","icon":"apple","kcal":210,"items":"Greek yogurt, almonds","done":true},{"t":"07:00 PM","name":"Dinner","icon":"moon","kcal":0,"items":"Tap to log","done":false}];
+
+function App(){
+  const [nav,setNav]=React.useState('macros');
+  React.useEffect(()=>{lucide.createIcons()});
+  return <div style={{display:'flex',minHeight:'100vh',fontFamily:'var(--font-sans)'}}>
+    <SideNav activeId={nav} onSelect={setNav} style={{position:'sticky',top:0,height:'100vh'}}
+      header={<a href="all-screens.html" style={{display:'block',padding:'4px 12px 16px'}}><img src="../../assets/Logo.svg" alt="Gym Tracker" style={{height:34,display:'block'}}/></a>}
+      items={[
+        {id:'dash',href:'dashboard.html',label:'Dashboard',icon:ic('layout-dashboard')},
+        {id:'personal',href:'index.html',label:'Personal info',icon:ic('heart-pulse')},
+        {id:'weight',href:'weight-loss.html',label:'Weight loss',icon:ic('scale')},
+        {id:'steps',href:'steps.html',label:'Steps',icon:ic('footprints')},
+        {id:'workouts',label:'Workouts',icon:ic('dumbbell'),open:false,children:[{id:'logs',href:'workout-logs.html',label:'Logs'},{id:'exercises',href:'exercises.html',label:'Exercises'}]},
+        {id:'macros',href:'macros-dashboard.html',label:'Macros tracker',icon:ic('utensils'),children:[{id:'meals',href:'daily-meals.html',label:'Daily meals'},{id:'recipes',href:'recipes.html',label:'Recipes'},{id:'ingredients',href:'ingredients.html',label:'Ingredients'}]}]}
+      footer={<div style={{display:'flex',alignItems:'center',gap:10,padding:'10px 12px',borderTop:'1px solid var(--border)'}}>
+        <Avatar name="John D" size={32}/>
+        <div style={{flex:1,minWidth:0}}><div style={{fontSize:13,fontWeight:500,color:'var(--text-1)'}}>John Doe</div><div style={{fontSize:11,color:'var(--text-3)',overflow:'hidden',textOverflow:'ellipsis'}}>john.doe@gymgoer.com</div></div>
+        <span style={{color:'var(--text-3)'}}>{ic('chevrons-up-down',14)}</span>
+      </div>}/>
+    <main style={{flex:1,minWidth:0,padding:'28px 32px',maxWidth:'var(--content-max)',margin:'0 auto',boxSizing:'border-box',width:'100%'}}>
+      <header style={{display:'flex',alignItems:'center',gap:16,marginBottom:20}}>
+        <div style={{flex:1}}>
+          <h1 style={{margin:0,fontSize:'var(--text-2xl)',fontWeight:700,color:'var(--text-1)',letterSpacing:'-0.01em'}}>Macros dashboard</h1>
+          <p style={{margin:'4px 0 0',fontSize:14,color:'var(--text-2)'}}>Track your nutrition journey with analytics and insights.</p>
+        </div>
+        <Button variant="secondary" icon={ic('sparkles')}>AI meal planner</Button>
+        <Button icon={ic('plus')}>Log a meal</Button>
+      </header>
+
+      <div style={{marginBottom:20}}>
+        <Tabs tabs={['Daily meals','Ingredients','Recipes','AI meal planner']} active="Daily meals" onChange={()=>{}}/>
+      </div>
+
+      <section style={{background:'var(--grad-fade), var(--grad-ink)',borderRadius:'var(--radius-lg)',padding:24,color:'var(--on-grad)',marginBottom:16,display:'grid',gridTemplateColumns:'0.9fr 1.4fr',gap:28,alignItems:'center'}}>
+        <div style={{display:'flex',alignItems:'center',gap:20}}>
+          <ProgressRing value={1410} max={2581} size={110} color="#fff" textColor="#fff" sublabelColor="var(--on-grad-muted)" label="1,410" sublabel="kcal eaten"/>
+          <div>
+            <div style={{fontSize:13,color:'var(--on-grad-muted)'}}>Remaining today</div>
+            <div style={{fontFamily:'var(--font-mono)',fontFeatureSettings:'var(--tnum)',fontSize:'var(--text-stat)',fontWeight:600}}>1,171 kcal</div>
+            <Badge style={{background:'oklch(1 0 0 / 0.16)',color:'#fff',marginTop:8}}>On track</Badge>
+          </div>
+        </div>
+        <div>
+          {[['Protein',118,150,'g'],['Carbs',162,200,'g'],['Fat',48,65,'g']].map(([l,v,m,u])=>
+            <div key={l} style={{display:'flex',alignItems:'center',gap:12,marginBottom:10}}>
+              <span style={{width:64,fontSize:12,color:'var(--on-grad-muted)'}}>{l}</span>
+              <div style={{flex:1,height:6,borderRadius:999,background:'oklch(1 0 0 / 0.14)'}}><div style={{width:Math.min(100,v/m*100)+'%',height:'100%',borderRadius:999,background:'#fff'}}/></div>
+              <span style={{fontFamily:'var(--font-mono)',fontSize:12,color:'var(--on-grad-muted)',width:70,textAlign:'right'}}>{v} / {m}{u}</span>
+            </div>)}
+        </div>
+      </section>
+
+      <div style={{display:'grid',gridTemplateColumns:'repeat(4, minmax(0, 1fr))',gap:16,marginBottom:16}}>
+        <StatCard gradient="blue" label="Avg daily calories" value="2,140" unit="kcal" delta="−17 % vs target" deltaTone="primary"/>
+        <StatCard gradient="green" label="Avg daily protein" value="126" unit="g" delta="84 % of goal" deltaTone="success"/>
+        <StatCard gradient="violet" label="Logging consistency" value="71" unit="%" delta="5 of 7 days" deltaTone="primary"/>
+        <StatCard gradient="amber" label="Target adherence" value="88" unit="%" delta="steady" deltaTone="warning"/>
+      </div>
+
+      <div style={{display:'grid',gridTemplateColumns:'minmax(0,1.3fr) minmax(0,1fr)',gap:16,marginBottom:24}}>
+        <Card title="Energy balance" icon={chip('scale','blue')} action={<Tabs tabs={['Week','Month']} active="Week" onChange={()=>{}}/>}>
+          <TrendChart data={[2350,1980,2640,2140,1890,2410,1410]} height={120} showDots={true} xLabels={['Wed','Thu','Fri','Sat','Sun','Mon','Tue']}/>
+          <div style={{display:'flex',gap:16,marginTop:14,paddingTop:14,borderTop:'1px solid var(--border)'}}>
+            {[['Goal','2,581 kcal'],['Weekly avg','2,117 kcal'],['Best deficit','−671 kcal']].map(([l,v])=>
+              <div key={l} style={{flex:1}}><div style={{fontSize:12,color:'var(--text-3)'}}>{l}</div><div style={{fontFamily:'var(--font-mono)',fontFeatureSettings:'var(--tnum)',fontSize:15,fontWeight:600,color:'var(--text-1)',marginTop:2}}>{v}</div></div>)}
+          </div>
+        </Card>
+        <Card title="Macro distribution" icon={chip('chart-pie','violet')}>
+          <MacroBar segments={[{label:'Protein',value:126,display:'126 g'},{label:'Carbs',value:214,display:'214 g'},{label:'Fat',value:58,display:'58 g'}]}/>
+          <div style={{marginTop:14,paddingTop:14,borderTop:'1px solid var(--border)',display:'flex',flexDirection:'column',gap:8,fontSize:13}}>
+            {[['Protein target','150 g','84 %'],['Carb target','200 g','107 %'],['Fat target','65 g','89 %']].map(([l,v,pct])=>
+              <div key={l} style={{padding:'7px 10px',background:'var(--bg-subtle)',borderRadius:6}}>
+                <div style={{fontSize:12,color:'var(--text-2)'}}>{l}</div>
+                <div style={{fontFamily:'var(--font-mono)',fontFeatureSettings:'var(--tnum)',fontWeight:600,fontSize:14,color:'var(--text-1)',marginTop:1}}>{v}<span style={{fontSize:11,fontWeight:400,color:'var(--text-3)'}}> · {pct}</span></div>
+              </div>)}
+          </div>
+        </Card>
+      </div>
+
+      <div style={{display:'flex',alignItems:'center',gap:10,margin:'0 0 12px'}}>
+        <h2 style={{margin:0,fontSize:'var(--text-xl)',fontWeight:600,color:'var(--text-1)'}}>Today’s flow</h2>
+        <Badge tone="success">3 of 4 logged</Badge>
+      </div>
+      <Card compact style={{padding:'8px 4px',marginBottom:24}}>
+        {meals.map((m,i)=>(
+          <div key={m.name} style={{display:'flex',alignItems:'center',gap:14,padding:'12px 16px',borderTop:i?'1px solid var(--border)':'none'}}>
+            <span style={{width:60,fontSize:12,fontFamily:'var(--font-mono)',color:'var(--text-3)'}}>{m.t}</span>
+            {chip(m.icon, m.done?'green':'amber')}
+            <div style={{flex:1,minWidth:0}}>
+              <div style={{fontSize:14,fontWeight:500,color:'var(--text-1)'}}>{m.name}</div>
+              <div style={{fontSize:12,color:m.done?'var(--text-3)':'var(--text-3)',fontStyle:m.done?'normal':'italic'}}>{m.items}</div>
+            </div>
+            {m.done ? <span style={{fontFamily:'var(--font-mono)',fontWeight:500,fontSize:14,color:'var(--text-1)'}}>{m.kcal} kcal</span> : <Button variant="secondary" size="sm" icon={ic('plus',14)}>Log</Button>}
+          </div>))}
+      </Card>
+
+      <div style={{display:'grid',gridTemplateColumns:'repeat(3, minmax(0, 1fr))',gap:16,paddingBottom:40}}>
+        <Card title="Body battery" icon={chip('battery-charging','teal')}>
+          <div style={{fontFamily:'var(--font-mono)',fontFeatureSettings:'var(--tnum)',fontSize:'var(--text-stat)',fontWeight:600,color:'var(--text-1)'}}>53% <span style={{fontSize:13,fontWeight:500,color:'var(--success-fg)'}}>Optimal</span></div>
+          <div style={{height:6,borderRadius:999,background:'var(--surface-sunken)',marginTop:10}}><div style={{width:'53%',height:'100%',borderRadius:999,background:'var(--success)'}}/></div>
+          <div style={{fontSize:12,color:'var(--text-3)',marginTop:8}}>Hitting your deficit goal at a sustainable pace.</div>
+        </Card>
+        <Card title="Weight vs fuel" icon={chip('activity','blue')}>
+          <TrendChart data={[105.6,105.3,105.1,104.9,104.8,104.8,104.8]} height={90} color="var(--chart-1)" xLabels={['Wed','Thu','Fri','Sat','Sun','Mon','Tue']}/>
+          <div style={{fontSize:12,color:'var(--text-3)',marginTop:8}}>7-day avg calories tracks weight loss closely.</div>
+        </Card>
+        <Card title="Quick add" icon={chip('zap','amber')}>
+          <div style={{display:'flex',flexDirection:'column',gap:8}}>
+            {['Greek yogurt · 150g','Chicken breast · 200g','Banana · 1 medium'].map(x=>
+              <div key={x} style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'8px 10px',background:'var(--bg-subtle)',borderRadius:8,fontSize:13}}>
+                <span style={{color:'var(--text-1)'}}>{x}</span><IconButton label="Add">{ic('plus',14)}</IconButton>
+              </div>)}
+          </div>
+        </Card>
+      </div>
+    </main>
+  </div>;
+}
+window.__dsReady.then(ns=>{({ Button, IconButton, Card, Badge, Tabs, Avatar, SideNav, StatCard, ProgressRing, MacroBar, TrendChart }=ns);ReactDOM.createRoot(document.getElementById('root')).render(<App/>)});
+</script></body></html>

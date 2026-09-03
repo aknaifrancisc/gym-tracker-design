@@ -1,0 +1,25 @@
+:root{
+  /* Radii — the logo is a pill, so the system leans round. */
+  --radius-xs:4px;
+  --radius-sm:8px;
+  --radius-md:12px;
+  --radius-lg:16px;
+  --radius-xl:24px;
+  --radius-2xl:32px;
+  --radius-pill:999px;
+
+  --radius-control:10px;   /* inputs, selects */
+  --radius-button:var(--radius-pill);
+  --radius-card:var(--radius-lg);
+  --radius-card-lg:var(--radius-xl);
+  --radius-sheet:var(--radius-xl);
+  --radius-chip:var(--radius-pill);
+
+  /* Borders */
+  --border-width:1px; /* @kind spacing */
+  --border-width-strong:2px; /* @kind spacing */
+  --ring-width:3px; /* @kind spacing */      /* focus ring thickness */
+  --ring-offset:2px; /* @kind spacing */
+  --progress-track:8px; /* @kind spacing */  /* linear progress / macro bars */
+  --progress-ring:10px; /* @kind spacing */  /* circular ring stroke */
+}

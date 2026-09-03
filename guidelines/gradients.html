@@ -1,0 +1,16 @@
+<!-- @dsCard group="Effects" viewport="700x200" subtitle="Retired — flat surfaces + one corner glow replaced it" name="Gradients (retired)" -->
+<!DOCTYPE html><html data-scheme="brand" data-theme="light"><head><meta charset="utf-8"><link rel="stylesheet" href="../styles.css"><style>body{padding:16px}</style></head><body>
+<div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px">
+  <div style="font:600 13.5px var(--font-sans);color:var(--text-1)">The bold 135° gradient layer is retired</div>
+  <p style="margin:8px 0 0;font:400 12.5px/1.6 var(--font-sans);color:var(--text-2);max-width:600px">
+    Surfaces are flat: <code>--surface</code> on a hairline <code>--border</code>, one accent per scheme, amber as the only secondary,
+    and a single soft corner glow per widget (see <b>Corner glow</b>). The <code>--grad-*</code> and <code>--wash-*</code> aliases in
+    <code>tokens/gradients.css</code> now resolve to flat tints so the legacy kit screens keep rendering while they are re-skinned —
+    they are a migration shim, not tokens to design with.
+  </p>
+  <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap">
+    <span style="background:var(--primary);color:var(--primary-fg);border-radius:var(--radius-md);padding:7px 13px;font:600 12px var(--font-sans)">Flat accent — use this</span>
+    <span style="background:var(--primary-subtle);color:var(--primary-subtle-fg);border-radius:var(--radius-sm);padding:6px 10px;font:500 11.5px var(--font-sans)">Subtle tint — use this</span>
+    <span style="background:linear-gradient(135deg,#5b8ff0,#7a4fd0);color:#fff;border-radius:var(--radius-md);padding:7px 13px;font:600 12px var(--font-sans);opacity:.45;text-decoration:line-through">Bold gradient</span>
+  </div>
+</div></body></html>

@@ -1,0 +1,48 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   DEPRECATED — the bold 135° gradient layer.
+
+   The v2 gradient layer (six named 135° gradients + soft washes + bold panels
+   with white text) was retired when the dashboard direction moved to flat
+   surfaces, hairline borders, one accent per scheme, and a single soft corner
+   glow per widget (see --glow-* in tokens/effects.css).
+
+   Nothing here should appear in new work. The aliases below stay only so the
+   ten legacy kit screens degrade into the current look instead of rendering
+   transparent boxes and white-on-white text while they are re-skinned.
+
+   Replacements:
+     --grad-blue / --grad-violet   ->  var(--primary) as a flat fill
+     --grad-ink hero panel         ->  a normal card + one corner glow
+     --wash-*  KPI washes          ->  var(--*-subtle) flat tint
+     white-on-gradient text        ->  var(--text-1) on var(--surface)
+     icon chips on bold gradient   ->  var(--primary-subtle) + var(--primary)
+
+   Delete this file once every screen in ui_kits/gym-tracker-web has been
+   re-skinned; it is a migration shim, not a token set.
+   ───────────────────────────────────────────────────────────────────────────── */
+:root {
+  /* Flat accent stand-ins for the old bold gradients */
+  --grad-blue: var(--primary);
+  --grad-violet: var(--primary);
+  --grad-teal: var(--chart-2);
+  --grad-green: var(--success);
+  --grad-amber: var(--warning);
+  --grad-ink: var(--surface);
+
+  /* The old darkening overlay is now a no-op */
+  --grad-fade: linear-gradient(transparent, transparent);
+
+  /* Soft KPI washes collapse to the flat semantic tints */
+  --wash-primary: var(--primary-subtle);
+  --wash-blue: var(--primary-subtle);
+  --wash-violet: var(--primary-subtle);
+  --wash-teal: var(--primary-subtle);
+  --wash-green: var(--success-subtle);
+  --wash-amber: var(--warning-subtle);
+  --wash-red: var(--danger-subtle);
+
+  /* Text that used to sit on a bold gradient now sits on a normal surface */
+  --on-grad: var(--text-1);
+  --on-grad-muted: var(--text-2);
+  --on-grad-border: var(--border);
+}

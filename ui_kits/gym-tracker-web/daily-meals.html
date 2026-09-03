@@ -1,0 +1,120 @@
+<!-- @dsCard group="Gym Tracker Web" viewport="1440x1000" subtitle="Redesigned Daily Meals — meal timeline with logged items and nutrient balance" name="Daily meals" -->
+<!-- @startingPoint section="Screens" subtitle="Redesigned Daily Meals page" viewport="1440x1000" -->
+<!DOCTYPE html><html><head>
+<link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<script src="../../ds-loader.js"></script>
+<style>body{margin:0;background:var(--bg)}</style>
+</head><body><div id="root"></div>
+<script type="text/babel-app">
+let Button, IconButton, Card, Badge, Tabs, Avatar, SideNav, StatCard, ProgressRing, MacroBar, TrendChart;
+
+const ic = (n, s=16) => <i data-lucide={n} style={{width:s,height:s}}></i>;
+const chip = (n, grad) => <span style={{width:34,height:34,borderRadius:9,background:'var(--grad-'+grad+')',color:'#fff',display:'inline-flex',alignItems:'center',justifyContent:'center',flexShrink:0}}>{ic(n,16)}</span>;
+
+const meals = [
+ {t:'08:00 AM', name:'Breakfast', icon:'sunrise', done:true, kcal:520,
+  items:[['Oatmeal with milk','80 g · 310 kcal'],['Banana','1 medium · 107 kcal'],['Whey protein','30 g · 103 kcal']],
+  macros:[['P',38],['C',64],['F',12]]},
+ {t:'12:30 PM', name:'Lunch', icon:'sun', done:true, kcal:680,
+  items:[['Grilled chicken breast','200 g · 266 kcal'],['Basmati rice','180 g · 234 kcal'],['Broccoli & olive oil','150 g · 180 kcal']],
+  macros:[['P',52],['C',68],['F',18]]},
+ {t:'03:00 PM', name:'Snack', icon:'apple', done:true, kcal:210,
+  items:[['Greek yogurt','150 g · 130 kcal'],['Almonds','12 g · 80 kcal']],
+  macros:[['P',18],['C',12],['F',9]]},
+ {t:'07:00 PM', name:'Dinner', icon:'moon', done:false, kcal:0, items:[], macros:[]},
+];
+
+function App(){
+  const [nav,setNav]=React.useState('meals');
+  const [day,setDay]=React.useState('Today');
+  React.useEffect(()=>{lucide.createIcons()});
+  return <div style={{display:'flex',minHeight:'100vh',fontFamily:'var(--font-sans)'}}>
+    <SideNav activeId={nav} onSelect={setNav} style={{position:'sticky',top:0,height:'100vh'}}
+      header={<a href="all-screens.html" style={{display:'block',padding:'4px 12px 16px'}}><img src="../../assets/Logo.svg" alt="Gym Tracker" style={{height:34,display:'block'}}/></a>}
+      items={[
+        {id:'dash',href:'dashboard.html',label:'Dashboard',icon:ic('layout-dashboard')},
+        {id:'personal',href:'index.html',label:'Personal info',icon:ic('heart-pulse')},
+        {id:'weight',href:'weight-loss.html',label:'Weight loss',icon:ic('scale')},
+        {id:'steps',href:'steps.html',label:'Steps',icon:ic('footprints')},
+        {id:'workouts',label:'Workouts',icon:ic('dumbbell'),open:false,children:[{id:'logs',href:'workout-logs.html',label:'Logs'},{id:'exercises',href:'exercises.html',label:'Exercises'}]},
+        {id:'macros',href:'macros-dashboard.html',label:'Macros tracker',icon:ic('utensils'),children:[{id:'meals',href:'daily-meals.html',label:'Daily meals'},{id:'recipes',href:'recipes.html',label:'Recipes'},{id:'ingredients',href:'ingredients.html',label:'Ingredients'}]}]}
+      footer={<div style={{display:'flex',alignItems:'center',gap:10,padding:'10px 12px',borderTop:'1px solid var(--border)'}}>
+        <Avatar name="John D" size={32}/>
+        <div style={{flex:1,minWidth:0}}><div style={{fontSize:13,fontWeight:500,color:'var(--text-1)'}}>John Doe</div><div style={{fontSize:11,color:'var(--text-3)',overflow:'hidden',textOverflow:'ellipsis'}}>john.doe@gymgoer.com</div></div>
+        <span style={{color:'var(--text-3)'}}>{ic('chevrons-up-down',14)}</span>
+      </div>}/>
+    <main style={{flex:1,minWidth:0,padding:'28px 32px',maxWidth:'var(--content-max)',margin:'0 auto',boxSizing:'border-box',width:'100%'}}>
+      <header style={{display:'flex',alignItems:'center',gap:16,marginBottom:20}}>
+        <div style={{flex:1}}>
+          <h1 style={{margin:0,fontSize:'var(--text-2xl)',fontWeight:700,color:'var(--text-1)',letterSpacing:'-0.01em'}}>Daily meals</h1>
+          <p style={{margin:'4px 0 0',fontSize:14,color:'var(--text-2)'}}>Log meals through the day and keep macros in balance.</p>
+        </div>
+        <Tabs tabs={['Yesterday','Today']} active={day} onChange={setDay}/>
+        <Button icon={ic('plus')}>Log a meal</Button>
+      </header>
+
+      <div style={{display:'grid',gridTemplateColumns:'minmax(0,1.5fr) minmax(0,1fr)',gap:16,marginBottom:16}}>
+        <section style={{background:'var(--grad-fade), var(--grad-ink)',borderRadius:'var(--radius-lg)',padding:24,color:'var(--on-grad)',display:'flex',alignItems:'center',gap:24}}>
+          <ProgressRing value={1410} max={2581} size={110} color="#fff" textColor="#fff" sublabelColor="var(--on-grad-muted)" label="1,410" sublabel="of 2,581 kcal"/>
+          <div style={{flex:1}}>
+            <div style={{display:'flex',alignItems:'center',gap:8}}>
+              <span style={{fontSize:13,color:'var(--on-grad-muted)'}}>Tuesday, Aug 4 · 3 meals logged</span>
+              <Badge style={{background:'oklch(1 0 0 / 0.16)',color:'#fff'}}>On track</Badge>
+            </div>
+            <div style={{fontFamily:'var(--font-mono)',fontFeatureSettings:'var(--tnum)',fontSize:'var(--text-stat)',fontWeight:600,margin:'6px 0 12px'}}>1,171 kcal remaining</div>
+            <div style={{display:'flex',gap:14}}>
+              {[['Protein','118 / 150 g'],['Carbs','162 / 200 g'],['Fat','48 / 65 g']].map(([l,v])=>
+                <div key={l} style={{flex:'1 1 84px',minWidth:0,background:'oklch(1 0 0 / 0.08)',borderRadius:8,padding:'8px 12px'}}>
+                  <div style={{fontSize:11,color:'var(--on-grad-muted)'}}>{l}</div>
+                  <div style={{fontFamily:'var(--font-mono)',fontWeight:500,fontSize:14,marginTop:2}}>{v}</div>
+                </div>)}
+            </div>
+          </div>
+        </section>
+        <Card title="Nutrient balance" icon={chip('chart-pie','violet')} action={<Button variant="ghost" size="sm" icon={ic('sparkles',14)}>Ask coach</Button>}>
+          <MacroBar segments={[{label:'Protein',value:118,display:'118 g'},{label:'Carbs',value:162,display:'162 g'},{label:'Fat',value:48,display:'48 g'}]}/>
+          <div style={{fontSize:12,color:'var(--text-3)',marginTop:12,fontStyle:'italic'}}>“Fuel your body. Keep the flow.” — 32 g protein left; dinner covers it with fish or chicken.</div>
+        </Card>
+      </div>
+
+      <div style={{display:'flex',alignItems:'center',gap:10,margin:'8px 0 12px'}}>
+        <h2 style={{margin:0,fontSize:'var(--text-xl)',fontWeight:600,color:'var(--text-1)'}}>Timeline</h2>
+        <Badge tone="success">3 of 4 logged</Badge>
+      </div>
+
+      <div style={{display:'flex',flexDirection:'column',gap:16,paddingBottom:40}}>
+        {meals.map((m)=>(
+          <div key={m.name} style={{display:'grid',gridTemplateColumns:'86px minmax(0,1fr)',gap:0}}>
+            <div style={{display:'flex',flexDirection:'column',alignItems:'center',paddingTop:18}}>
+              <span style={{fontSize:12,fontFamily:'var(--font-mono)',color:'var(--text-3)'}}>{m.t}</span>
+              <span style={{width:10,height:10,borderRadius:'50%',margin:'8px 0 4px',background:m.done?'var(--success)':'var(--surface-sunken)',border:m.done?'none':'1.5px dashed var(--border-strong)'}}></span>
+              <span style={{flex:1,width:2,background:'var(--border)'}}></span>
+            </div>
+            <Card compact style={{padding:18}}>
+              <div style={{display:'flex',alignItems:'center',gap:12,marginBottom:m.items.length?12:0}}>
+                {chip(m.icon, m.done?'green':'amber')}
+                <div style={{flex:1,minWidth:0}}>
+                  <div style={{fontSize:15,fontWeight:600,color:'var(--text-1)'}}>{m.name}</div>
+                  {!m.done && <div style={{fontSize:12,color:'var(--text-3)',fontStyle:'italic'}}>Not logged yet</div>}
+                </div>
+                {m.done && m.macros.map(([l,v])=><span key={l} style={{fontSize:12,fontFamily:'var(--font-mono)',color:'var(--text-2)',background:'var(--surface-sunken)',borderRadius:999,padding:'3px 9px'}}>{l} {v}g</span>)}
+                {m.done ? <span style={{fontFamily:'var(--font-mono)',fontWeight:600,fontSize:15,color:'var(--text-1)',marginLeft:8}}>{m.kcal} kcal</span> : <Button size="sm" icon={ic('plus',14)}>Log dinner</Button>}
+                {m.done && <IconButton label="More">{ic('ellipsis-vertical',15)}</IconButton>}
+              </div>
+              {m.items.map(([n,d],i)=>(
+                <div key={n} style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'8px 0',borderTop:'1px solid var(--border)',fontSize:13}}>
+                  <span style={{color:'var(--text-1)'}}>{n}</span>
+                  <span style={{fontFamily:'var(--font-mono)',color:'var(--text-3)',fontSize:12}}>{d}</span>
+                </div>))}
+            </Card>
+          </div>))}
+      </div>
+    </main>
+  </div>;
+}
+window.__dsReady.then(ns=>{({ Button, IconButton, Card, Badge, Tabs, Avatar, SideNav, StatCard, ProgressRing, MacroBar, TrendChart }=ns);ReactDOM.createRoot(document.getElementById('root')).render(<App/>)});
+</script></body></html>
