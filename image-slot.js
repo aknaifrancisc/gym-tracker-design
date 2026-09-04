@@ -146,9 +146,16 @@
       return href;
     }
   };
-  // 2× a ~600px slot in a 1920-wide deck — retina-sharp without making the
-  // sidecar enormous. A 1200px WebP at q=0.85 is ~150-300KB.
-  const MAX_DIM = 1200;
+  // Budget, not fidelity, sets this. The sidecar is ONE file shared by every
+  // screen in the directory and the host rejects any write over 2 MiB, so the
+  // cap has to be the whole store divided by the slot count: ~100 slots at
+  // 2 MiB is ~20KB each, and base64 adds a third on top. The old 1200px/0.85
+  // pair produced 150-300KB per drop, which filled the store after a dozen
+  // images and then silently dropped every write after that. 640px/0.72 lands
+  // photos at ~25-60KB and still covers a ~320px slot at 2× retina; smaller
+  // slots are capped tighter by the targetW*2 rule below anyway.
+  const MAX_DIM = 640;
+  const QUALITY = 0.72;
   // Raster formats only. SVG is excluded (can carry script; createImageBitmap
   // on SVG blobs is inconsistent). GIF is excluded because the canvas
   // re-encode keeps only the first frame, so an animated GIF would silently
@@ -266,7 +273,7 @@
       const canvas = document.createElement('canvas');
       canvas.width = w; canvas.height = h;
       canvas.getContext('2d').drawImage(bitmap, 0, 0, w, h);
-      return canvas.toDataURL('image/webp', 0.85);
+      return canvas.toDataURL('image/webp', QUALITY);
     } finally {
       bitmap.close && bitmap.close();
     }
