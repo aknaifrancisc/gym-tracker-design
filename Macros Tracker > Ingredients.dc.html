@@ -127,8 +127,8 @@
         <x-import component-from-global-scope="image-slot" from="./image-slot.js" id="gt-macros-side-avatar" shape="circle" data-compact="" placeholder="" style="position:relative;z-index:1;width:34px;height:34px" hint-size="34px,34px"></x-import>
       </div>
       <span style="flex:{{ railLabelFlex }};min-width:0;overflow:hidden;opacity:{{ railLabelOp }};transition:opacity .2s">
-        <span style="display:block;font-size:13px;font-weight:600;color:#1a1a18;white-space:nowrap">John Doe</span>
-        <span style="display:block;font-size:11.5px;color:#a8a49b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">john.doe@gymgoer.com</span>
+        <span style="display:block;font-size:13px;font-weight:600;color:#1a1a18;white-space:nowrap">Francisc</span>
+        <span style="display:block;font-size:11.5px;color:#a8a49b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">francisc@aknai.net</span>
       </span>
       <sc-if value="{{ railExpanded }}" hint-placeholder-val="{{ true }}">
         <span style="color:#b4b0a7;display:flex">
@@ -171,7 +171,7 @@
       <header style="display:flex;align-items:flex-end;gap:24px;animation:riseIn .42s cubic-bezier(.23,1,.32,1) 0ms both">
         <div style="flex:1;min-width:0">
           <h1 style="margin:0;font-family:'Outfit',sans-serif;font-size:30px;font-weight:600;letter-spacing:-.035em">Ingredients</h1>
-          <p style="margin:5px 0 0;font-size:13.5px;color:#8a867e">182 entries, every macro per 100 g. Pick one and it lands in the meal you are logging.</p>
+          <p style="margin:5px 0 0;font-size:13.5px;color:#8a867e">182 entries, shelved by category. Tap a photo and it lands in the meal you are logging.</p>
         </div>
         <div style="display:flex;align-items:center;gap:10px">
           <div onClick="{{ reload }}" title="Reload data" style="display:flex;align-items:center;justify-content:center;width:40px;height:40px;background:#fff;border:1px solid #eae6df;border-radius:11px;color:#8a867e;cursor:pointer;transition:background .14s,border-color .14s,color .14s" style-hover="background:#f7f5f1;border-color:#d8d2c6;color:#1a1a18">
@@ -347,125 +347,91 @@
         </div>
       </section>
 
-      <section style="display:flex;flex-direction:column;gap:12px">
-        <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
-          <sc-for list="{{ cats }}" as="c" hint-placeholder-count="7">
-            <span onClick="{{ c.pick }}" style="display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:600;color:{{ c.fg }};background:{{ c.bg }};border:1px solid {{ c.border }};border-radius:99px;padding:7px 13px;cursor:pointer;transition:background .14s,border-color .14s,color .14s" style-hover="border-color:#d8d2c6">
-              {{ c.name }}
-              <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;color:{{ c.countFg }}">{{ c.count }}</span>
-            </span>
-          </sc-for>
-          <div style="flex:1"></div>
-          <div style="display:flex;align-items:center;gap:1px">
-            <sc-for list="{{ letters }}" as="l" hint-placeholder-count="12">
-              <span onClick="{{ l.pick }}" style="width:19px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:600;color:{{ l.fg }};cursor:{{ l.cursor }};transition:color .14s" style-hover="color:#1a1a18">{{ l.name }}</span>
+      <section style="display:flex;flex-direction:column;gap:14px">
+        <div style="display:flex;align-items:flex-end;gap:16px;flex-wrap:wrap;animation:riseIn .42s cubic-bezier(.23,1,.32,1) 260ms both">
+          <div style="flex:1;min-width:0">
+            <h2 style="margin:0;font-family:'Outfit',sans-serif;font-size:18px;font-weight:600;letter-spacing:-.03em">Browse by category</h2>
+            <p style="margin:4px 0 0;font-size:12.5px;color:#8a867e">{{ libraryNote }}</p>
+          </div>
+          <div style="display:flex;align-items:center;gap:14px">
+            <sc-for list="{{ shelfLegend }}" as="g" hint-placeholder-count="3">
+              <span style="display:inline-flex;align-items:center;gap:6px;font-size:9.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#8a867e;white-space:nowrap">
+                <i style="width:7px;height:7px;flex:none;border-radius:2px;background:{{ g.color }}"></i>{{ g.name }}
+              </span>
             </sc-for>
           </div>
         </div>
 
-        <div style="background:#fff;border:1px solid #eae6df;border-radius:20px;padding:6px 8px 8px;animation:riseIn .42s cubic-bezier(.23,1,.32,1) 280ms both">
-          <sc-if value="{{ hasSelection }}" hint-placeholder-val="{{ false }}">
-            <div style="display:flex;align-items:center;gap:12px;margin:8px 8px 4px;background:var(--accent-tint);border-radius:12px;padding:10px 14px">
-              <span style="font-size:12.5px;font-weight:600;color:var(--accent-deep)">{{ selectionLabel }}</span>
+        <sc-for list="{{ shelves }}" as="s" hint-placeholder-count="4">
+          <div style="background:#fff;border:1px solid #eae6df;border-radius:20px;padding:15px 18px 17px;overflow:hidden;animation:{{ s.anim }}">
+            <div style="display:flex;align-items:center;gap:10px">
+              <span style="width:28px;height:28px;flex:none;border-radius:9px;background:#f7f5f1;color:{{ s.color }};display:flex;align-items:center;justify-content:center">
+                <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="{{ s.icon }}" size="15" stroke-width="1.9" hint-size="15px,15px"></x-import>
+              </span>
+              <span style="font-family:'Outfit',sans-serif;font-size:15.5px;font-weight:600;letter-spacing:-.028em">{{ s.title }}</span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#a8a49b">{{ s.count }}</span>
               <div style="flex:1"></div>
-              <span style="display:inline-flex;align-items:center;gap:7px;background:var(--accent);color:#fff;border-radius:9px;padding:7px 12px;font-size:12px;font-weight:600;cursor:pointer;transition:transform .14s" style-hover="transform:translateY(-1px)">
-                <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="plus" size="13" stroke-width="2" hint-size="13px,13px"></x-import>
-                Add to dinner
+              <span style="display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;color:var(--accent-deep);cursor:pointer;margin-right:4px" style-hover="opacity:.7">
+                See all
+                <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="arrow-right" size="13" stroke-width="2" hint-size="13px,13px"></x-import>
               </span>
-              <span onClick="{{ clearSelection }}" style="font-size:12px;font-weight:600;color:var(--accent-deep);cursor:pointer" style-hover="opacity:.7">Clear</span>
-            </div>
-          </sc-if>
-
-          <div style="display:grid;grid-template-columns:{{ cols }};align-items:center;gap:10px;padding:10px 14px 10px;font-size:9.5px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:#a8a49b">
-            <span onClick="{{ toggleAll }}" style="width:16px;height:16px;border-radius:5px;border:1.5px solid {{ allBorder }};background:{{ allBg }};color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer">
-              <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="minus" size="11" stroke-width="3" hint-size="11px,11px"></x-import>
-            </span>
-            <span></span>
-            <span>Ingredient</span>
-            <span>Category</span>
-            <span>Source</span>
-            <span style="text-align:right">kcal</span>
-            <span style="text-align:right">Prot</span>
-            <span style="text-align:right">Carb</span>
-            <span style="text-align:right">Fat</span>
-            <span style="text-align:right">Fibre</span>
-            <span>Energy split</span>
-            <span></span>
-          </div>
-
-          <div style="display:flex;flex-direction:column;gap:2px">
-            <sc-for list="{{ rows }}" as="r" hint-placeholder-count="12">
-              <div style="display:grid;grid-template-columns:{{ cols }};align-items:center;gap:10px;padding:9px 14px;border-radius:13px;background:{{ r.bg }};cursor:pointer;animation:{{ r.anim }};transition:background .14s" style-hover="background:#f7f5f1">
-                <span onClick="{{ r.toggle }}" style="width:16px;height:16px;border-radius:5px;border:1.5px solid {{ r.boxBorder }};background:{{ r.boxBg }};color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .14s,border-color .14s">
-                  <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="check" size="11" stroke-width="3.2" hint-size="11px,11px"></x-import>
+              <span style="display:flex;gap:5px">
+                <span style="width:28px;height:28px;border-radius:9px;border:1px solid #eae6df;color:#b4b0a7;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .14s,color .14s,border-color .14s" style-hover="background:#f7f5f1;color:#1a1a18;border-color:#d8d2c6">
+                  <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="chevron-left" size="14" stroke-width="2" hint-size="14px,14px"></x-import>
                 </span>
-                <span style="width:40px;height:40px;flex:none;border-radius:11px;overflow:hidden;background:#eae6df">
-                  <x-import component-from-global-scope="image-slot" from="./image-slot.js" id="{{ r.photoId }}" shape="rounded" radius="11" data-compact="" placeholder="" style="width:100%;height:100%" hint-size="40px,40px"></x-import>
+                <span style="width:28px;height:28px;border-radius:9px;border:1px solid #eae6df;color:#8a867e;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .14s,color .14s,border-color .14s" style-hover="background:#f7f5f1;color:#1a1a18;border-color:#d8d2c6">
+                  <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="chevron-right" size="14" stroke-width="2" hint-size="14px,14px"></x-import>
                 </span>
-                <span style="min-width:0">
-                  <span style="display:block;font-size:13.5px;font-weight:600;letter-spacing:-.01em;color:#1a1a18;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ r.name }}</span>
-                  <span style="display:block;font-size:11.5px;color:#a8a49b;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ r.detail }}</span>
-                </span>
-                <span style="min-width:0;font-size:11.5px;color:#4a4740;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ r.cat }}</span>
-                <span>
-                  <span style="font-size:9.5px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:{{ r.srcFg }};background:{{ r.srcBg }};padding:3px 7px;border-radius:6px;white-space:nowrap">{{ r.src }}</span>
-                </span>
-                <sc-for list="{{ r.cells }}" as="c" hint-placeholder-count="5">
-                  <span style="text-align:right;min-width:0">
-                    <span style="font-family:'Outfit',sans-serif;font-variant-numeric:tabular-nums;font-size:14.5px;font-weight:600;letter-spacing:-.03em;color:{{ c.fg }}">{{ c.value }}</span>
-                    <span style="font-family:'JetBrains Mono',monospace;font-size:9.5px;color:#b4b0a7;margin-left:2px">{{ c.unit }}</span>
-                  </span>
-                </sc-for>
-                <span style="display:flex;height:8px;border-radius:99px;overflow:hidden;background:#f2efe9">
-                  <sc-for list="{{ r.bars }}" as="b" hint-placeholder-count="3">
-                    <i style="height:100%;background:{{ b.color }};width:{{ b.pct }}%;transition:width .6s cubic-bezier(.23,1,.32,1)"></i>
-                  </sc-for>
-                </span>
-                <span style="display:flex;justify-content:flex-end;gap:6px">
-                  <span style="width:30px;height:30px;border-radius:9px;border:1px solid #eae6df;background:#fff;color:var(--accent-deep);display:flex;align-items:center;justify-content:center;transition:background .14s,border-color .14s" style-hover="background:#f7f5f1;border-color:#d8d2c6">
-                    <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="plus" size="14" stroke-width="2" hint-size="14px,14px"></x-import>
-                  </span>
-                  <span style="width:30px;height:30px;border-radius:9px;border:1px solid #eae6df;background:#fff;color:#8a867e;display:flex;align-items:center;justify-content:center;transition:background .14s,border-color .14s" style-hover="background:#f7f5f1;border-color:#d8d2c6">
-                    <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="pencil" size="13" stroke-width="2" hint-size="13px,13px"></x-import>
-                  </span>
-                </span>
-              </div>
-            </sc-for>
-          </div>
-
-          <sc-if value="{{ isEmpty }}" hint-placeholder-val="{{ false }}">
-            <div style="display:flex;flex-direction:column;align-items:center;gap:10px;padding:44px 24px;text-align:center">
-              <span style="color:#b4b0a7;display:flex">
-                <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="utensils" size="22" stroke-width="1.8" hint-size="22px,22px"></x-import>
-              </span>
-              <div style="font-family:'Outfit',sans-serif;font-size:16px;font-weight:600;letter-spacing:-.025em">No ingredient matches that</div>
-              <div style="font-size:12.5px;color:#8a867e">Clear the filters, or add it yourself and the coach fills the macros.</div>
-            </div>
-          </sc-if>
-
-          <div style="display:flex;align-items:center;gap:14px;margin-top:6px;padding:14px 14px 8px;border-top:1px solid #f2efe9">
-            <span style="font-size:11.5px;color:#a8a49b">{{ pageSummary }}</span>
-            <div style="flex:1"></div>
-            <div style="display:flex;align-items:center;gap:8px;font-size:11.5px;color:#8a867e">
-              <span>Show</span>
-              <span onClick="{{ cyclePageSize }}" style="display:inline-flex;align-items:center;gap:7px;height:32px;border:1px solid #eae6df;border-radius:9px;padding:0 11px;font-family:'JetBrains Mono',monospace;font-size:11.5px;font-weight:600;color:#1a1a18;cursor:pointer;transition:background .14s" style-hover="background:#f7f5f1">
-                {{ pageSize }}
-                <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="chevron-down" size="13" stroke-width="2" hint-size="13px,13px"></x-import>
               </span>
             </div>
-            <div style="display:flex;align-items:center;gap:4px">
-              <span onClick="{{ prevPage }}" style="width:32px;height:32px;border-radius:9px;border:1px solid #eae6df;color:#8a867e;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .14s" style-hover="background:#f7f5f1;color:#1a1a18">
-                <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="chevron-left" size="14" stroke-width="2" hint-size="14px,14px"></x-import>
-              </span>
-              <sc-for list="{{ pages }}" as="p" hint-placeholder-count="5">
-                <span onClick="{{ p.go }}" style="min-width:32px;height:32px;padding:0 8px;border-radius:9px;background:{{ p.bg }};color:{{ p.fg }};font-family:'JetBrains Mono',monospace;font-size:11.5px;font-weight:600;display:flex;align-items:center;justify-content:center;cursor:{{ p.cursor }};transition:background .14s,color .14s" style-hover="background:#f3f1ec">{{ p.name }}</span>
+
+            <div style="display:flex;gap:14px;margin-top:13px">
+              <sc-for list="{{ s.tiles }}" as="t" hint-placeholder-count="6">
+                <div onMouseEnter="{{ t.enter }}" onMouseLeave="{{ leaveTile }}" style="width:152px;flex:none;cursor:pointer;transform:translateY({{ t.lift }});transition:transform .16s cubic-bezier(.2,0,0,1)">
+                  <span style="position:relative;display:block;width:152px;height:152px;border-radius:16px;overflow:hidden;background:#eae6df;box-shadow:{{ t.shadow }};transition:box-shadow .16s">
+                    <span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#c9c4b8;z-index:0">
+                      <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="{{ t.icon }}" size="26" stroke-width="1.6" hint-size="26px,26px"></x-import>
+                    </span>
+                    <x-import component-from-global-scope="image-slot" from="./image-slot.js" id="{{ t.photoId }}" shape="rounded" radius="16" data-compact="" placeholder="" style="position:relative;z-index:1;width:100%;height:100%" hint-size="152px,152px"></x-import>
+                    <sc-if value="{{ t.personal }}" hint-placeholder-val="{{ false }}">
+                      <span style="position:absolute;left:8px;top:8px;z-index:2;font-size:9px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:#fff;background:var(--accent);border-radius:5px;padding:3px 6px">yours</span>
+                    </sc-if>
+                    <span style="position:absolute;left:0;right:0;bottom:0;z-index:2;padding:24px 10px 9px;background:linear-gradient(to top,rgba(15,14,18,.86),rgba(15,14,18,0));display:flex;align-items:flex-end;gap:6px">
+                      <span style="flex:1;min-width:0;display:flex;align-items:baseline;gap:3px">
+                        <span style="font-family:'Outfit',sans-serif;font-variant-numeric:tabular-nums;font-size:17px;font-weight:600;letter-spacing:-.035em;color:#fff">{{ t.kcal }}</span>
+                        <span style="font-family:'JetBrains Mono',monospace;font-size:9px;color:#b4b0a7">kcal</span>
+                      </span>
+                      <span style="display:inline-flex;align-items:center;gap:4px;flex:none;background:rgba(255,255,255,.15);border-radius:6px;padding:3px 6px">
+                        <i style="width:6px;height:6px;border-radius:2px;background:{{ t.domColor }}"></i>
+                        <span style="font-size:9px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#fff">{{ t.dom }}</span>
+                      </span>
+                    </span>
+                    <span style="position:absolute;right:8px;top:8px;z-index:3;width:29px;height:29px;border-radius:9px;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;opacity:{{ t.fabOp }};transform:scale({{ t.fabScale }});box-shadow:0 8px 18px -8px rgba(0,0,0,.5);transition:opacity .16s,transform .16s cubic-bezier(.2,0,0,1)">
+                      <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="plus" size="15" stroke-width="2.2" hint-size="15px,15px"></x-import>
+                    </span>
+                  </span>
+                  <div style="display:flex;height:5px;border-radius:99px;overflow:hidden;background:#f2efe9;margin-top:9px">
+                    <sc-for list="{{ t.bars }}" as="b" hint-placeholder-count="3">
+                      <i style="height:100%;background:{{ b.color }};width:{{ b.pct }}%;transition:width .6s cubic-bezier(.23,1,.32,1)"></i>
+                    </sc-for>
+                  </div>
+                  <div style="font-size:12.5px;font-weight:600;letter-spacing:-.01em;line-height:1.3;margin-top:8px;text-wrap:pretty">{{ t.name }}</div>
+                  <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#a8a49b;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ t.macroLine }}</div>
+                </div>
               </sc-for>
-              <span onClick="{{ nextPage }}" style="width:32px;height:32px;border-radius:9px;border:1px solid #eae6df;color:#8a867e;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .14s" style-hover="background:#f7f5f1;color:#1a1a18">
-                <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="chevron-right" size="14" stroke-width="2" hint-size="14px,14px"></x-import>
-              </span>
             </div>
           </div>
-        </div>
+        </sc-for>
+
+        <sc-if value="{{ isEmpty }}" hint-placeholder-val="{{ false }}">
+          <div style="background:#fff;border:1px solid #eae6df;border-radius:20px;display:flex;flex-direction:column;align-items:center;gap:10px;padding:52px 24px;text-align:center">
+            <span style="color:#b4b0a7;display:flex">
+              <x-import component-from-global-scope="GymTrackerDesignSystem_42e631.Icon" name="utensils" size="22" stroke-width="1.8" hint-size="22px,22px"></x-import>
+            </span>
+            <div style="font-family:'Outfit',sans-serif;font-size:16px;font-weight:600;letter-spacing:-.025em">No ingredient matches that</div>
+            <div style="font-size:12.5px;color:#8a867e">Clear the search, or add it yourself and the coach fills the macros.</div>
+          </div>
+        </sc-if>
       </section>
 
       <footer style="display:flex;align-items:center;gap:18px;padding-top:8px;font-size:12px;color:#a8a49b;animation:riseIn .42s cubic-bezier(.23,1,.32,1) 430ms both">
@@ -483,7 +449,7 @@
 <script type="text/x-dc" data-dc-script data-props="{&quot;accent&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#2A69C8&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;options&quot;:[&quot;#2A69C8&quot;,&quot;#1A8F5A&quot;,&quot;#1E1E1E&quot;],&quot;section&quot;:&quot;Theme&quot;},&quot;glow&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Theme&quot;},&quot;loadMs&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:300,&quot;min&quot;:0,&quot;max&quot;:2600,&quot;step&quot;:100,&quot;unit&quot;:&quot;ms&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Loading&quot;}}">
 class Component extends DCLogic {
   state = { cat:'All', source:'All', sort:'A–Z', query:'', letter:null, page:1, size:12,
-    sel:{}, hoverBand:-1, railCollapsed:false, railHover:null, loaded:true, now:0 };
+    sel:{}, hoverBand:-1, hoverTile:null, railCollapsed:false, railHover:null, loaded:true, now:0 };
 
   anim(ms){ return GTAnim.anim(ms); }
   prog(d, dur){ return GTAnim.prog(this, d, dur); }
@@ -559,17 +525,41 @@ class Component extends DCLogic {
   data(){
     return [
       { id:'i1', name:'Air-fried salmon', detail:'Fillet, skin on · per 100 g', cat:'Protein', src:'Global', kcal:205, p:22, c:0, f:13, fib:0 },
-      { id:'i2', name:'All-purpose flour', detail:'Wheat, type 550 · per 100 g', cat:'Grains', src:'Global', kcal:355, p:10.3, c:76.3, f:1, fib:2.7 },
-      { id:'i3', name:'Apple puff pastry pie', detail:'Home baked · per 100 g', cat:'Bakery', src:'Personal', kcal:275, p:5, c:42, f:9, fib:1.8 },
+      { id:'i12', name:'Boiled chicken breast', detail:'Skinless, unsalted · per 100 g', cat:'Protein', src:'Global', kcal:133, p:30, c:0, f:1.7, fib:0 },
+      { id:'i13', name:'Eggs, whole boiled', detail:'Large, no shell · per 100 g', cat:'Protein', src:'Global', kcal:155, p:13, c:1.1, f:11, fib:0 },
+      { id:'i14', name:'Firm tofu', detail:'Pressed, plain · per 100 g', cat:'Protein', src:'Global', kcal:144, p:15.8, c:2.8, f:8.7, fib:2.3 },
+      { id:'i25', name:'Tuna in water', detail:'Canned, drained · per 100 g', cat:'Protein', src:'Global', kcal:116, p:26, c:0, f:1, fib:0 },
+      { id:'i21', name:'Turkey mince 7%', detail:'Raw, lean · per 100 g', cat:'Protein', src:'Personal', kcal:150, p:20, c:0, f:7, fib:0 },
+
       { id:'i4', name:'Apples', detail:'Green, raw with skin · per 100 g', cat:'Fruit', src:'Global', kcal:52, p:0.3, c:13.8, f:0.2, fib:2.4 },
-      { id:'i5', name:'Ayran', detail:'Salted drinking yoghurt · per 100 ml', cat:'Dairy', src:'Global', kcal:38, p:2.1, c:2.3, f:2.1, fib:0 },
-      { id:'i6', name:'Baked apple purée', detail:'No added sugar · per 100 g', cat:'Fruit', src:'Personal', kcal:55, p:0.3, c:14, f:0.2, fib:1.6 },
-      { id:'i7', name:'Baklava with sour cherries', detail:'Walnut filling · per 100 g', cat:'Bakery', src:'Global', kcal:419, p:5, c:55, f:20, fib:1.9 },
       { id:'i8', name:'Banana', detail:'Raw, peeled · per 100 g', cat:'Fruit', src:'Global', kcal:89, p:1.1, c:22.8, f:0.3, fib:2.6 },
-      { id:'i9', name:'Basilico tomato sauce', detail:'Jarred, no sugar added · per 100 g', cat:'Sauces', src:'Global', kcal:64, p:1.6, c:7.6, f:2.6, fib:1.8 },
-      { id:'i10', name:'Beef salad', detail:'Mayonnaise based, chilled · per 100 g', cat:'Prepared', src:'Personal', kcal:195, p:3.8, c:8, f:16, fib:1.4 },
+      { id:'i15', name:'Blueberries', detail:'Fresh · per 100 g', cat:'Fruit', src:'Global', kcal:57, p:0.7, c:14.5, f:0.3, fib:2.4 },
+      { id:'i22', name:'Medjool dates', detail:'Pitted, dried · per 100 g', cat:'Fruit', src:'Global', kcal:277, p:1.8, c:75, f:0.2, fib:6.7 },
+      { id:'i6', name:'Baked apple purée', detail:'No added sugar · per 100 g', cat:'Fruit', src:'Personal', kcal:55, p:0.3, c:14, f:0.2, fib:1.6 },
+
+      { id:'i16', name:'Basmati rice, cooked', detail:'Unsalted water · per 100 g', cat:'Grains', src:'Global', kcal:130, p:2.7, c:28, f:0.3, fib:0.4 },
+      { id:'i17', name:'Rolled oats', detail:'Dry weight · per 100 g', cat:'Grains', src:'Global', kcal:379, p:13.2, c:67.7, f:6.5, fib:10.1 },
       { id:'i11', name:'Crispbread with gouda', detail:'Seeded rye · per 100 g', cat:'Grains', src:'Global', kcal:442, p:18, c:47.6, f:20, fib:6.2 },
-      { id:'i12', name:'Boiled chicken breast', detail:'Skinless, unsalted · per 100 g', cat:'Protein', src:'Global', kcal:133, p:30, c:0, f:1.7, fib:0 }
+      { id:'i2', name:'All-purpose flour', detail:'Wheat, type 550 · per 100 g', cat:'Grains', src:'Global', kcal:355, p:10.3, c:76.3, f:1, fib:2.7 },
+      { id:'i23', name:'Wholegrain pasta', detail:'Cooked al dente · per 100 g', cat:'Grains', src:'Personal', kcal:124, p:5, c:24, f:1.1, fib:3.9 },
+
+      { id:'i18', name:'Skyr, plain 0%', detail:'Icelandic style · per 100 g', cat:'Dairy', src:'Global', kcal:63, p:11, c:4, f:0.2, fib:0 },
+      { id:'i19', name:'Cottage cheese 2%', detail:'Unsalted · per 100 g', cat:'Dairy', src:'Global', kcal:84, p:11, c:4.3, f:2.3, fib:0 },
+      { id:'i20', name:'Whole milk', detail:'3.5% fat · per 100 ml', cat:'Dairy', src:'Global', kcal:61, p:3.2, c:4.8, f:3.3, fib:0 },
+      { id:'i5', name:'Ayran', detail:'Salted drinking yoghurt · per 100 ml', cat:'Dairy', src:'Global', kcal:38, p:2.1, c:2.3, f:2.1, fib:0 },
+      { id:'i24', name:'Mature gouda', detail:'48+ · per 100 g', cat:'Dairy', src:'Global', kcal:356, p:25, c:2.2, f:27, fib:0 },
+
+      { id:'i3', name:'Apple puff pastry pie', detail:'Home baked · per 100 g', cat:'Bakery', src:'Personal', kcal:275, p:5, c:42, f:9, fib:1.8 },
+      { id:'i7', name:'Baklava with sour cherries', detail:'Walnut filling · per 100 g', cat:'Bakery', src:'Global', kcal:419, p:5, c:55, f:20, fib:1.9 },
+      { id:'i28', name:'Croissant, plain', detail:'All butter · per 100 g', cat:'Bakery', src:'Global', kcal:406, p:8.2, c:45.8, f:21, fib:2.6 },
+      { id:'i26', name:'Dark chocolate 85%', detail:'No added milk · per 100 g', cat:'Bakery', src:'Global', kcal:592, p:10, c:22, f:50, fib:10.9 },
+      { id:'i27', name:'Banana oat muffin', detail:'Home baked · per 100 g', cat:'Bakery', src:'Personal', kcal:232, p:6, c:34, f:8, fib:3.1 },
+
+      { id:'i9', name:'Basilico tomato sauce', detail:'Jarred, no sugar added · per 100 g', cat:'Prepared', src:'Global', kcal:64, p:1.6, c:7.6, f:2.6, fib:1.8 },
+      { id:'i29', name:'Hummus', detail:'Chickpea, tahini · per 100 g', cat:'Prepared', src:'Global', kcal:166, p:7.9, c:14.3, f:9.6, fib:6 },
+      { id:'i31', name:'Miso soup', detail:'Ready broth · per 100 ml', cat:'Prepared', src:'Global', kcal:40, p:2.6, c:4.5, f:1.2, fib:0.9 },
+      { id:'i10', name:'Beef salad', detail:'Mayonnaise based, chilled · per 100 g', cat:'Prepared', src:'Personal', kcal:195, p:3.8, c:8, f:16, fib:1.4 },
+      { id:'i30', name:'Chicken pesto wrap', detail:'Meal prep · per 100 g', cat:'Prepared', src:'Personal', kcal:213, p:13, c:21, f:9, fib:2.4 }
     ];
   }
 
@@ -629,7 +619,7 @@ class Component extends DCLogic {
     all.forEach(r => { present[r.name.charAt(0).toUpperCase()] = true; });
     const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 
-    const num = (v, d) => (d ? v.toFixed(1) : String(Math.round(v)));
+    const num = v => (v % 1 !== 0 ? v.toFixed(1) : String(Math.round(v)));
 
     return {
       nav,
@@ -706,61 +696,53 @@ class Component extends DCLogic {
           pick: () => has && this.setState(s => ({ letter: s.letter === name ? null : name, page: 1 })) };
       }),
 
-      cols: '18px 40px minmax(0,1.7fr) 84px 66px 58px 54px 54px 50px 54px 92px 72px',
-      hasSelection: selCount > 0,
-      selectionLabel: selCount + (selCount === 1 ? ' ingredient selected' : ' ingredients selected'),
-      clearSelection: () => this.setState({ sel: {} }),
-      toggleAll: () => this.setState(s => {
-        const on = Object.keys(s.sel).filter(k => s.sel[k]).length > 0;
-        if(on) return { sel: {} };
-        const next = {}; list.forEach(r => { next[r.id] = true; });
-        return { sel: next };
-      }),
-      allBorder: selCount > 0 ? 'var(--accent)' : '#ddd8ce',
-      allBg: selCount > 0 ? 'var(--accent)' : 'transparent',
-
+      shelfLegend: [
+        { name:'Protein', color:'var(--accent)' },
+        { name:'Carbs', color:'#e0a83a' },
+        { name:'Fat', color:'#e0533d' }
+      ],
       isEmpty: list.length === 0,
-      rows: list.map((r, i) => {
-        const on = !!this.state.sel[r.id];
-        const pE = r.p * 4, cE = r.c * 4, fE = r.f * 9, tE = Math.max(pE + cE + fE, 1);
+      libraryNote: 'Showing ' + list.length + ' of 182 · 170 catalogue · 12 personal · every value per 100 g',
+      leaveTile: () => this.setState({ hoverTile: null }),
+      shelves: [
+        { key:'Protein', title:'Protein & fish', icon:'drumstick', color:'#2a69c8' },
+        { key:'Fruit', title:'Fruit', icon:'apple', color:'#17a2a2' },
+        { key:'Grains', title:'Grains & carbs', icon:'wheat', color:'#c08a1e' },
+        { key:'Dairy', title:'Dairy', icon:'milk', color:'#7a7690' },
+        { key:'Bakery', title:'Bakery & sweets', icon:'croissant', color:'#c25a44' },
+        { key:'Prepared', title:'Prepared & sauces', icon:'salad', color:'#4a7a4a' }
+      ].map((sh, si) => {
+        const items = list.filter(r => r.cat === sh.key);
         return {
-          name: r.name, detail: r.detail, cat: r.cat, photoId: 'gt-ing-' + r.id,
-          anim: A(300 + i * 30),
-          bg: on ? 'var(--accent-tint)' : 'transparent',
-          boxBorder: on ? 'var(--accent)' : '#ddd8ce',
-          boxBg: on ? 'var(--accent)' : 'transparent',
-          toggle: () => this.setState(s => ({ sel: { ...s.sel, [r.id]: !s.sel[r.id] } })),
-          src: r.src,
-          srcFg: r.src === 'Personal' ? 'var(--accent-deep)' : '#8a867e',
-          srcBg: r.src === 'Personal' ? 'var(--accent-tint)' : '#f3f1ec',
-          cells: [
-            { value: R(num(r.kcal), 280, i * 30), unit:'', fg:'#1a1a18' },
-            { value: R(num(r.p, r.p % 1 !== 0), 280, i * 30 + 20), unit:'g', fg:'#1a1a18' },
-            { value: R(num(r.c, r.c % 1 !== 0), 280, i * 30 + 40), unit:'g', fg:'#1a1a18' },
-            { value: R(num(r.f, r.f % 1 !== 0), 280, i * 30 + 60), unit:'g', fg:'#1a1a18' },
-            { value: R(num(r.fib, r.fib % 1 !== 0), 280, i * 30 + 80), unit:'g', fg: r.fib === 0 ? '#b4b0a7' : '#4a4740' }
-          ],
-          bars: [
-            { color:'var(--accent)', pct: Math.round((pE / tE) * 100 * P(280, i * 30)) },
-            { color:'#e0a83a', pct: Math.round((cE / tE) * 100 * P(280, i * 30)) },
-            { color:'#e0533d', pct: Math.round((fE / tE) * 100 * P(280, i * 30)) }
-          ]
+          title: sh.title, icon: sh.icon, color: sh.color, show: items.length > 0,
+          count: items.length + (items.length === 1 ? ' entry' : ' entries'),
+          anim: A(300 + si * 60),
+          tiles: items.slice(0, 6).map((r, i) => {
+            const on = this.state.hoverTile === r.id;
+            const pE = r.p * 4, cE = r.c * 4, fE = r.f * 9, tE = Math.max(pE + cE + fE, 1);
+            const parts = [
+              { key:'Protein', color:'var(--accent)', pct: (pE / tE) * 100 },
+              { key:'Carbs', color:'#e0a83a', pct: (cE / tE) * 100 },
+              { key:'Fat', color:'#e0533d', pct: (fE / tE) * 100 }
+            ];
+            const dom = parts.slice().sort((x, y) => y.pct - x.pct)[0];
+            const fill = P(300, si * 60 + i * 30);
+            return {
+              name: r.name, icon: sh.icon, photoId: 'gt-ing-' + r.id,
+              personal: r.src === 'Personal',
+              kcal: R(String(r.kcal), 300, si * 60 + i * 30),
+              dom: dom.key, domColor: dom.color,
+              macroLine: num(r.p) + 'p · ' + num(r.c) + 'c · ' + num(r.f) + 'f',
+              bars: parts.map(p => ({ color: p.color, pct: Math.round(p.pct * fill) })),
+              enter: () => this.setState({ hoverTile: r.id }),
+              lift: on ? '-3px' : '0px',
+              shadow: on ? '0 20px 36px -22px rgba(26,26,24,.6)' : 'none',
+              fabOp: on ? 1 : 0,
+              fabScale: on ? 1 : 0.85
+            };
+          })
         };
-      }),
-
-      pageSize: this.state.size + ' per page',
-      cyclePageSize: () => this.setState(s => ({ size: s.size === 12 ? 24 : s.size === 24 ? 48 : 12, page: 1 })),
-      pageSummary: 'Showing ' + list.length + ' of 182 · 170 catalogue · 12 personal',
-      pages: [1, 2, 3, '…', 15, 16].map(n => {
-        const on = n === this.state.page;
-        return { name: String(n),
-          go: () => (typeof n === 'number' ? this.setState({ page: n }) : null),
-          cursor: typeof n === 'number' ? 'pointer' : 'default',
-          bg: on ? 'var(--accent)' : 'transparent',
-          fg: on ? '#fff' : (typeof n === 'number' ? '#4a4740' : '#b4b0a7') };
-      }),
-      prevPage: () => this.setState(s => ({ page: Math.max(1, s.page - 1) })),
-      nextPage: () => this.setState(s => ({ page: Math.min(16, s.page + 1) }))
+      }).filter(sh => sh.show)
     };
   }
 }

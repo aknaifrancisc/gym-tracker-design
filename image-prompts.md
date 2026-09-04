@@ -306,8 +306,11 @@ The ingredient library is a reference set, not a food shoot: every frame is **on
 Shared suffix (append to every prompt in this section):
 `, centred single subject, plain light grey concrete surface, flat even daylight, no shadow drama, cool desaturated colour grading, catalogue product photography, square crop --ar 1:1 --seed 4620 --style raw --stylize 90 --no text, watermark, logo, packaging, branded label, hands, people, props, cutlery, warm orange grading, restaurant styling`
 
+The library now reads as **horizontal shelves per category** (photo tiles, no table). Three slot families:
+`gt-ing-use-*` for the "Most logged" list, `gt-ing-new-*` for the "Added this week" strip on the ink card, and `gt-ing-<id>` for every shelf tile (`<id>` is the ingredient id from `data()` in the screen — `gt-ing-i1`, `gt-ing-i12`, …). Only `gt-ing-new-1…3` are filled today; the rest fall back to the category icon.
+
 ### `gt-ing-use-1` … `gt-ing-use-4` — "Most logged" list thumbnails (38×38, rounded 11)
-The four staples, same treatment as the table rows.
+The four staples, same treatment as the shelf tiles.
 
 | Slot | Ingredient | Prompt body |
 | --- | --- | --- |
@@ -326,25 +329,71 @@ These four sit on the near-black card, so shoot them on a **dark grey concrete**
 | `gt-ing-new-3` | Lentils | `a small mound of cooked brown lentils` |
 | `gt-ing-new-4` | Olive oil | `a small plain glass dish of olive oil` |
 
-### `gt-ing-i1` … `gt-ing-i12` — table row thumbnails (40×40, rounded 11)
-Generate all twelve in one batch so the column grades as a set. The frame is tiny — one object, filling roughly 70% of the square, nothing else in shot.
+### `gt-ing-i1` … `gt-ing-i31` — shelf tile photos (152×152, rounded 16)
+One tile per ingredient, grouped into six shelves. The tile is bigger than the old table thumbnail but the framing rule is the same: one object, filling roughly 70% of the square, nothing else in shot. Generate each shelf as a batch so the row grades as a set.
+
+**Protein & fish**
 
 | Slot | Ingredient | Prompt body |
 | --- | --- | --- |
 | `gt-ing-i1` | Air-fried salmon | `one cooked salmon fillet with skin, single piece` |
-| `gt-ing-i2` | All-purpose flour | `a small heap of white wheat flour` |
-| `gt-ing-i3` | Apple puff pastry pie | `one slice of apple puff pastry pie, cut face towards camera` |
-| `gt-ing-i4` | Apples | `two green apples, one whole and one halved` |
-| `gt-ing-i5` | Ayran | `a plain unlabelled glass of salted drinking yoghurt` |
-| `gt-ing-i6` | Baked apple purée | `a small white bowl of pale apple purée` |
-| `gt-ing-i7` | Baklava with sour cherries | `two pieces of walnut baklava with a sour cherry on top` |
-| `gt-ing-i8` | Banana | `one ripe banana, unpeeled` |
-| `gt-ing-i9` | Basilico tomato sauce | `a small white bowl of smooth tomato basil sauce with one basil leaf` |
-| `gt-ing-i10` | Beef salad | `a small mound of chopped potato and vegetable salad bound with mayonnaise` |
-| `gt-ing-i11` | Crispbread with gouda | `two seeded rye crispbreads stacked, one topped with a slice of gouda` |
 | `gt-ing-i12` | Boiled chicken breast | `a plain boiled skinless chicken breast, sliced across` |
+| `gt-ing-i13` | Eggs, whole boiled | `two peeled hard-boiled eggs, one whole and one halved` |
+| `gt-ing-i14` | Firm tofu | `one block of firm plain tofu, corner sliced off` |
+| `gt-ing-i25` | Tuna in water | `a small mound of drained canned tuna flakes` |
+| `gt-ing-i21` | Turkey mince 7% | `a small heap of raw lean turkey mince` |
 
-Two hard rules for this set, because the source screens broke both: **no supermarket packaging** (the library stores nutrition per 100 g, not a brand) and **no coloured studio backdrops** — every square is the same grey surface so the column reads as one table, not twelve adverts.
+**Fruit**
+
+| Slot | Ingredient | Prompt body |
+| --- | --- | --- |
+| `gt-ing-i4` | Apples | `two green apples, one whole and one halved` |
+| `gt-ing-i8` | Banana | `one ripe banana, unpeeled` |
+| `gt-ing-i15` | Blueberries | `a small pile of fresh blueberries` |
+| `gt-ing-i22` | Medjool dates | `three pitted medjool dates` |
+| `gt-ing-i6` | Baked apple purée | `a small white bowl of pale apple purée` |
+
+**Grains & carbs**
+
+| Slot | Ingredient | Prompt body |
+| --- | --- | --- |
+| `gt-ing-i16` | Basmati rice, cooked | `a small mound of cooked white basmati rice` |
+| `gt-ing-i17` | Rolled oats | `a small heap of dry rolled oats` |
+| `gt-ing-i11` | Crispbread with gouda | `two seeded rye crispbreads stacked, one topped with a slice of gouda` |
+| `gt-ing-i2` | All-purpose flour | `a small heap of white wheat flour` |
+| `gt-ing-i23` | Wholegrain pasta | `a small nest of cooked wholegrain penne` |
+
+**Dairy**
+
+| Slot | Ingredient | Prompt body |
+| --- | --- | --- |
+| `gt-ing-i18` | Skyr, plain 0% | `a small white ceramic bowl of thick plain skyr, unstyled` |
+| `gt-ing-i19` | Cottage cheese 2% | `a small white bowl of plain cottage cheese` |
+| `gt-ing-i20` | Whole milk | `a plain unlabelled glass of whole milk` |
+| `gt-ing-i5` | Ayran | `a plain unlabelled glass of salted drinking yoghurt` |
+| `gt-ing-i24` | Mature gouda | `one wedge of mature gouda cheese` |
+
+**Bakery & sweets**
+
+| Slot | Ingredient | Prompt body |
+| --- | --- | --- |
+| `gt-ing-i3` | Apple puff pastry pie | `one slice of apple puff pastry pie, cut face towards camera` |
+| `gt-ing-i7` | Baklava with sour cherries | `two pieces of walnut baklava with a sour cherry on top` |
+| `gt-ing-i28` | Croissant, plain | `one plain all-butter croissant` |
+| `gt-ing-i26` | Dark chocolate 85% | `three squares of dark chocolate, one snapped` |
+| `gt-ing-i27` | Banana oat muffin | `one banana oat muffin, paper case removed` |
+
+**Prepared & sauces**
+
+| Slot | Ingredient | Prompt body |
+| --- | --- | --- |
+| `gt-ing-i9` | Basilico tomato sauce | `a small white bowl of smooth tomato basil sauce with one basil leaf` |
+| `gt-ing-i29` | Hummus | `a small white bowl of plain hummus, surface swirled` |
+| `gt-ing-i31` | Miso soup | `a small dark bowl of clear miso soup` |
+| `gt-ing-i10` | Beef salad | `a small mound of chopped potato and vegetable salad bound with mayonnaise` |
+| `gt-ing-i30` | Chicken pesto wrap | `one chicken pesto wrap, cut in half, cut face towards camera` |
+
+Two hard rules for this set, because the source screens broke both: **no supermarket packaging** (the library stores nutrition per 100 g, not a brand) and **no coloured studio backdrops** — every square is the same grey surface so the shelves read as one library, not thirty adverts.
 
 ### `gt-macros-side-avatar` (34×34)
 Shared with the other nutrition pages — same member avatar prompt, same file. (This page has no top-bar avatar.)
