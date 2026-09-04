@@ -44,6 +44,19 @@ for (const f of fs.readdirSync(slotDir)) {
   slotImages[f.replace(/\.webp$/, '')] = 'data:image/webp;base64,' + rd(path.join(slotDir, f)).toString('base64');
 }
 
+/* Slots that only live in the drag-and-drop sidecar (no committed .webp yet)
+   still get rendered on the Pages build: pull their stored data URLs in as a
+   fallback so a freshly dropped photo shows up after a rebuild. A committed
+   .webp always wins. */
+try {
+  const sidecar = JSON.parse(read(path.join(ROOT, '.image-slots.state.json')));
+  for (const [id, v] of Object.entries(sidecar)) {
+    if (slotImages[id]) continue;
+    const u = typeof v === 'string' ? v : v && v.u;
+    if (typeof u === 'string' && /^data:image\//i.test(u)) slotImages[id] = u;
+  }
+} catch (e) {}
+
 /* ---- 3. logo svgs -> data URIs ---- */
 const assetUri = {};
 for (const f of fs.readdirSync(path.join(ROOT, 'assets'))) {
