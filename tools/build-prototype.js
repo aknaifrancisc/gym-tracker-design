@@ -72,6 +72,12 @@ const runtime = {
   animEngine: read(path.join(ROOT, 'anim-engine.js')),
   slotImagesJs: read(path.join(ROOT, 'slot-images.js')),
   support: read(path.join(ROOT, 'support.js')),
+  // Vendored, not CDN-loaded. lucide is NOT published on cdnjs, so the
+  // cdnjs URL this build used to put in the host page 404'd and left
+  // window.lucide undefined — waitForLucide() then polled forever and every
+  // icon on all 11 screens silently vanished, with nothing in the console
+  // to say why. Inlining it removes the whole failure mode.
+  lucide: read(path.join(ROOT, 'vendor/lucide.min.js')),
 };
 
 /* ---- 5. per-screen document ---- */
@@ -165,10 +171,10 @@ const page = `<title>Gym Tracker Prototype</title>
 </div>
 
 <!-- React/ReactDOM from cdnjs. The dc-runtime hardcodes unpkg, which CSP blocks;
-     window.__resources below redirects it here instead. -->
+     window.__resources below redirects it here instead. lucide is NOT on
+     cdnjs — it ships inlined via RUNTIME.lucide instead of a <script src>. -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.454.0/umd/lucide.min.js"></script>
 
 <script>
 window.GTSlotImages = JSON.parse(${enc(JSON.stringify(slotImages))});
@@ -178,6 +184,7 @@ window.GTSlotImages = JSON.parse(${enc(JSON.stringify(slotImages))});
 const NAMES = ${JSON.stringify(SCREENS.map((s) => s[0]))};
 const FILES = ${JSON.stringify(SCREENS.map((s) => s[1]))};
 const RUNTIME = {
+  lucide: ${enc(runtime.lucide)},
   dsBundle: ${enc(runtime.dsBundle)},
   imageSlot: ${enc(runtime.imageSlot)},
   animEngine: ${enc(runtime.animEngine)},
@@ -191,8 +198,10 @@ const CDNJS = {
     "https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js",
   "https://unpkg.com/@babel/standalone@7.29.0/babel.min.js":
     "https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.29.0/babel.min.js",
+  /* Only a fallback — lucide is inlined above. jsdelivr, not cdnjs: cdnjs
+     does not carry this package at any version. */
   "https://unpkg.com/lucide@0.454.0/dist/umd/lucide.min.js":
-    "https://cdnjs.cloudflare.com/ajax/libs/lucide/0.454.0/umd/lucide.min.js"
+    "https://cdn.jsdelivr.net/npm/lucide@0.454.0/dist/umd/lucide.min.js"
 };
 
 /* Called synchronously from each screen iframe while it parses. Shares the heavy
@@ -200,7 +209,6 @@ const CDNJS = {
 window.__gtBoot = function (w) {
   w.React = window.React;
   w.ReactDOM = window.ReactDOM;
-  w.lucide = window.lucide;
   w.GTSlotImages = window.GTSlotImages;
   w.__resources = CDNJS;
   /* Construct the Blob with the IFRAME's constructor: support.js tests
@@ -209,6 +217,10 @@ window.__gtBoot = function (w) {
   w.__resourceBlobs = {
     "./image-slot.js": new w.Blob([RUNTIME.imageSlot], { type: "application/javascript" })
   };
+  /* lucide first: the design-system Icon component reads window.lucide.icons
+     at render time, and each screen's waitForLucide() gates its first paint
+     on it. */
+  w.eval(RUNTIME.lucide);
   w.eval(RUNTIME.dsBundle);
   w.eval(RUNTIME.imageSlot);
   w.eval(RUNTIME.animEngine);
